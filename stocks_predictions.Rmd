@@ -1,0 +1,37 @@
+---
+title: "Pronóstico De Índices Financieros"
+author: "Adrián Rodríguez Amaya"
+date: "2023-04-18"
+output: html_document
+---
+
+<hr>
+<h1><p align='center'>Descargo De Responsabilidad</p></h1>
+<hr>
+
+
+La información consignada dentro de este libro se presenta solo para fines educativos. No constituye ninguna oferta, recomendación o solicitud para que ninguna persona realice una transacción, negociación o inversión, ni constituye una predicción de probable movimiento futuro en los índices financieros que sean presentados en cualquier ilustración o mencionados textualmente dentro del libro. 
+
+Las personas con acceso al presente libro deben buscar asesoramiento profesional sobre la idoneidad de invertir en valores, instrumentos financieros o estrategias de inversión. Las opiniones, proyecciones y estimaciones consignadas en este libro están sujetas a cambios sin previo aviso.
+
+ADRIAN MAURICIO RODRIGUEZ AMAYA no es un asesor de inversiones y no pretende brindarle asesoramiento sobre inversiones, legal o fiscal y no es responsable de ninguna pérdida que surja de cualquier inversión basada en una recomendación percibida. 
+
+<br>
+
+<hr>
+<h1><p align='center'>Pronóstico De Índices Financieros</p></h1>
+<hr>
+
+El presente libro pretende realizar un ejercicio académico relacionado con el pronóstico de los precios de índices financieros. La información será obtenida a través de la API de Yahoo Finance . 
+
+![J. Smialek, « Fastest Inflation in 31 Years Puts More Heat on Washington» 2021. [En línea]. Disponible en: https://www.nytimes.com/2021/11/10/business/economy/consumer-price-inflation-october.html. [Consultado: Jun. 17, 2022].](/Users/adrianmauriciorodriguezamaya/Downloads/inflation-600.png)
+
+El pronóstico calculado nos permitirá descubrir el valor futuro de del valor de las acciones de una empresa en particular; esto permitirá tanto a los inversores como a las empresas tomar decisiones oportunas frente a las dinámicas del negocio.
+
+<br>
+
+<hr>
+<h1><p align='center'>Referencias</p></h1>
+<hr>
+
+[1] https://finance.yahoo.com
