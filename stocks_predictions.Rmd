@@ -5,18 +5,28 @@ date: "2023-04-18"
 output: html_document
 ---
 
+<style>
+/* Clase para justificar el texto */.texto-justificado {
+  text-align: justify;
+}
+</style>
+
+
 <hr>
 <h1><p align='center'>Descargo De Responsabilidad</p></h1>
 <hr>
 
-\justify
+<div class="texto-justificado">
+
 La información consignada dentro de este libro se presenta solo para fines educativos. No constituye ninguna oferta, recomendación o solicitud para que ninguna persona realice una transacción, negociación o inversión, ni constituye una predicción de probable movimiento futuro en los índices financieros que sean presentados en cualquier ilustración o mencionados textualmente dentro del libro. 
 
-\justify
+
 Las personas con acceso al presente libro deben buscar asesoramiento profesional sobre la idoneidad de invertir en valores, instrumentos financieros o estrategias de inversión. Las opiniones, proyecciones y estimaciones consignadas en este libro están sujetas a cambios sin previo aviso.
 
-\justify
+
 ADRIAN MAURICIO RODRIGUEZ AMAYA y KATHERIN JULIANA QUIÑONES LOSADA no son asesores de inversiones y no pretende brindarle asesoramiento sobre inversiones, legal o fiscal y no es responsable de ninguna pérdida que surja de cualquier inversión basada en una recomendación percibida. 
+
+</div>
 
 <br>
 
@@ -24,7 +34,7 @@ ADRIAN MAURICIO RODRIGUEZ AMAYA y KATHERIN JULIANA QUIÑONES LOSADA no son aseso
 <h1><p align='center'>Pronóstico De Índices Financieros</p></h1>
 <hr>
 
-\justify
+<div class="texto-justificado">
 
 El presente libro pretende realizar un ejercicio académico relacionado con el pronóstico de los precios de índices financieros. La información será obtenida a través de la API de Yahoo Finance .
 
@@ -44,6 +54,8 @@ Ahora bien, el interés en este tipo de datos, nace de identificar el reto que r
 Además, quisiéramos evaluar como las técnicas tradicionales (métodos estadísticos) se comportan versus técnicas mas recientes como las de Machine Learning (ML). Nuestro objetivo no es descartar una herramienta o la otra, nuestro objetivo es poder identificar las bondades de cada una en la aplicación de series de tiempo en nuestra vida profesional y/o académica.
 
 El pronóstico calculado nos permitirá descubrir el valor futuro de del valor de las acciones de una empresa en particular; esto permitirá tanto a los inversores como a las empresas tomar decisiones oportunas frente a las dinámicas del negocio.
+
+</div>
 
 
 ![J. Smialek, « Fastest Inflation in 31 Years Puts More Heat on Washington» 2021. [En línea]. Disponible en: https://www.nytimes.com/2021/11/10/business/economy/consumer-price-inflation-october.html. [Consultado: Jun. 17, 2022].](/Users/adrianmauriciorodriguezamaya/Downloads/inflation-600.png)
