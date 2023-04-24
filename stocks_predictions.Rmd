@@ -58,7 +58,7 @@ El pronóstico calculado nos permitirá descubrir el valor futuro de del valor d
 </div>
 
 
-![J. Smialek, « Fastest Inflation in 31 Years Puts More Heat on Washington» 2021. [En línea]. Disponible en: https://www.nytimes.com/2021/11/10/business/economy/consumer-price-inflation-october.html. [Consultado: Jun. 17, 2022].](/Users/adrianmauriciorodriguezamaya/Downloads/inflation-600.png)
+![J. Smialek, « Fastest Inflation in 31 Years Puts More Heat on Washington» 2021. [En línea]. Disponible en: https://www.nytimes.com/2021/11/10/business/economy/consumer-price-inflation-october.html. [Consultado: Jun. 17, 2022].](./inflation-600.png)
 
 
 <br>
