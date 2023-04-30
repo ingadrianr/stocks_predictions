@@ -4,7 +4,7 @@ bookdown::gitbook:
     toc:
       before: |
         <li><a href="./">Pronóstico De Índices Financieros</a></li>
-    edit: https://github.com/USERNAME/REPO/edit/BRANCH/%s
+    edit: https://github.com/ingadrianr/stocks_predictions/edit/main/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:
