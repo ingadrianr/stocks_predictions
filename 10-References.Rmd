@@ -1,0 +1,7 @@
+# Referencias
+
+[1] https://finance.yahoo.com
+
+[2] W. B. Elliot, B. F. Van Ness y M. Walker, «What drives the S&P 500 inclusion effect? An analytical survey,» Financial Managment, vol. 35, nº 4, pp. 31-48, 2006.
+
+[3] Wilson y C. Jones, «An analysis of the S&P 500 index and Cowles’s extensions: Price indexes and stock returns,» The Journal of Business, vol. 75, nº 3, pp. 505-533, 2002.
