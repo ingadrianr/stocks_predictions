@@ -13,7 +13,7 @@ output: html_document
 
 
 <hr>
-<h1><p align='center'>Descargo De Responsabilidad</p></h1>
+# Descargo De Responsabilidad 
 <hr>
 
 <div class="texto-justificado">
@@ -31,7 +31,7 @@ ADRIAN MAURICIO RODRIGUEZ AMAYA y KATHERIN JULIANA QUIÑONES LOSADA no son aseso
 <br>
 
 <hr>
-<h1><p align='center'>Pronóstico De Índices Financieros</p></h1>
+# Pronóstico De Índices Financieros 
 <hr>
 
 <div class="texto-justificado">
