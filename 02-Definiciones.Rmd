@@ -1,0 +1,28 @@
+# Definiciones
+
+A partir del listado de compañías que sean seleccionadas se definirán algunas condiciones previas para desarrollar el ejercicio propuesto. Primeramente, se define que el porcentaje de datos que se utilizarán para el entrenamiento será de 80% y el porcentaje de datos utilizados para validación y pruebas será del 20%.
+El periodo que se desea pronosticar será de siete (7) días, con un rezago estimado dentro del rango de cinco (5) a diez (10) días. 
+
+Por otra parte, el rango de fechas que se utilizarán para los datos de entrenamiento será de doce (12) meses, comprendidos entre 01-Ene-2022 a 30-Dic-2022 y el rango de fechas para tomar los datos de validación y pruebas será de cuatro (4) meses y definido entre 01-Ene-2023 a 30-Abr-2023.
+
+## S&P 500 Top 10
+
+El índice Standard & Poor’s 500 o mejor conocido como S&P 500 es un índice que rastrea los precios de las 500 empresas más grandes en Estados Unidos que representan en su mayoría algún mercado o industria en particular [4].
+Para el presente ejercicio se tomarán las diez (10) empresas más representativas para este índice bursátil a partir de su peso, de acuerdo con [5] las primeras diez compañías de este índice son:
+
+1.	APPL: Apple Inc.
+2.	MSFT: Microsoft Corp
+3.	AMZN: Amazon.com Inc
+4.	NVDA: Nvidia Corp
+5.	GOOGL: Alphabet Inc A
+6.	BRK-B: Berkshire Hathaway B
+7.	GOOG: Alphabet Inc C
+8.	META: Meta Platforms, Inc. Class A
+9.	XOM: Exxon Mobil Corp
+10.	UNH: Unitedhealth Group Inc
+
+## Cointegración 
+
+De acuerdo con [6], el par de devisas EUR/USD representa el valor del dólar estadounidense por euro y representa más de la mitad de todo el volumen de negociación en el Mercado Forex.
+
+A cada una de las series de tiempo de los índices definidos se les integrará el índice EURUSD=X de forma de todas ellas se encuentre cointegradas con este último. El objetivo es tratar de encontrar una posible correlación entre las series de tiempo a largo plazo entre el Top 10 de los índices del S&P 500 y el índice EURSD=X.
