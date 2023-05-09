@@ -55,7 +55,8 @@ precios %>%
 
 precios %>%
   ggplot(aes(x = date, y = close, color = symbol)) +
-  geom_line()
+  geom_line() +
+  labs(title = 'Stocks Close Prices from 2022-01-01 to 2023-04-30', y = 'Close Price')
 
 precios %>%
   ggplot(aes(x = date, y = close, color = symbol)) +
@@ -67,7 +68,10 @@ precios %>%
        title = "Precio de Cierre por accion") +
   scale_x_date(date_breaks = "month",
                labels=date_format("%Y-%m-%d")) +theme_bw()+
-  theme(axis.text.x = element_text(angle = 20, hjust = 1))
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank())
+
+#Creo que el eje X no aporta mucho en el análisis para esta gráfica, solo aparecían datos para un par de ellas. 
+#element_text(angle = 20, hjust = 1)
 
 ### Test ADF - Dickey Fuller
 
