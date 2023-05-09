@@ -37,7 +37,7 @@ library(ggplot2)
 library(scales)
 library(tseries)
 
-companias = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK.B","GOOG", "META","UNH","XOM")
+companias = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
 
 precios <- tq_get(companias,
                  from = "2022-01-01",
