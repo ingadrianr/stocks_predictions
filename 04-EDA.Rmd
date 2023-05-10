@@ -61,8 +61,15 @@ for (i in unique(precios$symbol)){
 
 Hablar para que sirve, escribir la forma t+s+r
 <br>
-Pendientes Graficos
+```{r ,warning=FALSE, message=FALSE}
 
+for (i in unique(precios$symbol)){
+  stock_data <- ts(precios[precios$symbol == i, "close"], frequency=5)
+  decomposition <- decompose(stock_data, type = "additive")
+  plot(decomposition)
+
+}
+```
 ## Estacionaridad
 
 
