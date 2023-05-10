@@ -1,4 +1,4 @@
-```{r , include=FALSE}
+```{r 04-0, include=FALSE}
 library(tidyquant)
 library(TTR)
 library(ggplot2)
@@ -16,20 +16,20 @@ library(ggpubr)
 
 Se inicia el análisis exploratorio de los datos recopilando la información de cada una de las empresas Top 10 del índice S&P 500. Se define la variable <i>empresas</i> a la cuál se le asignan las empresas definidas en el numeral <b>2.1.</b>, como también como los rangos de las fechas donde se realizará la consulta de los datos:
 
-```{r, warning=FALSE, message=FALSE}
+```{r 04-1, warning=FALSE, message=FALSE}
 empresas = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
 precios <- tidyquant::tq_get(empresas, from = "2022-01-01", to = "2023-04-30", get = "stock.prices")
 ```
 
 Como se puede observar en la siguiente tabla, para cada empresa se cuenta con los atributos de propios para cada acción, que indica su símbolo y atributos relacionados con los precios: <i>symbol</i>, <i>open</i>, <i>high</i>, <i>low</i>, <i>close</i>, <i>volume</i> y <i>adjusted</i>.
 
-```{r, warning=FALSE, message=FALSE, echo=FALSE}
+```{r 04-2, warning=FALSE, message=FALSE, echo=FALSE}
 head(precios)
 ```
 
 A partir de esta información se grafican los valores de cada una de las acciones con respecto al tiempo, obteniendo la siguiente figura:
 
-```{r, warning=FALSE, message=FALSE, fig.align='center'}
+```{r 04-3, warning=FALSE, message=FALSE, fig.align='center'}
 ggplot2::ggplot(data = precios) +
   ggplot2::geom_line(aes(x = date, y = close, color = symbol)) +
   ggplot2::labs(title = 'Precio cierre por accion desde 2022-01-01 a 2023-04-30', 
@@ -48,7 +48,7 @@ Con la finalidad de ahondando en la exploración inicial de los datos de las emp
 
 Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)
 
-```{r ,warning=FALSE, message=FALSE, fig.height=20, fig.width=15}
+```{r 04-4, warning=FALSE, message=FALSE, fig.height=20, fig.width=15}
 stock_plots = list()
 
 for (symbol in unique(precios$symbol)){
@@ -71,7 +71,7 @@ ggpubr::ggarrange(plotlist = stock_plots, ncol = 2, nrow = 5)
 
 Hablar para que sirve, escribir la forma t+s+r
 <br>
-```{r ,warning=FALSE, message=FALSE}
+```{r 04-5, warning=FALSE, message=FALSE}
 
 for (i in unique(precios$symbol)){
   stock_data <- ts(precios[precios$symbol == i, "close"], frequency=5)
@@ -97,7 +97,7 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 * Hipótesis alternativa: La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria.
 
 
-```{r ,warning=FALSE, message=FALSE}
+```{r 04-6, warning=FALSE, message=FALSE}
 for (column in unique(precios$symbol)) {
   stock_data <- ts(precios[precios$symbol == column, "close"])
   result <- adf.test(stock_data)
@@ -118,7 +118,7 @@ for (column in unique(precios$symbol)) {
 
 Hablar para que sirven que normalmente sirven para definir los ordenes del modelo autoregresivo (AR) y del modelo de media movil (MA)... Interpretar solo en una acción.
 
-```{r ,warning=FALSE, message=FALSE}
+```{r 04-7, warning=FALSE, message=FALSE}
 precios_df=as.data.frame(precios)
 
 
@@ -140,7 +140,7 @@ for (i in unique(precios$symbol)) {
 ### Diferenciación {-}
 Explicar como se usa y para que sirve.Ventajas y Desventajas
 
-```{r ,warning=FALSE, message=FALSE}
+```{r 04-8, warning=FALSE, message=FALSE}
 
 precios <- precios %>% 
   group_by(symbol) %>% 
@@ -154,7 +154,7 @@ head(precios)
 Concluir si sirvio para volver estacionarias las series.
 
 
-```{r ,warning=FALSE, message=FALSE}
+```{r 04-9, warning=FALSE, message=FALSE}
 symbols_no_estacionarios <- setdiff(unique(precios$symbol), "XOM")
 
 for (column in symbols_no_estacionarios) {
