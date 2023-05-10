@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Definiciones | Pronóstico De Índices Financieros</title>
+  <meta name="description" content="2 Definiciones | Pronóstico De Índices Financieros" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Definiciones | Pronóstico De Índices Financieros" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Definiciones | Pronóstico De Índices Financieros" />
+  
+  
+  
+
+<meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
+
+
+<meta name="date" content="2023-05-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introducción.html"/>
+<link rel="next" href="importación-de-los-datos.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pronóstico De Índices Financieros</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Descargo De Responsabilidad</a></li>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="definiciones.html"><a href="definiciones.html"><i class="fa fa-check"></i><b>2</b> Definiciones</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="definiciones.html"><a href="definiciones.html#sp-500-top-10"><i class="fa fa-check"></i><b>2.1</b> S&amp;P 500 Top 10</a></li>
+<li class="chapter" data-level="2.2" data-path="definiciones.html"><a href="definiciones.html#cointegración"><i class="fa fa-check"></i><b>2.2</b> Cointegración</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="importación-de-los-datos.html"><a href="importación-de-los-datos.html"><i class="fa fa-check"></i><b>3</b> Importación de los datos</a></li>
+<li class="chapter" data-level="4" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html"><i class="fa fa-check"></i><b>4</b> Análisis Exploratorio de Datos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#comportamiento-inicial-series"><i class="fa fa-check"></i><b>4.1</b> Comportamiento Inicial Series</a>
+<ul>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos"><i class="fa fa-check"></i>Promedio móvil y Rezagos</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva"><i class="fa fa-check"></i>Estacionalidad (Descomposicion Aditiva)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionaridad"><i class="fa fa-check"></i><b>4.2</b> Estacionaridad</a>
+<ul>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales"><i class="fa fa-check"></i>Prueba Dickey- Fuller (ADF) Series naturales</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#acf-y-pacf"><i class="fa fa-check"></i>ACF y PACF</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#diferenciación"><i class="fa fa-check"></i>Diferenciación</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas"><i class="fa fa-check"></i>Prueba Dickey- Fuller (ADF) Series diferenciadas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>5</b> Referencias</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Pronóstico De Índices Financieros</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="definiciones" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Definiciones<a href="definiciones.html#definiciones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A partir del listado de compañías que sean seleccionadas se definirán algunas condiciones previas para desarrollar el ejercicio propuesto. Primeramente, se define que el porcentaje de datos que se utilizarán para el entrenamiento será de 80% y el porcentaje de datos utilizados para validación y pruebas será del 20%.
+El periodo que se desea pronosticar será de siete (7) días, con un rezago estimado dentro del rango de cinco (5) a diez (10) días.</p>
+<p>Por otra parte, el rango de fechas que se utilizarán para los datos de entrenamiento será de doce (12) meses, comprendidos entre 01-Ene-2022 a 30-Dic-2022 y el rango de fechas para tomar los datos de validación y pruebas será de cuatro (4) meses y definido entre 01-Ene-2023 a 30-Abr-2023.</p>
+<div id="sp-500-top-10" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> S&amp;P 500 Top 10<a href="definiciones.html#sp-500-top-10" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El índice Standard &amp; Poor’s 500 o mejor conocido como S&amp;P 500 es un índice que rastrea los precios de las 500 empresas más grandes en Estados Unidos que representan en su mayoría algún mercado o industria en particular [4].
+Para el presente ejercicio se tomarán las diez (10) empresas más representativas para este índice bursátil a partir de su peso, de acuerdo con [5] las primeras diez compañías de este índice son:</p>
+<ol style="list-style-type: decimal">
+<li>APPL: Apple Inc.</li>
+<li>MSFT: Microsoft Corp</li>
+<li>AMZN: Amazon.com Inc</li>
+<li>NVDA: Nvidia Corp</li>
+<li>GOOGL: Alphabet Inc A</li>
+<li>BRK-B: Berkshire Hathaway B</li>
+<li>GOOG: Alphabet Inc C</li>
+<li>META: Meta Platforms, Inc. Class A</li>
+<li>XOM: Exxon Mobil Corp</li>
+<li>UNH: Unitedhealth Group Inc</li>
+</ol>
+</div>
+<div id="cointegración" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Cointegración<a href="definiciones.html#cointegración" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>De acuerdo con [6], el par de devisas EUR/USD representa el valor del dólar estadounidense por euro y representa más de la mitad de todo el volumen de negociación en el Mercado Forex.</p>
+<p>A cada una de las series de tiempo de los índices definidos se les integrará el índice EURUSD=X de forma de todas ellas se encuentre cointegradas con este último. El objetivo es tratar de encontrar una posible correlación entre las series de tiempo a largo plazo entre el Top 10 de los índices del S&amp;P 500 y el índice EURSD=X.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introducción.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="importación-de-los-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/ingadrianr/stocks_predictions/edit/main/02-Definiciones.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["stocks-predictions.pdf", "stocks-predictions.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
