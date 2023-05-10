@@ -5,3 +5,6 @@ sp-500-top-10
 cointegración
 importación-de-los-datos
 análisis-exploratorio-de-datos
+promedio-móvil-y-rezagos
+estacionaridad
+comportamiento-inicial-series

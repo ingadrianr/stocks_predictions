@@ -7,6 +7,9 @@ library(tidyverse)
 library(ggplot2)
 library(scales)
 library(tseries)
+library(stats)
+library(dplyr)
+
 ```
 
 # Análisis Exploratorio de Datos
@@ -20,4 +23,133 @@ precios <- tq_get(companias,
                  get = "stock.prices")
 
 head(precios)
+```
+<br>
+
+```{r ,warning=FALSE, message=FALSE}
+
+precios %>%
+  ggplot(aes(x = date, y = close, color = symbol)) +
+  geom_line() +
+  labs(title = 'Precio cierre por accion from 2022-01-01 a 2023-04-30', y = 'Close Price')
+
+
+```
+
+
+## Comportamiento Inicial Series
+
+### Promedio móvil y Rezagos{-}
+
+Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)
+
+```{r ,warning=FALSE, message=FALSE}
+
+
+for (i in unique(precios$symbol)){
+  stock_data <- ts(precios[precios$symbol == i, "close"])
+  
+  plot(stock_data, type = "l", main = paste("Promedio Móvil con n=5 para ",i))
+  ma <- rollmean(stock_data, k = 5, align = "right")
+  lines(ma, col = "red")
+  #par(mfrow=c(10,1))
+}
+#legend("topright", legend = c("Serie de Tiempo", "Promedio Móvil"),col = c("black", "red"), lty = 1, cex = #0.8)  
+```
+
+### Estacionalidad (Descomposicion Aditiva) {-}
+
+Hablar para que sirve, escribir la forma t+s+r
+<br>
+Pendientes Graficos
+
+## Estacionaridad
+
+
+Explicar que es
+
+
+### Prueba Dickey- Fuller (ADF) Series naturales{-}
+
+Dar un contexto de la prueba, escribir las hipotesis, por cada accion definir si es o no estacionaria.
+sobre las que no son estacionarias, debemos evaluar alternativas como la diferenciacion
+
+<br>
+* Hipótesis nula: La serie de tiempo tiene una raíz unitaria. La serie de tiempo es no estacionaria.
+
+* Hipótesis alternativa: La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria.
+
+
+```{r ,warning=FALSE, message=FALSE}
+for (column in unique(precios$symbol)) {
+  stock_data <- ts(precios[precios$symbol == column, "close"])
+  result <- adf.test(stock_data)
+  cat(paste("Acción: ", column, "\n"))
+  cat(paste("ADF Estadística: ", result$statistic, "\n"))
+  cat(paste("Valor p: ", result$p.value, "\n"))
+  for (key in names(result$critical)) {
+    cat(paste("   ", key, ": ", result$critical[key], "\n"))
+  }
+  cat("-----------------------\n")
+}
+```
+
+
+
+
+### ACF y PACF {-}
+
+Hablar para que sirven que normalmente sirven para definir los ordenes del modelo autoregresivo (AR) y del modelo de media movil (MA)... Interpretar solo en una acción.
+
+```{r ,warning=FALSE, message=FALSE}
+precios_df=as.data.frame(precios)
+
+
+for (i in unique(precios$symbol)) {
+  stock_i <- subset(precios, symbol == i)
+  stock_ts <- ts(stock_i$close)
+  
+  stock_acf <- acf(stock_ts,plot = FALSE)
+  stock_pacf <- pacf(stock_ts,plot = FALSE)
+  
+  par(mfrow=c(1,2))
+  plot(stock_acf, main=paste("ACF para la acción", i))
+  plot(stock_pacf, main=paste("PACF para la acción", i))
+
+}
+
+```
+
+### Diferenciación {-}
+Explicar como se usa y para que sirve.Ventajas y Desventajas
+
+```{r ,warning=FALSE, message=FALSE}
+
+precios <- precios %>% 
+  group_by(symbol) %>% 
+  mutate(diferenciado1 = c(NA, diff(close, differences = 1)[-length(close)]))
+
+head(precios)
+```
+
+### Prueba Dickey- Fuller (ADF) Series diferenciadas {-}
+
+Concluir si sirvio para volver estacionarias las series.
+
+
+```{r ,warning=FALSE, message=FALSE}
+symbols_no_estacionarios <- setdiff(unique(precios$symbol), "XOM")
+
+for (column in symbols_no_estacionarios) {
+  stock_data <- precios[precios$symbol == column, ]
+  stock_data_omit_na <- na.omit(stock_data$diferenciado1)
+  result <- adf.test(stock_data_omit_na)
+  cat(paste("Acción: ", column, "\n"))
+  cat(paste("ADF Estadística: ", result$statistic, "\n"))
+  cat(paste("Valor p: ", result$p.value, "\n"))
+  for (key in names(result$critical)) {
+    cat(paste("   ", key, ": ", result$critical[key], "\n"))
+  }
+  cat("-----------------------\n")
+}
 ```

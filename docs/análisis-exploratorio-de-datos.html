@@ -144,7 +144,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.2" data-path="definiciones.html"><a href="definiciones.html#cointegración"><i class="fa fa-check"></i><b>2.2</b> Cointegración</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="importación-de-los-datos.html"><a href="importación-de-los-datos.html"><i class="fa fa-check"></i><b>3</b> Importación de los datos</a></li>
-<li class="chapter" data-level="4" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html"><i class="fa fa-check"></i><b>4</b> Análisis Exploratorio de Datos</a></li>
+<li class="chapter" data-level="4" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html"><i class="fa fa-check"></i><b>4</b> Análisis Exploratorio de Datos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#comportamiento-inicial-series"><i class="fa fa-check"></i><b>4.1</b> Comportamiento Inicial Series</a>
+<ul>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos"><i class="fa fa-check"></i>Promedio móvil y Rezagos</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva"><i class="fa fa-check"></i>Estacionalidad (Descomposicion Aditiva)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionaridad"><i class="fa fa-check"></i><b>4.2</b> Estacionaridad</a>
+<ul>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales"><i class="fa fa-check"></i>Prueba Dickey- Fuller (ADF) Series naturales</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#acf-y-pacf"><i class="fa fa-check"></i>ACF y PACF</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#diferenciación"><i class="fa fa-check"></i>Diferenciación</a></li>
+<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas"><i class="fa fa-check"></i>Prueba Dickey- Fuller (ADF) Series diferenciadas</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>5</b> Referencias</a></li>
 </ul>
 
@@ -182,7 +196,194 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4 AAPL   2022-01-06  173.  175.  172.  172   96904000     171.
 ## 5 AAPL   2022-01-07  173.  174.  171.  172.  86709100     171.
 ## 6 AAPL   2022-01-10  169.  172.  168.  172. 106765600     171.</code></pre>
+<p><br></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="análisis-exploratorio-de-datos.html#cb3-1" aria-hidden="true" tabindex="-1"></a>precios <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="análisis-exploratorio-de-datos.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close, <span class="at">color =</span> symbol)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="análisis-exploratorio-de-datos.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href="análisis-exploratorio-de-datos.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Precio cierre por accion from 2022-01-01 a 2023-04-30&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Close Price&#39;</span>)</span></code></pre></div>
+<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div id="comportamiento-inicial-series" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Comportamiento Inicial Series<a href="análisis-exploratorio-de-datos.html#comportamiento-inicial-series" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="promedio-móvil-y-rezagos" class="section level3 unnumbered hasAnchor">
+<h3>Promedio móvil y Rezagos<a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="análisis-exploratorio-de-datos.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
+<span id="cb4-2"><a href="análisis-exploratorio-de-datos.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> i, <span class="st">&quot;close&quot;</span>])</span>
+<span id="cb4-3"><a href="análisis-exploratorio-de-datos.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-4"><a href="análisis-exploratorio-de-datos.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_data, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Promedio Móvil con n=5 para &quot;</span>,i))</span>
+<span id="cb4-5"><a href="análisis-exploratorio-de-datos.html#cb4-5" aria-hidden="true" tabindex="-1"></a>  ma <span class="ot">&lt;-</span> <span class="fu">rollmean</span>(stock_data, <span class="at">k =</span> <span class="dv">5</span>, <span class="at">align =</span> <span class="st">&quot;right&quot;</span>)</span>
+<span id="cb4-6"><a href="análisis-exploratorio-de-datos.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(ma, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb4-7"><a href="análisis-exploratorio-de-datos.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#par(mfrow=c(10,1))</span></span>
+<span id="cb4-8"><a href="análisis-exploratorio-de-datos.html#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-2.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-3.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-4.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-5.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-6.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-7.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-8.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-9.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-10.png" width="672" /></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#legend(&quot;topright&quot;, legend = c(&quot;Serie de Tiempo&quot;, &quot;Promedio Móvil&quot;),col = c(&quot;black&quot;, &quot;red&quot;), lty = 1, cex = #0.8)  </span></span></code></pre></div>
+</div>
+<div id="estacionalidad-descomposicion-aditiva" class="section level3 unnumbered hasAnchor">
+<h3>Estacionalidad (Descomposicion Aditiva)<a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Hablar para que sirve, escribir la forma t+s+r
+<br>
+Pendientes Graficos</p>
+</div>
+</div>
+<div id="estacionaridad" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Estacionaridad<a href="análisis-exploratorio-de-datos.html#estacionaridad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Explicar que es</p>
+<div id="prueba-dickey--fuller-adf-series-naturales" class="section level3 unnumbered hasAnchor">
+<h3>Prueba Dickey- Fuller (ADF) Series naturales<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Dar un contexto de la prueba, escribir las hipotesis, por cada accion definir si es o no estacionaria.
+sobre las que no son estacionarias, debemos evaluar alternativas como la diferenciacion</p>
+<p><br>
+* Hipótesis nula: La serie de tiempo tiene una raíz unitaria. La serie de tiempo es no estacionaria.</p>
+<ul>
+<li>Hipótesis alternativa: La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="análisis-exploratorio-de-datos.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
+<span id="cb6-2"><a href="análisis-exploratorio-de-datos.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> column, <span class="st">&quot;close&quot;</span>])</span>
+<span id="cb6-3"><a href="análisis-exploratorio-de-datos.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(stock_data)</span>
+<span id="cb6-4"><a href="análisis-exploratorio-de-datos.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, column, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb6-5"><a href="análisis-exploratorio-de-datos.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;ADF Estadística: &quot;</span>, result<span class="sc">$</span>statistic, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb6-6"><a href="análisis-exploratorio-de-datos.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Valor p: &quot;</span>, result<span class="sc">$</span>p.value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb6-7"><a href="análisis-exploratorio-de-datos.html#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (key <span class="cf">in</span> <span class="fu">names</span>(result<span class="sc">$</span>critical)) {</span>
+<span id="cb6-8"><a href="análisis-exploratorio-de-datos.html#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;   &quot;</span>, key, <span class="st">&quot;: &quot;</span>, result<span class="sc">$</span>critical[key], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb6-9"><a href="análisis-exploratorio-de-datos.html#cb6-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-10"><a href="análisis-exploratorio-de-datos.html#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb6-11"><a href="análisis-exploratorio-de-datos.html#cb6-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Acción:  AAPL 
+## ADF Estadística:  -2.05566854881785 
+## Valor p:  0.553122778288091 
+## -----------------------
+## Acción:  MSFT 
+## ADF Estadística:  -1.26008325178021 
+## Valor p:  0.888678271671602 
+## -----------------------
+## Acción:  AMZN 
+## ADF Estadística:  -2.57789631611209 
+## Valor p:  0.332861799653268 
+## -----------------------
+## Acción:  NVDA 
+## ADF Estadística:  -1.16775576501797 
+## Valor p:  0.910561973384199 
+## -----------------------
+## Acción:  GOOGL 
+## ADF Estadística:  -1.85896174733311 
+## Valor p:  0.636088172532902 
+## -----------------------
+## Acción:  BRK-B 
+## ADF Estadística:  -1.63954392454958 
+## Valor p:  0.728632436555145 
+## -----------------------
+## Acción:  GOOG 
+## ADF Estadística:  -1.88587340131609 
+## Valor p:  0.62473759407997 
+## -----------------------
+## Acción:  META 
+## ADF Estadística:  -1.69491663799333 
+## Valor p:  0.705277784013442 
+## -----------------------
+## Acción:  UNH 
+## ADF Estadística:  -2.58340138363729 
+## Valor p:  0.330539917063923 
+## -----------------------
+## Acción:  XOM 
+## ADF Estadística:  -3.45252088823684 
+## Valor p:  0.0475229915156887 
+## -----------------------</code></pre>
+</div>
+<div id="acf-y-pacf" class="section level3 unnumbered hasAnchor">
+<h3>ACF y PACF<a href="análisis-exploratorio-de-datos.html#acf-y-pacf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Hablar para que sirven que normalmente sirven para definir los ordenes del modelo autoregresivo (AR) y del modelo de media movil (MA)… Interpretar solo en una acción.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="análisis-exploratorio-de-datos.html#cb8-1" aria-hidden="true" tabindex="-1"></a>precios_df<span class="ot">=</span><span class="fu">as.data.frame</span>(precios)</span>
+<span id="cb8-2"><a href="análisis-exploratorio-de-datos.html#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="análisis-exploratorio-de-datos.html#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="análisis-exploratorio-de-datos.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
+<span id="cb8-5"><a href="análisis-exploratorio-de-datos.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  stock_i <span class="ot">&lt;-</span> <span class="fu">subset</span>(precios, symbol <span class="sc">==</span> i)</span>
+<span id="cb8-6"><a href="análisis-exploratorio-de-datos.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_i<span class="sc">$</span>close)</span>
+<span id="cb8-7"><a href="análisis-exploratorio-de-datos.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-8"><a href="análisis-exploratorio-de-datos.html#cb8-8" aria-hidden="true" tabindex="-1"></a>  stock_acf <span class="ot">&lt;-</span> <span class="fu">acf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-9"><a href="análisis-exploratorio-de-datos.html#cb8-9" aria-hidden="true" tabindex="-1"></a>  stock_pacf <span class="ot">&lt;-</span> <span class="fu">pacf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-10"><a href="análisis-exploratorio-de-datos.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-11"><a href="análisis-exploratorio-de-datos.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb8-12"><a href="análisis-exploratorio-de-datos.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_acf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;ACF para la acción&quot;</span>, i))</span>
+<span id="cb8-13"><a href="análisis-exploratorio-de-datos.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_pacf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;PACF para la acción&quot;</span>, i))</span>
+<span id="cb8-14"><a href="análisis-exploratorio-de-datos.html#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="análisis-exploratorio-de-datos.html#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-5.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-6.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-7.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-8.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-9.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-10.png" width="672" /></p>
+</div>
+<div id="diferenciación" class="section level3 unnumbered hasAnchor">
+<h3>Diferenciación<a href="análisis-exploratorio-de-datos.html#diferenciación" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Explicar como se usa y para que sirve.Ventajas y Desventajas</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="análisis-exploratorio-de-datos.html#cb9-1" aria-hidden="true" tabindex="-1"></a>precios <span class="ot">&lt;-</span> precios <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="análisis-exploratorio-de-datos.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="análisis-exploratorio-de-datos.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferenciado1 =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(close, <span class="at">differences =</span> <span class="dv">1</span>)[<span class="sc">-</span><span class="fu">length</span>(close)]))</span>
+<span id="cb9-4"><a href="análisis-exploratorio-de-datos.html#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="análisis-exploratorio-de-datos.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(precios)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 9
+## # Groups:   symbol [1]
+##   symbol date        open  high   low close    volume adjusted diferenciado1
+##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;
+## 1 AAPL   2022-01-03  178.  183.  178.  182. 104487900     181.       NA     
+## 2 AAPL   2022-01-04  183.  183.  179.  180.  99310400     178.       -2.31  
+## 3 AAPL   2022-01-05  180.  180.  175.  175.  94537600     174.       -4.78  
+## 4 AAPL   2022-01-06  173.  175.  172.  172   96904000     171.       -2.92  
+## 5 AAPL   2022-01-07  173.  174.  171.  172.  86709100     171.        0.170 
+## 6 AAPL   2022-01-10  169.  172.  168.  172. 106765600     171.        0.0200</code></pre>
+</div>
+<div id="prueba-dickey--fuller-adf-series-diferenciadas" class="section level3 unnumbered hasAnchor">
+<h3>Prueba Dickey- Fuller (ADF) Series diferenciadas<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Concluir si sirvio para volver estacionarias las series.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="análisis-exploratorio-de-datos.html#cb11-1" aria-hidden="true" tabindex="-1"></a>symbols_no_estacionarios <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(precios<span class="sc">$</span>symbol), <span class="st">&quot;XOM&quot;</span>)</span>
+<span id="cb11-2"><a href="análisis-exploratorio-de-datos.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="análisis-exploratorio-de-datos.html#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> symbols_no_estacionarios) {</span>
+<span id="cb11-4"><a href="análisis-exploratorio-de-datos.html#cb11-4" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> column, ]</span>
+<span id="cb11-5"><a href="análisis-exploratorio-de-datos.html#cb11-5" aria-hidden="true" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
+<span id="cb11-6"><a href="análisis-exploratorio-de-datos.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(stock_data_omit_na)</span>
+<span id="cb11-7"><a href="análisis-exploratorio-de-datos.html#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, column, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb11-8"><a href="análisis-exploratorio-de-datos.html#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;ADF Estadística: &quot;</span>, result<span class="sc">$</span>statistic, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb11-9"><a href="análisis-exploratorio-de-datos.html#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Valor p: &quot;</span>, result<span class="sc">$</span>p.value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb11-10"><a href="análisis-exploratorio-de-datos.html#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (key <span class="cf">in</span> <span class="fu">names</span>(result<span class="sc">$</span>critical)) {</span>
+<span id="cb11-11"><a href="análisis-exploratorio-de-datos.html#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;   &quot;</span>, key, <span class="st">&quot;: &quot;</span>, result<span class="sc">$</span>critical[key], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb11-12"><a href="análisis-exploratorio-de-datos.html#cb11-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-13"><a href="análisis-exploratorio-de-datos.html#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-14"><a href="análisis-exploratorio-de-datos.html#cb11-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Acción:  AAPL 
+## ADF Estadística:  -6.66340145927991 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  MSFT 
+## ADF Estadística:  -7.21412735449904 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  AMZN 
+## ADF Estadística:  -6.74472720274422 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  NVDA 
+## ADF Estadística:  -6.01198490395914 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  GOOGL 
+## ADF Estadística:  -8.12030932167298 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  BRK-B 
+## ADF Estadística:  -6.44380476381158 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  GOOG 
+## ADF Estadística:  -8.095317497104 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  META 
+## ADF Estadística:  -7.55972583872282 
+## Valor p:  0.01 
+## -----------------------
+## Acción:  UNH 
+## ADF Estadística:  -7.36858131320366 
+## Valor p:  0.01 
+## -----------------------</code></pre>
 
+</div>
+</div>
 </div>
             </section>
 
