@@ -153,11 +153,48 @@ library(lubridate)
 
 
 # precios$date <- ymd(precios$date)
-# stock_apple<- subset(precios, symbol == "AAPL")
+#stock_apple<- subset(precios, symbol == "AAPL")
+stock_apple <- ts(precios[precios$symbol == "AAPL", "close"])
 # plot(decompose(stock_apple$close))
-
+windows()
 library(timsac)
-decomp(stock_apple$close, trade=TRUE)
+
+windows()
+fechas<- seq(from=as.Date("2022-01-01"), to=as.Date("2023-04-30"), by = "day")
+#stock_ts <- ts(precios[precios$symbol == "AAPL","close"],start=1, end=332, frequency=5)
+stock_ts <- ts(precios[precios$symbol == "AAPL","close"],start="2022-01-01", end="2023-04-30", frequency=365)
+stock_ts <- na.approx(stock_ts)
+stock_ts <- na.omit(stock_ts)
+#appl_stl <- stl(x = stock_ts, s.window = "periodic")
+
+decomp = decompose(stock_ts, 'additive')
+plot(decomp)
+
+
+window()
+stock <- precios[precios$symbol == "AAPL",]
+#stock_ts <- zoo(stock$close, stock$date)
+
+stock_ts <- ts(stock$close, start=c(2022, 1), frequency=365)
+decomposition <- decompose(stock_ts, type = "additive")
+plot(decomposition)
+
+
+
+
+#stock_ts <- as.ts(stock_ts,start=c(2022, 1), end=c(2023, 4), frequency=12)
+stock_ts_interp <- na.approx(stock_ts)
+appl_stl <- stl(x = stock_ts_interp, s.window = "periodic")
+
+
+
+decomposition <- decompose(stock_ts, type = "additive")
+
+
+
+
+
+
 
 
 ### Promedio movil
@@ -169,7 +206,86 @@ library(zoo)
 ma <- rollmean(stock_apple$close, k = 5, align = "right")
 
 # Graficar la serie de tiempo y el promedio móvil
+windows()
+
 plot(stock_apple$close, type = "l", main = "Promedio Móvil de una Serie de Tiempo")
 lines(ma, col = "red")
 legend("topright", legend = c("Serie de Tiempo", "Promedio Móvil"),
        col = c("black", "red"), lty = 1, cex = 0.8)
+
+
+##########################################################################################
+###################### Orden en el que vamos a construir el entregable ###################
+##########################################################################################
+
+##### Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)
+
+
+windows()
+par(mfrow=c(4,3))
+for (i in unique(precios$symbol)){
+  stock_data <- ts(precios[precios$symbol == i, "close"])
+  cat(paste("Acción: ", i, "\n"))
+  
+  plot(stock_data, type = "l", main = paste("Promedio Móvil con n=5 para ",i))
+  ma <- rollmean(stock_data, k = 5, align = "right")
+  lines(ma, col = "red")
+}
+legend("topright", legend = c("Serie de Tiempo", "Promedio Móvil"),col = c("black", "red"), lty = 1, cex = 0.8)  
+
+##### Descomposicion de la serie (aditiva)
+#hablar para que sirve, escribir la forma t+s+r
+
+
+#queda pendiente 
+
+#### Unidad 3: Estacionaridad y Diferenciacion
+
+#Test ADF - Dickey Fuller
+
+for (column in unique(precios$symbol)) {
+  stock_data <- ts(precios[precios$symbol == column, "close"])
+  result <- adf.test(stock_data)
+  cat(paste("Acción: ", column, "\n"))
+  cat(paste("ADF Estadística: ", result$statistic, "\n"))
+  cat(paste("Valor p: ", result$p.value, "\n"))
+  for (key in names(result$critical)) {
+    cat(paste("   ", key, ": ", result$critical[key], "\n"))
+  }
+  cat("-----------------------\n")
+}
+
+
+### Dar un contexto de la prueba, escribir las hipotesis, por cada accion definir si es o no estacionaria.
+# sobre las que no son estacionarias, debemos evaluar alternativas como la diferenciacion,(si preguntamos
+# de donde se justifica )
+
+### FAC Y PACF 
+#hablar para que sirven que normalmente sirven para definir los ordenes del modelo autoregresivo (AR)
+## y del modelo de media movil (MA)... Interpretar solo en una acción.
+
+
+### Diferenciando las series
+library(dplyr)
+
+precios <- precios %>% 
+  group_by(symbol) %>% 
+  mutate(diferenciado1 = c(NA, diff(close, differences = 1)[-length(close)]))
+
+#Test ADF - Dickey Fuller despues de la diferenciacion
+
+symbols_no_estacionarios <- setdiff(unique(precios$symbol), "XOM")
+
+for (column in symbols_no_estacionarios) {
+  stock_data <- precios[precios$symbol == column, ]
+  stock_data_omit_na <- na.omit(stock_data$diferenciado1)
+  result <- adf.test(stock_data_omit_na)
+  cat(paste("Acción: ", column, "\n"))
+  cat(paste("ADF Estadística: ", result$statistic, "\n"))
+  cat(paste("Valor p: ", result$p.value, "\n"))
+  for (key in names(result$critical)) {
+    cat(paste("   ", key, ": ", result$critical[key], "\n"))
+  }
+  cat("-----------------------\n")
+}
+
