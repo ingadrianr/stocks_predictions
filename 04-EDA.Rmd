@@ -9,52 +9,62 @@ library(scales)
 library(tseries)
 library(stats)
 library(dplyr)
-
+library(ggpubr)
 ```
 
 # Análisis Exploratorio de Datos
 
-```{r lectura,warning=FALSE, message=FALSE}
-companias = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+Se inicia el análisis exploratorio de los datos recopilando la información de cada una de las empresas Top 10 del índice S&P 500. Se define la variable <i>empresas</i> a la cuál se le asignan las empresas definidas en el numeral <b>2.1.</b>, como también como los rangos de las fechas donde se realizará la consulta de los datos:
 
-precios <- tq_get(companias,
-                 from = "2022-01-01",
-                 to = "2023-04-30",
-                 get = "stock.prices")
+```{r, warning=FALSE, message=FALSE}
+empresas = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+precios <- tidyquant::tq_get(empresas, from = "2022-01-01", to = "2023-04-30", get = "stock.prices")
+```
 
+Como se puede observar en la siguiente tabla, para cada empresa se cuenta con los atributos de propios para cada acción, que indica su símbolo y atributos relacionados con los precios: <i>symbol</i>, <i>open</i>, <i>high</i>, <i>low</i>, <i>close</i>, <i>volume</i> y <i>adjusted</i>.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
 head(precios)
 ```
-<br>
 
-```{r ,warning=FALSE, message=FALSE}
+A partir de esta información se grafican los valores de cada una de las acciones con respecto al tiempo, obteniendo la siguiente figura:
 
-precios %>%
-  ggplot(aes(x = date, y = close, color = symbol)) +
-  geom_line() +
-  labs(title = 'Precio cierre por accion from 2022-01-01 a 2023-04-30', y = 'Close Price')
-
-
+```{r, warning=FALSE, message=FALSE, fig.align='center'}
+ggplot2::ggplot(data = precios) +
+  ggplot2::geom_line(aes(x = date, y = close, color = symbol)) +
+  ggplot2::labs(title = 'Precio cierre por accion desde 2022-01-01 a 2023-04-30', 
+                y = 'Close Price',
+                x = 'Date')
 ```
 
+De la figura anterior se pueden identificar preliminarmente algunas tendencias, como de que la acción de Unitedhealth Group Inc <b>UNH</b> mantiene un precio relativamente constante durante el transcurso del 2022. 
 
 ## Comportamiento Inicial Series
 
-### Promedio móvil y Rezagos{-}
+Con la finalidad de ahondando en la exploración inicial de los datos de las empresas definidas, se intentará identificar ciertas tendicias en los datos, para ello, se debe realizar un filtro o suavizado con el objeto de reducir el ruido y oscilaciones con los que los datos pudieran contar. Es aquí donde se involucran los términos de promedio móvil y rezagos. 
+
+
+### Promedio móvil y Rezagos {-}
 
 Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)
 
-```{r ,warning=FALSE, message=FALSE}
+```{r ,warning=FALSE, message=FALSE, fig.height=20, fig.width=15}
+stock_plots = list()
 
-
-for (i in unique(precios$symbol)){
-  stock_data <- ts(precios[precios$symbol == i, "close"])
+for (symbol in unique(precios$symbol)){
+  stock_data = stats::ts(precios[precios$symbol == symbol, 'close'])
+  ma = zoo::rollmean(stock_data, k = 5, align = "right")
   
-  plot(stock_data, type = "l", main = paste("Promedio Móvil con n=5 para ",i))
-  ma <- rollmean(stock_data, k = 5, align = "right")
-  lines(ma, col = "red")
-  #par(mfrow=c(10,1))
+  stock_data = data.frame(stock_data)
+  ma = data.frame(ma)
+  
+  stock_plots[[symbol]] = ggplot2::ggplot() + 
+    ggplot2::geom_line(data = stock_data, aes(x = index(stock_data), y = close), color = 'gray') +
+    ggplot2::geom_line(data = ma, aes(x = index(ma), y = close), color = 'salmon') +
+    ggplot2::labs(title = symbol, x = 'days')
 }
-#legend("topright", legend = c("Serie de Tiempo", "Promedio Móvil"),col = c("black", "red"), lty = 1, cex = #0.8)  
+
+ggpubr::ggarrange(plotlist = stock_plots, ncol = 2, nrow = 5)  
 ```
 
 ### Estacionalidad (Descomposicion Aditiva) {-}

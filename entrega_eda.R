@@ -174,10 +174,18 @@ plot(decomp)
 window()
 stock <- precios[precios$symbol == "AAPL",]
 #stock_ts <- zoo(stock$close, stock$date)
-
-stock_ts <- ts(stock$close, start=c(2022, 1), frequency=365)
+windows()
+stock_ts <- ts(precios[precios$symbol == "AAPL","close"], frequency=2)
 decomposition <- decompose(stock_ts, type = "additive")
 plot(decomposition)
+
+
+
+
+
+
+
+
 
 
 
@@ -235,6 +243,22 @@ legend("topright", legend = c("Serie de Tiempo", "Promedio Móvil"),col = c("bla
 
 ##### Descomposicion de la serie (aditiva)
 #hablar para que sirve, escribir la forma t+s+r
+
+windows()
+par(mfrow=c(4,3))
+for (i in unique(precios$symbol)){
+  stock_data <- ts(precios[precios$symbol == i, "close"], frequency=5)
+  decomposition <- decompose(stock_data, type = "additive")
+  plot(decomposition)
+
+}
+
+stock <- precios[precios$symbol == "AAPL",]
+#stock_ts <- zoo(stock$close, stock$date)
+windows()
+stock_ts <- ts(precios[precios$symbol == "AAPL","close"], frequency=2)
+decomposition <- decompose(stock_ts, type = "additive")
+plot(decomposition)
 
 
 #queda pendiente 
