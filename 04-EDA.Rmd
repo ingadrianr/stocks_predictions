@@ -170,3 +170,4 @@ for (column in symbols_no_estacionarios) {
   cat("-----------------------\n")
 }
 ```
+
