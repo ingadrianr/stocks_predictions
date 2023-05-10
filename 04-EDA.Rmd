@@ -14,32 +14,40 @@ library(dplyr)
 
 # Análisis Exploratorio de Datos
 
-```{r lectura,warning=FALSE, message=FALSE}
-companias = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+Se inicia el análisis exploratorio de los datos recopilando la información de cada una de las empresas Top 10 del índice S&P 500. Se define la variable <i>empresas</i> a la cuál se le asignan las empresas definidas en el numeral <b>2.1.</b>, como también como los rangos de las fechas donde se realizará la consulta de los datos:
 
-precios <- tq_get(companias,
+```{r, warning=FALSE, message=FALSE}
+empresas = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+
+precios <- tq_get(empresas,
                  from = "2022-01-01",
                  to = "2023-04-30",
                  get = "stock.prices")
+```
 
+Como se puede observar en la siguiente tabla, para cada empresa se cuenta con los atributos de propios para cada acción, que indica su símbolo y atributos relacionados con los precios: <i>symbol</i>, <i>open</i>, <i>high</i>, <i>low</i>, <i>close</i>, <i>volume</i> y <i>adjusted</i>.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
 head(precios)
 ```
-<br>
 
-```{r ,warning=FALSE, message=FALSE}
+A partir de esta información se grafican los valores de cada una de las acciones con respecto al tiempo, obteniendo la siguiente figura:
 
+```{r, warning=FALSE, message=FALSE, fig.align='center'}
 precios %>%
   ggplot(aes(x = date, y = close, color = symbol)) +
   geom_line() +
-  labs(title = 'Precio cierre por accion from 2022-01-01 a 2023-04-30', y = 'Close Price')
-
-
+  labs(title = 'Precio cierre por accion desde 2022-01-01 a 2023-04-30', y = 'Close Price')
 ```
 
+De la figura anterior se pueden identificar preliminarmente algunas tendencias, como de que la acción de Unitedhealth Group Inc <b>UNH</b> mantiene un precio relativamente constante durante el transcurso del 2022. 
 
 ## Comportamiento Inicial Series
 
-### Promedio móvil y Rezagos{-}
+Con la finalidad de ahondando en la exploración inicial de los datos de las empresas definidas, se intentará identificar ciertas tendicias en los datos, para ello, se debe realizar un filtro o suavizado con el objeto de reducir el ruido y oscilaciones con los que los datos pudieran contar. Es aquí donde se involucran los términos de promedio móvil y rezagos. 
+
+
+### Promedio móvil y Rezagos {-}
 
 Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)
 

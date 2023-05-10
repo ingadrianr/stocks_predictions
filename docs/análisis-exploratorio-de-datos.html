@@ -23,7 +23,7 @@
 <meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
 
 
-<meta name="date" content="2023-05-09" />
+<meta name="date" content="2023-05-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -179,14 +179,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="análisis-exploratorio-de-datos" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">4</span> Análisis Exploratorio de Datos<a href="análisis-exploratorio-de-datos.html#análisis-exploratorio-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="análisis-exploratorio-de-datos.html#cb1-1" aria-hidden="true" tabindex="-1"></a>companias <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="st">&quot;MSFT&quot;</span>, <span class="st">&quot;AMZN&quot;</span>, <span class="st">&quot;NVDA&quot;</span>, <span class="st">&quot;GOOGL&quot;</span>,<span class="st">&quot;BRK-B&quot;</span>,<span class="st">&quot;GOOG&quot;</span>, <span class="st">&quot;META&quot;</span>,<span class="st">&quot;UNH&quot;</span>,<span class="st">&quot;XOM&quot;</span>)</span>
+<p>Se inicia el análisis exploratorio de los datos recopilando la información de cada una de las empresas Top 10 del índice S&amp;P 500. Se define la variable <i>empresas</i> a la cuál se le asignan las empresas definidas en el numeral <b>2.1.</b>, como también como los rangos de las fechas donde se realizará la consulta de los datos:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="análisis-exploratorio-de-datos.html#cb1-1" aria-hidden="true" tabindex="-1"></a>empresas <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="st">&quot;MSFT&quot;</span>, <span class="st">&quot;AMZN&quot;</span>, <span class="st">&quot;NVDA&quot;</span>, <span class="st">&quot;GOOGL&quot;</span>,<span class="st">&quot;BRK-B&quot;</span>,<span class="st">&quot;GOOG&quot;</span>, <span class="st">&quot;META&quot;</span>,<span class="st">&quot;UNH&quot;</span>,<span class="st">&quot;XOM&quot;</span>)</span>
 <span id="cb1-2"><a href="análisis-exploratorio-de-datos.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="análisis-exploratorio-de-datos.html#cb1-3" aria-hidden="true" tabindex="-1"></a>precios <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(companias,</span>
+<span id="cb1-3"><a href="análisis-exploratorio-de-datos.html#cb1-3" aria-hidden="true" tabindex="-1"></a>precios <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(empresas,</span>
 <span id="cb1-4"><a href="análisis-exploratorio-de-datos.html#cb1-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">from =</span> <span class="st">&quot;2022-01-01&quot;</span>,</span>
 <span id="cb1-5"><a href="análisis-exploratorio-de-datos.html#cb1-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">to =</span> <span class="st">&quot;2023-04-30&quot;</span>,</span>
-<span id="cb1-6"><a href="análisis-exploratorio-de-datos.html#cb1-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>)</span>
-<span id="cb1-7"><a href="análisis-exploratorio-de-datos.html#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="análisis-exploratorio-de-datos.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(precios)</span></code></pre></div>
+<span id="cb1-6"><a href="análisis-exploratorio-de-datos.html#cb1-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>)</span></code></pre></div>
+<p>Como se puede observar en la siguiente tabla, para cada empresa se cuenta con los atributos de propios para cada acción, que indica su símbolo y atributos relacionados con los precios: <i>symbol</i>, <i>open</i>, <i>high</i>, <i>low</i>, <i>close</i>, <i>volume</i> y <i>adjusted</i>.</p>
 <pre><code>## # A tibble: 6 × 8
 ##   symbol date        open  high   low close    volume adjusted
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -196,14 +196,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4 AAPL   2022-01-06  173.  175.  172.  172   96904000     171.
 ## 5 AAPL   2022-01-07  173.  174.  171.  172.  86709100     171.
 ## 6 AAPL   2022-01-10  169.  172.  168.  172. 106765600     171.</code></pre>
-<p><br></p>
+<p>A partir de esta información se grafican los valores de cada una de las acciones con respecto al tiempo, obteniendo la siguiente figura:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="análisis-exploratorio-de-datos.html#cb3-1" aria-hidden="true" tabindex="-1"></a>precios <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="análisis-exploratorio-de-datos.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close, <span class="at">color =</span> symbol)) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="análisis-exploratorio-de-datos.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb3-4"><a href="análisis-exploratorio-de-datos.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Precio cierre por accion from 2022-01-01 a 2023-04-30&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Close Price&#39;</span>)</span></code></pre></div>
-<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<span id="cb3-4"><a href="análisis-exploratorio-de-datos.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Precio cierre por accion desde 2022-01-01 a 2023-04-30&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Close Price&#39;</span>)</span></code></pre></div>
+<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>De la figura anterior se pueden identificar preliminarmente algunas tendencias, como de que la acción de Unitedhealth Group Inc <b>UNH</b> mantiene un precio relativamente constante durante el transcurso del 2022.</p>
 <div id="comportamiento-inicial-series" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Comportamiento Inicial Series<a href="análisis-exploratorio-de-datos.html#comportamiento-inicial-series" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Con la finalidad de ahondando en la exploración inicial de los datos de las empresas definidas, se intentará identificar ciertas tendicias en los datos, para ello, se debe realizar un filtro o suavizado con el objeto de reducir el ruido y oscilaciones con los que los datos pudieran contar. Es aquí donde se involucran los términos de promedio móvil y rezagos.</p>
 <div id="promedio-móvil-y-rezagos" class="section level3 unnumbered hasAnchor">
 <h3>Promedio móvil y Rezagos<a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)</p>
@@ -215,7 +217,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-6"><a href="análisis-exploratorio-de-datos.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(ma, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
 <span id="cb4-7"><a href="análisis-exploratorio-de-datos.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#par(mfrow=c(10,1))</span></span>
 <span id="cb4-8"><a href="análisis-exploratorio-de-datos.html#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-2.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-3.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-4.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-5.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-6.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-7.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-8.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-9.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-3-10.png" width="672" /></p>
+<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-5.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-6.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-7.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-8.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-9.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-10.png" width="672" /></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#legend(&quot;topright&quot;, legend = c(&quot;Serie de Tiempo&quot;, &quot;Promedio Móvil&quot;),col = c(&quot;black&quot;, &quot;red&quot;), lty = 1, cex = #0.8)  </span></span></code></pre></div>
 </div>
 <div id="estacionalidad-descomposicion-aditiva" class="section level3 unnumbered hasAnchor">
@@ -249,44 +251,44 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 <span id="cb6-10"><a href="análisis-exploratorio-de-datos.html#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb6-11"><a href="análisis-exploratorio-de-datos.html#cb6-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
-## ADF Estadística:  -2.05566854881785 
-## Valor p:  0.553122778288091 
+## ADF Estadística:  -2.05566855942946 
+## Valor p:  0.553122773812414 
 ## -----------------------
 ## Acción:  MSFT 
-## ADF Estadística:  -1.26008325178021 
-## Valor p:  0.888678271671602 
+## ADF Estadística:  -1.26008325939587 
+## Valor p:  0.888678268459535 
 ## -----------------------
 ## Acción:  AMZN 
-## ADF Estadística:  -2.57789631611209 
-## Valor p:  0.332861799653268 
+## ADF Estadística:  -2.57789633782838 
+## Valor p:  0.332861790493946 
 ## -----------------------
 ## Acción:  NVDA 
-## ADF Estadística:  -1.16775576501797 
-## Valor p:  0.910561973384199 
+## ADF Estadística:  -1.16775576880205 
+## Valor p:  0.910561972773864 
 ## -----------------------
 ## Acción:  GOOGL 
-## ADF Estadística:  -1.85896174733311 
-## Valor p:  0.636088172532902 
+## ADF Estadística:  -1.85896180838685 
+## Valor p:  0.636088146782154 
 ## -----------------------
 ## Acción:  BRK-B 
-## ADF Estadística:  -1.63954392454958 
-## Valor p:  0.728632436555145 
+## ADF Estadística:  -1.63954392397899 
+## Valor p:  0.728632436795802 
 ## -----------------------
 ## Acción:  GOOG 
-## ADF Estadística:  -1.88587340131609 
-## Valor p:  0.62473759407997 
+## ADF Estadística:  -1.88587338232485 
+## Valor p:  0.624737602089945 
 ## -----------------------
 ## Acción:  META 
-## ADF Estadística:  -1.69491663799333 
-## Valor p:  0.705277784013442 
+## ADF Estadística:  -1.69491663189236 
+## Valor p:  0.70527778658666 
 ## -----------------------
 ## Acción:  UNH 
-## ADF Estadística:  -2.58340138363729 
-## Valor p:  0.330539917063923 
+## ADF Estadística:  -2.58340139336718 
+## Valor p:  0.330539912960132 
 ## -----------------------
 ## Acción:  XOM 
-## ADF Estadística:  -3.45252088823684 
-## Valor p:  0.0475229915156887 
+## ADF Estadística:  -3.45252087706893 
+## Valor p:  0.0475229925895258 
 ## -----------------------</code></pre>
 </div>
 <div id="acf-y-pacf" class="section level3 unnumbered hasAnchor">
@@ -307,7 +309,7 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 <span id="cb8-13"><a href="análisis-exploratorio-de-datos.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_pacf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;PACF para la acción&quot;</span>, i))</span>
 <span id="cb8-14"><a href="análisis-exploratorio-de-datos.html#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-15"><a href="análisis-exploratorio-de-datos.html#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-5.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-6.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-7.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-8.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-9.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-5-10.png" width="672" /></p>
+<p><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-2.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-3.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-4.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-5.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-6.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-7.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-8.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-9.png" width="672" /><img src="stocks-predictions_files/figure-html/unnamed-chunk-7-10.png" width="672" /></p>
 </div>
 <div id="diferenciación" class="section level3 unnumbered hasAnchor">
 <h3>Diferenciación<a href="análisis-exploratorio-de-datos.html#diferenciación" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -346,39 +348,39 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 <span id="cb11-13"><a href="análisis-exploratorio-de-datos.html#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb11-14"><a href="análisis-exploratorio-de-datos.html#cb11-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
-## ADF Estadística:  -6.66340145927991 
+## ADF Estadística:  -6.66340152569488 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  MSFT 
-## ADF Estadística:  -7.21412735449904 
+## ADF Estadística:  -7.21412737488395 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  AMZN 
-## ADF Estadística:  -6.74472720274422 
+## ADF Estadística:  -6.74472722586052 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  NVDA 
-## ADF Estadística:  -6.01198490395914 
+## ADF Estadística:  -6.01198490555232 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  GOOGL 
-## ADF Estadística:  -8.12030932167298 
+## ADF Estadística:  -8.12030937935677 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  BRK-B 
-## ADF Estadística:  -6.44380476381158 
+## ADF Estadística:  -6.44380475724663 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  GOOG 
-## ADF Estadística:  -8.095317497104 
+## ADF Estadística:  -8.09531746383223 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  META 
-## ADF Estadística:  -7.55972583872282 
+## ADF Estadística:  -7.55972580487128 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  UNH 
-## ADF Estadística:  -7.36858131320366 
+## ADF Estadística:  -7.368581336344 
 ## Valor p:  0.01 
 ## -----------------------</code></pre>
 
