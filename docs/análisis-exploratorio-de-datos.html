@@ -148,8 +148,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#comportamiento-inicial-series"><i class="fa fa-check"></i><b>4.1</b> Comportamiento Inicial Series</a>
 <ul>
-<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos"><i class="fa fa-check"></i>Promedio móvil y Rezagos</a></li>
-<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva"><i class="fa fa-check"></i>Estacionalidad (Descomposicion Aditiva)</a></li>
+<li class="chapter" data-level="4.1.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos"><i class="fa fa-check"></i><b>4.1.1</b> Promedio Móvil y Rezagos</a></li>
+<li class="chapter" data-level="4.1.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva"><i class="fa fa-check"></i><b>4.1.2</b> Estacionalidad (Descomposicion Aditiva)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionaridad"><i class="fa fa-check"></i><b>4.2</b> Estacionaridad</a>
+<ul>
 <li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales"><i class="fa fa-check"></i>Prueba Dickey- Fuller (ADF) Series naturales</a></li>
 <li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#acf-y-pacf"><i class="fa fa-check"></i>ACF y PACF</a></li>
 <li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#diferenciación"><i class="fa fa-check"></i>Diferenciación</a></li>
@@ -200,9 +203,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="comportamiento-inicial-series" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Comportamiento Inicial Series<a href="análisis-exploratorio-de-datos.html#comportamiento-inicial-series" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Con la finalidad de ahondando en la exploración inicial de los datos de las empresas definidas, se intentará identificar ciertas tendicias en los datos, para ello, se debe realizar un filtro o suavizado con el objeto de reducir el ruido y oscilaciones con los que los datos pudieran contar. Es aquí donde se involucran los términos de promedio móvil y rezagos.</p>
-<div id="promedio-móvil-y-rezagos" class="section level3 unnumbered hasAnchor">
-<h3>Promedio móvil y Rezagos<a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)</p>
+<div id="promedio-móvil-y-rezagos" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Promedio Móvil y Rezagos<a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El principio de funcionamiento de este método es tomar los últimos <i>k</i> valores de una serie para calcular el promedio y asignarlo al valor del siguiente periodo; la ventana de tiempo utilizada para realizar este cálculo se va desplazando a medida que nuevas observaciones vayan surgiendo [7]. A continuación se presenta la función de promedios móviles de orden simple:</p>
+<p><span class="math display">\[\begin{align*}
+F_{t+1} = \frac{Y_t + Y_{t-1} + ... + Y_{t-k+1}}{k} \\
+\end{align*}\]</span></p>
+<p>Luego de esta definición, se procede a calcular para cada una de las series de tiempo de las empresas definidas el promedio móvil. Se define un valor de <i>k=5</i>, así:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="análisis-exploratorio-de-datos.html#cb4-1" aria-hidden="true" tabindex="-1"></a>stock_plots <span class="ot">=</span> <span class="fu">list</span>()</span>
 <span id="cb4-2"><a href="análisis-exploratorio-de-datos.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="análisis-exploratorio-de-datos.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (symbol <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
@@ -220,9 +227,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-15"><a href="análisis-exploratorio-de-datos.html#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-16"><a href="análisis-exploratorio-de-datos.html#cb4-16" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(<span class="at">plotlist =</span> stock_plots, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">5</span>)  </span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/04-4-1.png" width="1440" /></p>
+<p>Conforme al gráfico anterior podemos identificar que la gráfica del promedio móvil se ajusta en gran proporción a la serie de tiempo; en casos como para la acción <i>GOOGL</i> se podría de cierta forma establecer una tendencia a la baja.</p>
 </div>
-<div id="estacionalidad-descomposicion-aditiva" class="section level3 unnumbered hasAnchor">
-<h3>Estacionalidad (Descomposicion Aditiva)<a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="estacionalidad-descomposicion-aditiva" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Estacionalidad (Descomposicion Aditiva)<a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Hablar para que sirve, escribir la forma t+s+r
 <br></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
@@ -231,10 +239,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="análisis-exploratorio-de-datos.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(decomposition)</span>
 <span id="cb5-5"><a href="análisis-exploratorio-de-datos.html#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="análisis-exploratorio-de-datos.html#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p><img src="stocks-predictions_files/figure-html/04-5-1.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-2.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-3.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-4.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-5.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-6.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-7.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-8.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-9.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-10.png" width="672" />
-## Estacionaridad</p>
-<p>Explicar que es</p>
+<p><img src="stocks-predictions_files/figure-html/04-5-1.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-2.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-3.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-4.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-5.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-6.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-7.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-8.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-9.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-10.png" width="672" /></p>
 </div>
+</div>
+<div id="estacionaridad" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Estacionaridad<a href="análisis-exploratorio-de-datos.html#estacionaridad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Explicar que es</p>
 <div id="prueba-dickey--fuller-adf-series-naturales" class="section level3 unnumbered hasAnchor">
 <h3>Prueba Dickey- Fuller (ADF) Series naturales<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Dar un contexto de la prueba, escribir las hipotesis, por cada accion definir si es o no estacionaria.
@@ -452,6 +462,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -44,9 +44,15 @@ De la figura anterior se pueden identificar preliminarmente algunas tendencias, 
 Con la finalidad de ahondando en la exploración inicial de los datos de las empresas definidas, se intentará identificar ciertas tendicias en los datos, para ello, se debe realizar un filtro o suavizado con el objeto de reducir el ruido y oscilaciones con los que los datos pudieran contar. Es aquí donde se involucran los términos de promedio móvil y rezagos. 
 
 
-### Promedio móvil y Rezagos {-}
+### Promedio Móvil y Rezagos
 
-Promedio movil (hablar de que se trata, para que sirve y coger dos acciones una que depronto tenga mas picos que otra y comparar)
+El principio de funcionamiento de este método es tomar los últimos <i>k</i> valores de una serie para calcular el promedio y asignarlo al valor del siguiente periodo; la ventana de tiempo utilizada para realizar este cálculo se va desplazando a medida que nuevas observaciones vayan surgiendo [7]. A continuación se presenta la función de promedios móviles de orden simple:
+
+\begin{align*}
+F_{t+1} = \frac{Y_t + Y_{t-1} + ... + Y_{t-k+1}}{k} \\
+\end{align*}
+
+Luego de esta definición, se procede a calcular para cada una de las series de tiempo de las empresas definidas el promedio móvil. Se define un valor de <i>k=5</i>, así:
 
 ```{r 04-4, warning=FALSE, message=FALSE, fig.height=20, fig.width=15}
 stock_plots = list()
@@ -67,7 +73,9 @@ for (symbol in unique(precios$symbol)){
 ggpubr::ggarrange(plotlist = stock_plots, ncol = 2, nrow = 5)  
 ```
 
-### Estacionalidad (Descomposicion Aditiva) {-}
+Conforme al gráfico anterior podemos identificar que la gráfica del promedio móvil se ajusta en gran proporción a la serie de tiempo; en casos como para la acción <i>GOOGL</i> se podría de cierta forma establecer una tendencia a la baja. 
+
+### Estacionalidad (Descomposicion Aditiva) 
 
 Hablar para que sirve, escribir la forma t+s+r
 <br>
@@ -80,6 +88,7 @@ for (i in unique(precios$symbol)){
 
 }
 ```
+
 ## Estacionaridad
 
 

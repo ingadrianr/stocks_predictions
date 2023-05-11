@@ -7,3 +7,5 @@ análisis-exploratorio-de-datos
 comportamiento-inicial-series
 estacionaridad
 referencias
+promedio-móvil-y-rezagos
+estacionalidad-descomposicion-aditiva
