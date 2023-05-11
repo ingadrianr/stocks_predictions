@@ -93,30 +93,25 @@ $R_t =$ Error en un periodo de t \
 Se realiza la descomposición de cada una de las series de tiempo definidas anteriormente:
 
 ```{r 04-5, warning=FALSE, message=FALSE}
-
-for (i in unique(precios$symbol)){
-  stock_data <- ts(precios[precios$symbol == i, "close"], frequency=5)
-  decomposition <- decompose(stock_data, type = "additive")
-  plot(decomposition)
-
+for (symbol in unique(precios$symbol)){
+  stock_data = ts(precios[precios$symbol == symbol, "close"], frequency=5)
+  plot(decompose(stock_data, type = "additive"))
 }
 ```
 
 ## Estacionaridad
 
+La estacionariedad en una serie de tiempo se refiere a la propiedad de que la media como la varianza de la misma se mantiene constante a lo largo del tiempo. Esto busca reflejar que el comportamiento que se observa a lo largo del tiempo no muestra una tendencia en especifico o un patrón puntual en la media y la varianza de la serie. Además de que la covarianza entre dos observaciones depende realmente de la distancia temporal (para este ejercicio aplicado, frecuencia diaria) y no depende de la ubicación puntual en el tiempo.
 
-Explicar que es
 
+### Prueba Dickey- Fuller (ADF) Series naturales 
 
-### Prueba Dickey- Fuller (ADF) Series naturales{-}
+La prueba aumentada de Dickey-Fuller es una prueba bastante conocida para identificar si una serie es estacionaria o no. Las hipótesis asociadas a las pruebas se presentan a continuación:
 
-Dar un contexto de la prueba, escribir las hipotesis, por cada accion definir si es o no estacionaria.
-sobre las que no son estacionarias, debemos evaluar alternativas como la diferenciacion
+$H0:$ La serie de tiempo tiene una raíz unitaria. La serie de tiempo no es estacionaria \
+$Ha:$ La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria \
 
-<br>
-* Hipótesis nula: La serie de tiempo tiene una raíz unitaria. La serie de tiempo es no estacionaria.
-
-* Hipótesis alternativa: La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria.
+La prueba nos indica que si contamos con valor p menor a un nivel de significancia especifico (por ejemplo 0.05), entonces existe evidencia estadística para rechazar la hipótesis nula y suponer que la serie es estacionaria. En el caso en que esto no suceda, es decir que no se rechaza <i>H0</i>, entonces será el indicio de que no contamos con una serie que posea media y varianza constante en el tiempo, lo que nos sugerirá evaluar un posible proceso de transformación y/o diferenciación a los datos temporales.
 
 
 ```{r 04-6, warning=FALSE, message=FALSE}
@@ -133,12 +128,14 @@ for (column in unique(precios$symbol)) {
 }
 ```
 
+Si establecemos como valor p de referencia el 0.05, entonces nos sugiere que 9 de las 10 empresas (acciones) evaluadas son no estacionarias, ya que su respecto valor p, supera a 0.05. La única empresa en la cual se encuentra evidencia estadística para decir que es estacionaria es <b>XOM</b>.
+
+Como la conclusión de la prueba nos permite admitir un proceso de diferenciación, podemos pensar si los gráficos de series iniciales sugerían una tendencia así sea leve por ejemplo que hizo que no se consideraran como series estacionarias. Otra forma de evaluar estos comportamientos, es a partir de herramientas grafica como la función de autocorrelación (FAC) y la función de autocorrelación parcial (PFAC) se comportan, se evaluarán a continuación.
 
 
+### ACF y PACF 
 
-### ACF y PACF {-}
-
-Hablar para que sirven que normalmente sirven para definir los ordenes del modelo autoregresivo (AR) y del modelo de media movil (MA)... Interpretar solo en una acción.
+La función de autocorrelación <i>ACF</i> y la función de autocorrelación parcial <i>PACF</i> son herramientas gráficas de series de tiempo que permiten conocer el comportamiento de una observación versus las anteriores. La ACF, muestra como una observación se comporto versus las observaciones pasadas. En cambio la PACF, por su parte busca como un observación se relaciona a un momento anterior dado, es decir, después de que se elimina la correlación que es explicada por las diferencias intermedias. Normalmente nos da un indicio relacionado a la tendencia de los datos y la estacionalidad. Entendiendo que son varias series se buscara interpretar con la serie de Apple, para entender un poco más este concepto.
 
 ```{r 04-7, warning=FALSE, message=FALSE}
 precios_df=as.data.frame(precios)
@@ -159,8 +156,11 @@ for (i in unique(precios$symbol)) {
 
 ```
 
-### Diferenciación {-}
-Explicar como se usa y para que sirve.Ventajas y Desventajas
+Por ejemplo se puede observar, que prácticamente todos los rezagos son significativos pues superan las bandas de confianza. La FAC muestra valores significativos en varios desfaces, esto indica que la serie de tiempo es dependiente en el tiempo. Si observamos la PACF en la empresa <b>APPL</b>, el primer rezago es significativo, esto indica una correlación directa entre la observación actual y la inmediatamente anterior. Esto también nos sugiere el termino autoregresivo en caso de evaluarse ajustar un modelo ARMA.
+
+### Diferenciación 
+
+La estacionariedad en una serie de tiempo se refiere a la propiedad de que la media como la varianza de la misma se mantiene constante a lo largo del tiempo. Esto busca reflejar que el comportamiento que se observa a lo largo del tiempo no muestra una tendencia en especifico o un patrón puntual en la media y la varianza de la serie. Además de que la covarianza entre dos observaciones depende realmente de la distancia temporal (para este ejercicio aplicado, frecuencia diaria) y no depende de la ubicación puntual en el tiempo.
 
 ```{r 04-8, warning=FALSE, message=FALSE}
 
@@ -171,9 +171,9 @@ precios <- precios %>%
 head(precios)
 ```
 
-### Prueba Dickey- Fuller (ADF) Series diferenciadas {-}
+### Prueba Dickey- Fuller (ADF) Series diferenciadas 
 
-Concluir si sirvio para volver estacionarias las series.
+Excluimos del vector de empresas(acciones) a XOM, ya que fue la única que logramos observar que es estacionaria sin necesidad de realizar el proceso de diferenciación. 
 
 
 ```{r 04-9, warning=FALSE, message=FALSE}
@@ -193,3 +193,4 @@ for (column in symbols_no_estacionarios) {
 }
 ```
 
+Una vez se lleva a cabo la diferenciación de primer orden sobre las 9 empresas (restantes) y se realiza la prueba dickey-fuller, encontramos que el valor p en todos los caso es menor a 0.05, lo que permite rechazar H0 y considerar que existe evidencia estadística para pensar que las series son estacionarias.

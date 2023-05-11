@@ -153,10 +153,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionaridad"><i class="fa fa-check"></i><b>4.2</b> Estacionaridad</a>
 <ul>
-<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales"><i class="fa fa-check"></i>Prueba Dickey- Fuller (ADF) Series naturales</a></li>
-<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#acf-y-pacf"><i class="fa fa-check"></i>ACF y PACF</a></li>
-<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#diferenciación"><i class="fa fa-check"></i>Diferenciación</a></li>
-<li class="chapter" data-level="" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas"><i class="fa fa-check"></i>Prueba Dickey- Fuller (ADF) Series diferenciadas</a></li>
+<li class="chapter" data-level="4.2.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales"><i class="fa fa-check"></i><b>4.2.1</b> Prueba Dickey- Fuller (ADF) Series naturales</a></li>
+<li class="chapter" data-level="4.2.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#acf-y-pacf"><i class="fa fa-check"></i><b>4.2.2</b> ACF y PACF</a></li>
+<li class="chapter" data-level="4.2.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#diferenciación"><i class="fa fa-check"></i><b>4.2.3</b> Diferenciación</a></li>
+<li class="chapter" data-level="4.2.4" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas"><i class="fa fa-check"></i><b>4.2.4</b> Prueba Dickey- Fuller (ADF) Series diferenciadas</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>5</b> Referencias</a></li>
@@ -242,27 +242,23 @@ Y_t = S_t + T_t + R_t
 <span class="math inline">\(R_t =\)</span> Error en un periodo de t<br />
 </p>
 <p>Se realiza la descomposición de cada una de las series de tiempo definidas anteriormente:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
-<span id="cb5-2"><a href="análisis-exploratorio-de-datos.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> i, <span class="st">&quot;close&quot;</span>], <span class="at">frequency=</span><span class="dv">5</span>)</span>
-<span id="cb5-3"><a href="análisis-exploratorio-de-datos.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  decomposition <span class="ot">&lt;-</span> <span class="fu">decompose</span>(stock_data, <span class="at">type =</span> <span class="st">&quot;additive&quot;</span>)</span>
-<span id="cb5-4"><a href="análisis-exploratorio-de-datos.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(decomposition)</span>
-<span id="cb5-5"><a href="análisis-exploratorio-de-datos.html#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="análisis-exploratorio-de-datos.html#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (symbol <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
+<span id="cb5-2"><a href="análisis-exploratorio-de-datos.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">=</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> symbol, <span class="st">&quot;close&quot;</span>], <span class="at">frequency=</span><span class="dv">5</span>)</span>
+<span id="cb5-3"><a href="análisis-exploratorio-de-datos.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">decompose</span>(stock_data, <span class="at">type =</span> <span class="st">&quot;additive&quot;</span>))</span>
+<span id="cb5-4"><a href="análisis-exploratorio-de-datos.html#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/04-5-1.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-2.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-3.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-4.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-5.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-6.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-7.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-8.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-9.png" width="672" /><img src="stocks-predictions_files/figure-html/04-5-10.png" width="672" /></p>
 </div>
 </div>
 <div id="estacionaridad" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Estacionaridad<a href="análisis-exploratorio-de-datos.html#estacionaridad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Explicar que es</p>
-<div id="prueba-dickey--fuller-adf-series-naturales" class="section level3 unnumbered hasAnchor">
-<h3>Prueba Dickey- Fuller (ADF) Series naturales<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Dar un contexto de la prueba, escribir las hipotesis, por cada accion definir si es o no estacionaria.
-sobre las que no son estacionarias, debemos evaluar alternativas como la diferenciacion</p>
-<p><br>
-* Hipótesis nula: La serie de tiempo tiene una raíz unitaria. La serie de tiempo es no estacionaria.</p>
-<ul>
-<li>Hipótesis alternativa: La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria.</li>
-</ul>
+<p>La estacionariedad en una serie de tiempo se refiere a la propiedad de que la media como la varianza de la misma se mantiene constante a lo largo del tiempo. Esto busca reflejar que el comportamiento que se observa a lo largo del tiempo no muestra una tendencia en especifico o un patrón puntual en la media y la varianza de la serie. Además de que la covarianza entre dos observaciones depende realmente de la distancia temporal (para este ejercicio aplicado, frecuencia diaria) y no depende de la ubicación puntual en el tiempo.</p>
+<div id="prueba-dickey--fuller-adf-series-naturales" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Prueba Dickey- Fuller (ADF) Series naturales<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La prueba aumentada de Dickey-Fuller es una prueba bastante conocida para identificar si una serie es estacionaria o no. Las hipótesis asociadas a las pruebas se presentan a continuación:</p>
+<p><span class="math inline">\(H0:\)</span> La serie de tiempo tiene una raíz unitaria. La serie de tiempo no es estacionaria<br />
+<span class="math inline">\(Ha:\)</span> La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria<br />
+</p>
+<p>La prueba nos indica que si contamos con valor p menor a un nivel de significancia especifico (por ejemplo 0.05), entonces existe evidencia estadística para rechazar la hipótesis nula y suponer que la serie es estacionaria. En el caso en que esto no suceda, es decir que no se rechaza <i>H0</i>, entonces será el indicio de que no contamos con una serie que posea media y varianza constante en el tiempo, lo que nos sugerirá evaluar un posible proceso de transformación y/o diferenciación a los datos temporales.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="análisis-exploratorio-de-datos.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
 <span id="cb6-2"><a href="análisis-exploratorio-de-datos.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> column, <span class="st">&quot;close&quot;</span>])</span>
 <span id="cb6-3"><a href="análisis-exploratorio-de-datos.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(stock_data)</span>
@@ -314,10 +310,12 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 ## ADF Estadística:  -3.45252087706893 
 ## Valor p:  0.0475229925895258 
 ## -----------------------</code></pre>
+<p>Si establecemos como valor p de referencia el 0.05, entonces nos sugiere que 9 de las 10 empresas (acciones) evaluadas son no estacionarias, ya que su respecto valor p, supera a 0.05. La única empresa en la cual se encuentra evidencia estadística para decir que es estacionaria es <b>XOM</b>.</p>
+<p>Como la conclusión de la prueba nos permite admitir un proceso de diferenciación, podemos pensar si los gráficos de series iniciales sugerían una tendencia así sea leve por ejemplo que hizo que no se consideraran como series estacionarias. Otra forma de evaluar estos comportamientos, es a partir de herramientas grafica como la función de autocorrelación (FAC) y la función de autocorrelación parcial (PFAC) se comportan, se evaluarán a continuación.</p>
 </div>
-<div id="acf-y-pacf" class="section level3 unnumbered hasAnchor">
-<h3>ACF y PACF<a href="análisis-exploratorio-de-datos.html#acf-y-pacf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Hablar para que sirven que normalmente sirven para definir los ordenes del modelo autoregresivo (AR) y del modelo de media movil (MA)… Interpretar solo en una acción.</p>
+<div id="acf-y-pacf" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> ACF y PACF<a href="análisis-exploratorio-de-datos.html#acf-y-pacf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La función de autocorrelación <i>ACF</i> y la función de autocorrelación parcial <i>PACF</i> son herramientas gráficas de series de tiempo que permiten conocer el comportamiento de una observación versus las anteriores. La ACF, muestra como una observación se comporto versus las observaciones pasadas. En cambio la PACF, por su parte busca como un observación se relaciona a un momento anterior dado, es decir, después de que se elimina la correlación que es explicada por las diferencias intermedias. Normalmente nos da un indicio relacionado a la tendencia de los datos y la estacionalidad. Entendiendo que son varias series se buscara interpretar con la serie de Apple, para entender un poco más este concepto.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="análisis-exploratorio-de-datos.html#cb8-1" aria-hidden="true" tabindex="-1"></a>precios_df<span class="ot">=</span><span class="fu">as.data.frame</span>(precios)</span>
 <span id="cb8-2"><a href="análisis-exploratorio-de-datos.html#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="análisis-exploratorio-de-datos.html#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -334,10 +332,11 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 <span id="cb8-14"><a href="análisis-exploratorio-de-datos.html#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-15"><a href="análisis-exploratorio-de-datos.html#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/04-7-1.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-2.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-3.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-4.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-5.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-6.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-7.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-8.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-9.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-10.png" width="672" /></p>
+<p>Por ejemplo se puede observar, que prácticamente todos los rezagos son significativos pues superan las bandas de confianza. La FAC muestra valores significativos en varios desfaces, esto indica que la serie de tiempo es dependiente en el tiempo. Si observamos la PACF en la empresa <b>APPL</b>, el primer rezago es significativo, esto indica una correlación directa entre la observación actual y la inmediatamente anterior. Esto también nos sugiere el termino autoregresivo en caso de evaluarse ajustar un modelo ARMA.</p>
 </div>
-<div id="diferenciación" class="section level3 unnumbered hasAnchor">
-<h3>Diferenciación<a href="análisis-exploratorio-de-datos.html#diferenciación" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Explicar como se usa y para que sirve.Ventajas y Desventajas</p>
+<div id="diferenciación" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Diferenciación<a href="análisis-exploratorio-de-datos.html#diferenciación" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La estacionariedad en una serie de tiempo se refiere a la propiedad de que la media como la varianza de la misma se mantiene constante a lo largo del tiempo. Esto busca reflejar que el comportamiento que se observa a lo largo del tiempo no muestra una tendencia en especifico o un patrón puntual en la media y la varianza de la serie. Además de que la covarianza entre dos observaciones depende realmente de la distancia temporal (para este ejercicio aplicado, frecuencia diaria) y no depende de la ubicación puntual en el tiempo.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="análisis-exploratorio-de-datos.html#cb9-1" aria-hidden="true" tabindex="-1"></a>precios <span class="ot">&lt;-</span> precios <span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="análisis-exploratorio-de-datos.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-3"><a href="análisis-exploratorio-de-datos.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferenciado1 =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(close, <span class="at">differences =</span> <span class="dv">1</span>)[<span class="sc">-</span><span class="fu">length</span>(close)]))</span>
@@ -354,9 +353,9 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 ## 5 AAPL   2022-01-07  173.  174.  171.  172.  86709100     171.        0.170 
 ## 6 AAPL   2022-01-10  169.  172.  168.  172. 106765600     171.        0.0200</code></pre>
 </div>
-<div id="prueba-dickey--fuller-adf-series-diferenciadas" class="section level3 unnumbered hasAnchor">
-<h3>Prueba Dickey- Fuller (ADF) Series diferenciadas<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Concluir si sirvio para volver estacionarias las series.</p>
+<div id="prueba-dickey--fuller-adf-series-diferenciadas" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Prueba Dickey- Fuller (ADF) Series diferenciadas<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Excluimos del vector de empresas(acciones) a XOM, ya que fue la única que logramos observar que es estacionaria sin necesidad de realizar el proceso de diferenciación.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="análisis-exploratorio-de-datos.html#cb11-1" aria-hidden="true" tabindex="-1"></a>symbols_no_estacionarios <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(precios<span class="sc">$</span>symbol), <span class="st">&quot;XOM&quot;</span>)</span>
 <span id="cb11-2"><a href="análisis-exploratorio-de-datos.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="análisis-exploratorio-de-datos.html#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> symbols_no_estacionarios) {</span>
@@ -407,6 +406,7 @@ sobre las que no son estacionarias, debemos evaluar alternativas como la diferen
 ## ADF Estadística:  -7.368581336344 
 ## Valor p:  0.01 
 ## -----------------------</code></pre>
+<p>Una vez se lleva a cabo la diferenciación de primer orden sobre las 9 empresas (restantes) y se realiza la prueba dickey-fuller, encontramos que el valor p en todos los caso es menor a 0.05, lo que permite rechazar H0 y considerar que existe evidencia estadística para pensar que las series son estacionarias.</p>
 
 </div>
 </div>
