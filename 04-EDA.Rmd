@@ -94,6 +94,7 @@ Se realiza la descomposición de cada una de las series de tiempo definidas ante
 
 ```{r 04-5, warning=FALSE, message=FALSE}
 for (symbol in unique(precios$symbol)){
+  cat(paste("Acción: ", symbol, "\n"))
   stock_data = ts(precios[precios$symbol == symbol, "close"], frequency=5)
   plot(decompose(stock_data, type = "additive"))
 }
