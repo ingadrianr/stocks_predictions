@@ -73,12 +73,25 @@ for (symbol in unique(precios$symbol)){
 ggpubr::ggarrange(plotlist = stock_plots, ncol = 2, nrow = 5)  
 ```
 
-Conforme al gráfico anterior podemos identificar que la gráfica del promedio móvil se ajusta en gran proporción a la serie de tiempo; en casos como para la acción <i>GOOGL</i> se podría de cierta forma establecer una tendencia a la baja. 
+Conforme al gráfico anterior podemos identificar que la gráfica del promedio móvil se ajusta en gran proporción a la serie de tiempo; en casos como para la acción <i>GOOGL</i> se podría de cierta forma establecer una tendencia a la baja. En este punto, puede surgir la pregunta sobre si los datos traen embebidos información adicional, ¿hay datos estacionales?, ¿cómo se comporta el error?... esto se puede evaluar a través de la evaluación de la estacionalidad o descomposición de la serie de tiempo. 
 
 ### Estacionalidad (Descomposicion Aditiva) 
 
-Hablar para que sirve, escribir la forma t+s+r
-<br>
+Asumiendo que la serie de tiempo es de tipo aditiva de acuerdo con [8], se pueden definir ciertos componentes de esta. En principio una serie de tiempo consta de varios componentes, <i>tendencia</i>, <i>estacionalidad</i> y <i>error</i>; definida por la siguiente formula:
+
+\begin{align*}
+Y_t = S_t + T_t + R_t
+\end{align*}
+
+donde,
+
+$Y_t =$ Serie de tiempo en un periodo t \
+$S_t =$ Componente estacionial en un periodo t \
+$T_t =$ Componente de tendencia en un periodo t \
+$R_t =$ Error en un periodo de t \
+
+Se realiza la descomposición de cada una de las series de tiempo definidas anteriormente:
+
 ```{r 04-5, warning=FALSE, message=FALSE}
 
 for (i in unique(precios$symbol)){

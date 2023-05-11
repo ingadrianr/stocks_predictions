@@ -11,3 +11,7 @@
 [5] S&P Dow Jones Indices. “Índices data” spglobal.com. [En línea]. Disponible en: https://www.spglobal.com/spdji/en/indices/equity/sp-500/#data (Consultado May. 7, 2023).
 
 [6] FOREX. “EUR/USD” FOREX.com. [En línea]. Disponible en: https://www.forex.com/en/forex-trading/eur-usd/ (Consultado May. 7, 2023).
+
+[7] F. Villareal. "Introducción a los Modelos de Pronósticos" uns.edu.ar. [En línea]. Disponible en: https://www.matematica.uns.edu.ar/uma2016/material/Introduccion_a_los_Modelos_de_Pronosticos.pdf (Consultado May. 10, 2023).
+
+[8] DATA SCIENCE INSTITUTE TUTOR TEAM. "Time Series Decomposition in R" datascienceinstitute.net. [En línea]. Disponible en: https://www.datascienceinstitute.net/blog/time-series-decomposition-in-r (Consultado May. 10, 2023).
