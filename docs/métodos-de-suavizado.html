@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Pronóstico De Índices Financieros</title>
-  <meta name="description" content="Pronóstico De Índices Financieros" />
+  <title>5 Métodos de Suavizado | Pronóstico De Índices Financieros</title>
+  <meta name="description" content="5 Métodos de Suavizado | Pronóstico De Índices Financieros" />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Pronóstico De Índices Financieros" />
+  <meta property="og:title" content="5 Métodos de Suavizado | Pronóstico De Índices Financieros" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Pronóstico De Índices Financieros" />
+  <meta name="twitter:title" content="5 Métodos de Suavizado | Pronóstico De Índices Financieros" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="introducción.html"/>
+<link rel="prev" href="análisis-exploratorio-de-datos.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -118,25 +118,56 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Pronóstico De Índices Financieros</h1>
-<p class="author"><em>Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada</em></p>
-<p class="date"><em>2023-05-15</em></p>
+<div id="métodos-de-suavizado" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Métodos de Suavizado<a href="métodos-de-suavizado.html#métodos-de-suavizado" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>La finalidad de los métodos de suavización es tratar de reducir las fluctuaciones en datos recopilados a lo largo del tiempo; con esto, se pretenden develar tendencias o ciclos en dichos datos a medida que el ruido y las fluctuaciones son suavizadas. Dentro de los métodos de suavizaciones podemos encontrar la suavización exponencial simple.</p>
+<div id="método-de-suavización-exponencial-simple" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Método de Suavización Exponencial Simple<a href="métodos-de-suavizado.html#método-de-suavización-exponencial-simple" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>De acuerdo con [9] “este método se basa en promediar (suavizar) valores pasados de una serie de manera exponencialmente decreciente. La observación más reciente recibe el peso más grande, la siguiente observación más reciente recibe menos peso, la observación de dos periodos en el pasado recibe incluso menos peso, y así́ sucesiva- mente”. Este método de suavización está dado por la siguiente fórmula:</p>
+<p><span class="math display">\[\begin{align*}
+\hat{Y}_{t+1} = \hat{Y}_{t}+\alpha(Y_{t}-\hat{Y}_{t})
+\end{align*}\]</span></p>
+<p>Donde:</p>
+<p><span class="math inline">\(\hat{Y}_{t+1}=\)</span> nuevo pronóstico<br />
+<span class="math inline">\(\hat{Y}_{t}=\)</span> anterior pronóstico<br />
+<span class="math inline">\(\alpha =\)</span> ajuste<br />
+<span class="math inline">\(Y_{t}-\hat{Y}_{t}\)</span> error en el anterior pronóstico<br />
+</p>
 </div>
-<div id="descargo-de-responsabilidad" class="section level1 unnumbered hasAnchor">
-<h1>Descargo De Responsabilidad<a href="index.html#descargo-de-responsabilidad" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>La información consignada dentro de este libro se presenta solo para fines educativos. No constituye ninguna oferta, recomendación o solicitud para que ninguna persona realice una transacción, negociación o inversión, ni constituye una predicción de probable movimiento futuro en los índices financieros que sean presentados en cualquier ilustración o mencionados textualmente dentro del libro.</p>
-<p>Las personas con acceso al presente libro deben buscar asesoramiento profesional sobre la idoneidad de invertir en valores, instrumentos financieros o estrategias de inversión. Las opiniones, proyecciones y estimaciones consignadas en este libro están sujetas a cambios sin previo aviso.</p>
-<p>ADRIAN MAURICIO RODRIGUEZ AMAYA y KATHERIN JULIANA QUIÑONES LOSADA no son asesores de inversiones y no pretende brindarle asesoramiento sobre inversiones, legal o fiscal y no es responsable de ninguna pérdida que surja de cualquier inversión basada en una recomendación percibida.</p>
+<div id="metodo-de-holt-winters" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Método de Holt-Winters<a href="métodos-de-suavizado.html#metodo-de-holt-winters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>De acuerdo con [10], el método de Holt Winters es utilizado para realizar pronósticos del comportamiento de una serie temporal a partir de los datos obtenidos anteriormente. El método se basa en un algoritmo iterativo que a cada tiempo (mes o semana) realiza un pronóstico sobre el comportamiento de la serie en base a promedios debidamente ponderados de los datos anteriores.</p>
+<p>Este método tiene dos variantes [11], el multiplicativo dado por la siguiente fórmula:</p>
+<p><span class="math inline">\(L_t=\alpha(Y_t/S_{t-p})+(1-\alpha)[L_{t-1}+T_{t-1}]\)</span><br />
+<span class="math inline">\(T_t=\gamma[L_t-L_{t-1}]+(1-\gamma)T_{t-1}\)</span><br />
+<span class="math inline">\(S_t=\delta(Y_t/L_t)+(1-\delta)S_{t-p}\)</span><br />
+<span class="math inline">\(\hat{Y}_{t}=(L_{t-1}+T_{t-1})S_{t-p}\)</span><br />
+</p>
+<p>El aditivo, dado por la siguiente fórmula:</p>
+<p><span class="math inline">\(L_t=\alpha(Y_t - S_{t-p})+(1-\alpha)[L_{t-1}+T_{t-1}]\)</span><br />
+<span class="math inline">\(T_t=\gamma[L_t-L_{t-1}]+(1-\gamma)T_{t-1}\)</span><br />
+<span class="math inline">\(S_t=\delta(Y_t-L_t)+(1-\delta)S_{t-p}\)</span><br />
+<span class="math inline">\(\hat{Y}_{t}=L_{t-1}+T_{t-1}+S_{t-p}\)</span><br />
+</p>
+<p>Donde:</p>
+<p><span class="math inline">\(L_t=\)</span> el nivel en el tiempo t, α es la ponderación para el nivel
+<span class="math inline">\(T_t\)</span> tendencia en el tiempo t,
+<span class="math inline">\(\gamma=\)</span> la ponderación para la tendencia
+<span class="math inline">\(S_t=\)</span> componente estacional en el tiempo t
+<span class="math inline">\(\delta=\)</span> la ponderación para el componente estacional
+<span class="math inline">\(p=\)</span> período estacional
+<span class="math inline">\(Y_t=\)</span> el valor de los datos en el tiempo t
+<span class="math inline">\(\hat{Y}_{t}=\)</span> el valor ajustado o el pronóstico de un periodo por anticipado, en el tiempo t</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="introducción.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="análisis-exploratorio-de-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -167,7 +198,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/ingadrianr/stocks_predictions/edit/main/index.Rmd",
+"link": "https://github.com/ingadrianr/stocks_predictions/edit/main/05-Suavizaciones.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -190,6 +221,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

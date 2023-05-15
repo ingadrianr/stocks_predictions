@@ -13,3 +13,6 @@ prueba-dickey--fuller-adf-series-naturales
 acf-y-pacf
 diferenciación
 prueba-dickey--fuller-adf-series-diferenciadas
+métodos-de-suavizado
+método-de-suavización-exponencial-simple
+metodo-de-holt-winters

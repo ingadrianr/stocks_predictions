@@ -15,3 +15,10 @@
 [7] F. Villareal. "Introducción a los Modelos de Pronósticos" uns.edu.ar. [En línea]. Disponible en: https://www.matematica.uns.edu.ar/uma2016/material/Introduccion_a_los_Modelos_de_Pronosticos.pdf (Consultado May. 10, 2023).
 
 [8] DATA SCIENCE INSTITUTE TUTOR TEAM. "Time Series Decomposition in R" datascienceinstitute.net. [En línea]. Disponible en: https://www.datascienceinstitute.net/blog/time-series-decomposition-in-r (Consultado May. 10, 2023).
+
+[9] Hanke, John E., and Dean W. “Wichern. Business forecasting”. Pearson Educación, 2005.
+
+[10] J. Gonzalez. “Método Holt Winters” s3.amazonaws.com. [En línea]. Disponible en:
+https://rstudio-pubs-static.s3.amazonaws.com/283115_72aea7c9fa224b89878c65ec53db3684.html  (Consultado May. 15, 2023).
+
+[11] Minitab, LLC. “Métodos y fórmulas para la Método de Winters” minitab.com. [En línea]. Disponible en: https://support.minitab.com/es-mx/minitab/21/help-and-how-to/statistical-modeling/time-series/how-to/winters-method/methods-and-formulas/methods-and-formulas/ (Consultado May. 15, 2023).

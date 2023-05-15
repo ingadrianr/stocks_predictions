@@ -1,0 +1,48 @@
+# Métodos de Suavizado 
+
+La finalidad de los métodos de suavización es tratar de reducir las fluctuaciones en datos recopilados a lo largo del tiempo; con esto, se pretenden develar tendencias o ciclos en dichos datos a medida que el ruido y las fluctuaciones son suavizadas. Dentro de los métodos de suavizaciones podemos encontrar la suavización exponencial simple.
+
+## Método de Suavización Exponencial Simple
+
+De acuerdo con [9] “este método se basa en promediar (suavizar) valores pasados de una serie de manera exponencialmente decreciente. La observación más reciente recibe el peso más grande, la siguiente observación más reciente recibe menos peso, la observación de dos periodos en el pasado recibe incluso menos peso, y así́ sucesiva- mente”. Este método de suavización está dado por la siguiente fórmula:
+
+\begin{align*}
+\hat{Y}_{t+1} = \hat{Y}_{t}+\alpha(Y_{t}-\hat{Y}_{t})
+\end{align*}
+
+Donde:
+
+$\hat{Y}_{t+1}=$ nuevo pronóstico \
+$\hat{Y}_{t}=$ anterior pronóstico \
+$\alpha =$ ajuste \
+$Y_{t}-\hat{Y}_{t}$ error en el anterior pronóstico \
+
+## Método de Holt-Winters
+
+De acuerdo con [10], el método de Holt Winters es utilizado para realizar pronósticos del comportamiento de una serie temporal a partir de los datos obtenidos anteriormente. El método se basa en un algoritmo iterativo que a cada tiempo (mes o semana) realiza un pronóstico sobre el comportamiento de la serie en base a promedios debidamente ponderados de los datos anteriores.
+
+Este método tiene dos variantes [11], el multiplicativo dado por la siguiente fórmula:
+
+$L_t=\alpha(Y_t/S_{t-p})+(1-\alpha)[L_{t-1}+T_{t-1}]$ \
+$T_t=\gamma[L_t-L_{t-1}]+(1-\gamma)T_{t-1}$ \
+$S_t=\delta(Y_t/L_t)+(1-\delta)S_{t-p}$ \
+$\hat{Y}_{t}=(L_{t-1}+T_{t-1})S_{t-p}$ \
+
+El aditivo, dado por la siguiente fórmula:
+
+$L_t=\alpha(Y_t - S_{t-p})+(1-\alpha)[L_{t-1}+T_{t-1}]$ \
+$T_t=\gamma[L_t-L_{t-1}]+(1-\gamma)T_{t-1}$ \
+$S_t=\delta(Y_t-L_t)+(1-\delta)S_{t-p}$ \
+$\hat{Y}_{t}=L_{t-1}+T_{t-1}+S_{t-p}$ \
+
+Donde:
+
+$L_t=$ el nivel en el tiempo t, α es la ponderación para el nivel
+$T_t$ tendencia en el tiempo t,
+$\gamma=$ la ponderación para la tendencia
+$S_t=$ componente estacional en el tiempo t
+$\delta=$ la ponderación para el componente estacional
+$p=$ período estacional
+$Y_t=$ el valor de los datos en el tiempo t
+$\hat{Y}_{t}=$ el valor ajustado o el pronóstico de un periodo por anticipado, en el tiempo t
+
