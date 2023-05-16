@@ -1,3 +1,19 @@
+```{r 05-00, include=FALSE}
+library(tidyquant)
+library(TTR)
+library(ggplot2)
+library(tidyquant)
+library(tidyverse)
+library(ggplot2)
+library(scales)
+library(tseries)
+library(stats)
+library(dplyr)
+library(ggpubr)
+library(forecast)
+```
+
+
 # Métodos de Suavizado 
 
 La finalidad de los métodos de suavización es tratar de reducir las fluctuaciones en datos recopilados a lo largo del tiempo; con esto, se pretenden develar tendencias o ciclos en dichos datos a medida que el ruido y las fluctuaciones son suavizadas. Dentro de los métodos de suavizaciones podemos encontrar la suavización exponencial simple.
@@ -16,6 +32,46 @@ $\hat{Y}_{t+1}=$ nuevo pronóstico \
 $\hat{Y}_{t}=$ anterior pronóstico \
 $\alpha =$ ajuste \
 $Y_{t}-\hat{Y}_{t}$ error en el anterior pronóstico \
+
+
+```{r 05-0, warning=FALSE, message=FALSE,echo=FALSE}
+empresas = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+precios <- tidyquant::tq_get(empresas, from = "2022-01-01", to = "2023-04-30", get = "stock.prices")
+```
+
+
+```{r 05-1, warning=FALSE, message=FALSE}
+
+legend_labels <- NULL
+for (i in unique(precios$symbol)){
+  stock <- precios[precios$symbol == i,]
+  stock_ts <- ts(stock$close, frequency=5)
+  cat(paste("Acción: ", i, "\n"))
+  
+  fit_se <- HoltWinters(stock_ts, beta = FALSE, gamma = FALSE)
+  alpha <- fit_se$alpha
+  cat(paste("Valor Alfa Ajustado: ", alpha, "\n"))
+  mae <- mean(abs(fit_se$fitted - stock_ts))
+  cat(paste("Mean Absolute Error (MAE): ", mae, "\n"))
+  predictions <- forecast(fit_se, h = 30)
+  
+  
+  plot(fit_se, main = paste("Suavizamiento Exponencial Simple para",i))
+  lines(predictions$mean, col = "blue")
+  legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = 1 ,cex = 0.5)
+}
+
+
+```
+
+Como se puede observar en los anteriores gráficos, la suavización exponencial simple en cuanto al ajuste de los datos, se observa que es bastante parecido a los datos reales.  El valor alpha usado en la mayoria de acciones es cercano a 1, lo que permite pensar que la suavizacion no es muy fuerte. Cabe aclarar que, la estimación del valor de alfa, que representa el peso que se le da a las observaciones pasadas en la prediccion de observaciones futuras, la función de Holt-Winters en R lo calcula a partir del método de máxima verosimilitud.
+
+
+
+En cuanto a los pronosticos generados en los siguientes 30 días, se observa que no es una buena metodología ya que ofrece casi una linea recta para los valores futuros. Esto indica que como se evidenció en la unidad 4 asociada al EDA, si hay presencia de tendencia y estacionalidad en la serie, es por eso, que esta suavización no funcionó muy bien.
+
+
+
 
 ## Método de Holt-Winters
 
@@ -46,3 +102,33 @@ $p=$ período estacional
 $Y_t=$ el valor de los datos en el tiempo t
 $\hat{Y}_{t}=$ el valor ajustado o el pronóstico de un periodo por anticipado, en el tiempo t
 
+
+```{r 05-2, warning=FALSE, message=FALSE}
+for (i in unique(precios$symbol)){
+  stock <- precios[precios$symbol == i,]
+  stock_ts <- ts(stock$close, frequency=5)
+  cat(paste("Acción: ", i, "\n"))
+  
+  fit_se <- HoltWinters(stock_ts, seasonal = "additive",
+                        alpha = TRUE,
+                        beta = TRUE,
+                        gamma = TRUE)
+  
+
+  #cat(paste("Summary Modelo: ", summary(fit_se), "\n"))
+
+  mae <- mean(abs(fit_se$fitted - stock_ts))
+  cat(paste("Mean Absolute Error (MAE): ", mae, "\n"))
+  predictions <- forecast(fit_se, h = 30)
+  
+  
+  plot(fit_se, main = paste("Suavizamiento Holt-Winters para",i))
+  lines(predictions$mean, col = "blue")
+  
+  legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = 1 ,cex = 0.8)
+}
+
+```
+
+
+Se hizo uso de la suavización Holt-Winters aditiva. Se puede observar que para varios casos los valores predichos tienen un comportamiento que sobreestima a los datos reales. Esto puede darse, ya que al implicar cambios producidos por el componente de tendencia y estacionalidad, podria afectar a la realidad. En cuanto al pronostico, es bastante interesante, ya que en muchos casos parece captar estos patrones de tendencia y estacionalidad lo que permite contar con pronosticos mas acertados. 
