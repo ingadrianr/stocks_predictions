@@ -245,11 +245,13 @@ legend("topright", legend = c("Serie de Tiempo", "Promedio Móvil"),col = c("bla
 #hablar para que sirve, escribir la forma t+s+r
 
 windows()
-par(mfrow=c(4,3))
+#par(mfrow=c(4,3))
 for (i in unique(precios$symbol)){
   stock_data <- ts(precios[precios$symbol == i, "close"], frequency=5)
-  decomposition <- decompose(stock_data, type = "additive")
-  plot(decomposition)
+  #decomposition <- decompose(stock_data, type = "additive")
+  #plot(decomposition, main = paste("Descomposicion para ",i))
+  par(mfrow=c(10,1))  # Establece la distribución de sub-gráficos
+  plot(decomposition, main = paste("Descomposicion para ",i))
 
 }
 
@@ -312,4 +314,125 @@ for (column in symbols_no_estacionarios) {
   }
   cat("-----------------------\n")
 }
+
+
+#####################################################################################################
+####################################### Suavizacion #################################################
+#####################################################################################################
+
+library(forecast)
+
+### Suavizacion exponencial Simple
+
+
+
+stock_apple <- precios[precios$symbol == "AAPL",]
+stock_ts <- ts(stock_apple$close, frequency=5)
+
+fit_apple <- HoltWinters(stock_ts, beta = FALSE, gamma = FALSE)
+alpha_apple <- fit_apple$alpha
+
+
+predictions <- forecast(fit_apple, h = 30)
+
+mean(abs(predictions$mean - stock_ts[length(stock_ts)]))
+
+plot(fit_apple, main = "Suavizamiento Exponencial Simple Apple")
+lines(predictions$mean, col = "blue")
+legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = c(1,1,1))
+
+### Método Holt-Winters
+
+stock_ts <- ts(stock_apple$close, frequency=5)
+
+
+
+fit_apple_hw <- HoltWinters(stock_ts, 
+                            seasonal = "additive",
+ #                           start.periods = 5,
+                            alpha = TRUE,
+                            beta = TRUE,
+                            gamma = TRUE)
+
+
+alpha_hw <- fit_apple_hw$alpha
+beta_hw <- fit_apple_hw$beta
+gamma_hw <- fit_apple_hw$gamma
+
+
+summary(fit_apple_hw)$alpha
+
+
+predictions_hw <- forecast(fit_apple_hw, h = 30)
+
+mae_hw <- mean(abs(fit_apple_hw$fitted - stock_ts))
+
+mae <- mean(abs(fit_apple$fitted - stock_ts))
+
+
+plot(fit_apple_hw, main = "Suavizamiento Holt-Winters")
+lines(predictions_hw$mean, col = "blue")
+legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = c(1,1,1))
+
+
+
+
+
+#############################
+
+### ciclos 
+
+windows()
+#par(mfrow=c(4,3))
+legend_labels <- NULL
+for (i in unique(precios$symbol)){
+  stock <- precios[precios$symbol == i,]
+  stock_ts <- ts(stock$close, frequency=5)
+  cat(paste("Acción: ", i, "\n"))
+  
+  fit_se <- HoltWinters(stock_ts, beta = FALSE, gamma = FALSE)
+  alpha <- fit_se$alpha
+  cat(paste("Valor Alfa Ajustado: ", alpha, "\n"))
+  mae <- mean(abs(fit_se$fitted - stock_ts))
+  cat(paste("Mean Absolute Error (MAE): ", mae, "\n"))
+  predictions <- forecast(fit_se, h = 30)
+  
+  
+  plot(fit_se, main = paste("Suavizamiento Exponencial Simple para",i))
+  lines(predictions$mean, col = "blue")
+  
+  legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = 1 ,cex = 0.5)
+}
+
+
+### ciclos 
+
+windows()
+#par(mfrow=c(4,3))
+legend_labels <- NULL
+for (i in unique(precios$symbol)){
+  stock <- precios[precios$symbol == i,]
+  stock_ts <- ts(stock$close, frequency=5)
+  cat(paste("Acción: ", i, "\n"))
+  
+  fit_se <- HoltWinters(stock_ts, seasonal = "additive",
+                        alpha = TRUE,
+                        beta = TRUE,
+                        gamma = TRUE)
+  
+
+  cat(paste("Summary Modelo: ", summary(fit_se), "\n"))
+
+  mae <- mean(abs(fit_se$fitted - stock_ts))
+  cat(paste("Mean Absolute Error (MAE): ", mae, "\n"))
+  predictions <- forecast(fit_se, h = 30)
+  
+  
+  plot(fit_se, main = paste("Suavizamiento Holt-Winters para",i))
+  lines(predictions$mean, col = "blue")
+  
+  legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = 1 ,cex = 0.8)
+}
+
+
 
