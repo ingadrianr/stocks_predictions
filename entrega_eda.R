@@ -400,7 +400,6 @@ for (i in unique(precios$symbol)){
   
   plot(fit_se, main = paste("Suavizamiento Exponencial Simple para",i))
   lines(predictions$mean, col = "blue")
-  
   legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = 1 ,cex = 0.5)
 }
 
@@ -434,5 +433,116 @@ for (i in unique(precios$symbol)){
   legend("topleft", legend = c("Datos", "Ajustado", "Pronostico"), col = c("black", "red", "blue"), lty = 1 ,cex = 0.8)
 }
 
+#####################################################################################################
+####################################### Box Jenkins #################################################
+#####################################################################################################
 
 
+#Ya sabemos que algunas series (9 de las 10) no son estacionarias. Por ende ya hicimos el ejercicio
+#de encontrar cuantas veces nos sugeria diferenciar las series. En todos los casos se realizo una vez.
+#Hicimos el calculo del test adf de nuevo y ya nos sugirio que son estacionarias. 
+
+#Ahora vamos a construir modelo arima (caso diferenciacion) y modelo arma (caso en que no hubo necesidad de diferenciar)
+
+# Modelo Arima - Arma
+
+
+library(forecast)
+
+
+ts_data <- ts(precios[precios$symbol == 'AAPL', "close"],frequency = 365, start = c(2022, 1), end = c(2023, 4))
+
+
+# Graficar la serie de tiempo
+plot(ts_data, main = "Serie de tiempo del precio de cierre de Apple", xlab = "Fecha", ylab = "Precio de cierre")
+
+# Verificar si la serie de tiempo es estacionaria
+adf_test <- adf.test(ts_data,alternative = c("stationary", "explosive"))
+print(adf_test)
+
+# Cuantas veces diferenciar?
+ndiffs(ts_data)
+
+### Se diferencia 
+dif_ts_data<-diff(ts_data)
+
+#la graficamos
+plot(dif_ts_data, main=" ", ylab="valor", col="deepskyblue", xlab="Tiempo")
+title(main="DIF Precio de Cierre APPLE")
+
+### Se evalua el adf test de nuevo
+
+adf_dif<-adf.test(dif_ts_data)
+print(adf_dif)
+
+
+### Funciones de acf y pacf sobre las series diferenciadas
+
+ACF<-acf(dif_ts_data)
+PACF<-pacf(dif_ts_data)
+
+### Creacion del modelo arima en este caso
+
+modelo<-auto.arima(dif_ts_data)
+modelo
+
+plot(modelo)
+lines(dif_ts_data, col = "blue")
+
+# Realizar pruebas de diagnóstico en los residuos del modelo
+checkresiduals(dif_ts_data)
+
+# Realizar pruebas de diagnóstico en los residuos del modelo
+checkresiduals(fitted_model)
+#Series: dif_ts_data 
+#ARIMA(0,0,0) with zero mean 
+
+#sigma^2 = 10.35:  log likelihood = -952.22
+#AIC=1906.44   AICc=1906.45   BIC=1910.35
+
+
+#Ojo con lo anterior, esto parece ser un proceso ruido blanco, y lo que indicaraia es que no hay mucho
+#que hacer con los valores pasados paa predecir el futuro.
+
+### identificacion de puntos de cambio en media 
+
+#install.packages("changepoint")
+library(changepoint)
+
+
+mval<-cpt.mean(dif_ts_data,method = "AMOC") 
+cpts(mval)
+
+plot(mval, type = "l", cpt.col = "blue", xlab = "Value", cpt.width = 4, main = "default penalty")
+
+### prediccion de la siguiente semana
+
+pred<-forecast(dif_ts_data,h=7)
+
+
+plot(pred, main=" ", ylab="valor", col="deepskyblue", xlab="Tiempo")
+title(main="Predicción DIF Precio cierre APPLE")
+
+#modelo lineal aplicado a la serie de tiempo
+
+lm_model <- lm(Valor ~ tiempo, data = data.frame(tiempo = time(ts_data), Valor = ts_data))
+
+summary(lm_model)
+
+
+AIC_valor <- AIC(lm_model)
+print(AIC_valor)
+BIC_valor <- BIC(lm_model)
+print(BIC_valor)
+
+
+# Graficar la serie de tiempo y el modelo ajustado
+ggplot(data = data.frame(tiempo = time(ts_data), Valor = ts_data)) +
+  geom_line(aes(x = tiempo, y = Valor), color = "blue") +
+  geom_line(aes(x = tiempo, y = predict(lm_model)), color = "red") +
+  labs(title = "Ajuste de un modelo lineal a una serie de tiempo", x = "Fecha", y = "Valor")
+
+### pronostico (aun no la logro)
+
+#fechas_futuras <- seq(max(precios$date) + 1, length = 7, by = 1)
+#pronostico <- predict(lm_model, newdata = data.frame(date = fechas_futuras))
