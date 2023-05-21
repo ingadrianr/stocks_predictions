@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Metodología Box-jenkins | Pronóstico De Índices Financieros</title>
+  <meta name="description" content="6 Metodología Box-jenkins | Pronóstico De Índices Financieros" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Metodología Box-jenkins | Pronóstico De Índices Financieros" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Metodología Box-jenkins | Pronóstico De Índices Financieros" />
+  
+  
+  
+
+<meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
+
+
+<meta name="date" content="2023-05-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="métodos-de-suavizado.html"/>
+<link rel="next" href="referencias.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pronóstico De Índices Financieros</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Descargo De Responsabilidad</a></li>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="definiciones.html"><a href="definiciones.html"><i class="fa fa-check"></i><b>2</b> Definiciones</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="definiciones.html"><a href="definiciones.html#sp-500-top-10"><i class="fa fa-check"></i><b>2.1</b> S&amp;P 500 Top 10</a></li>
+<li class="chapter" data-level="2.2" data-path="definiciones.html"><a href="definiciones.html#cointegración"><i class="fa fa-check"></i><b>2.2</b> Cointegración</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="importación-de-los-datos.html"><a href="importación-de-los-datos.html"><i class="fa fa-check"></i><b>3</b> Importación de los datos</a></li>
+<li class="chapter" data-level="4" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html"><i class="fa fa-check"></i><b>4</b> Análisis Exploratorio de Datos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#comportamiento-inicial-series"><i class="fa fa-check"></i><b>4.1</b> Comportamiento Inicial Series</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#promedio-móvil-y-rezagos"><i class="fa fa-check"></i><b>4.1.1</b> Promedio Móvil y Rezagos</a></li>
+<li class="chapter" data-level="4.1.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionalidad-descomposicion-aditiva"><i class="fa fa-check"></i><b>4.1.2</b> Estacionalidad (Descomposicion Aditiva)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#estacionaridad"><i class="fa fa-check"></i><b>4.2</b> Estacionaridad</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-naturales"><i class="fa fa-check"></i><b>4.2.1</b> Prueba Dickey- Fuller (ADF) Series naturales</a></li>
+<li class="chapter" data-level="4.2.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#acf-y-pacf"><i class="fa fa-check"></i><b>4.2.2</b> ACF y PACF</a></li>
+<li class="chapter" data-level="4.2.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#diferenciación"><i class="fa fa-check"></i><b>4.2.3</b> Diferenciación</a></li>
+<li class="chapter" data-level="4.2.4" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas"><i class="fa fa-check"></i><b>4.2.4</b> Prueba Dickey- Fuller (ADF) Series diferenciadas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="métodos-de-suavizado.html"><a href="métodos-de-suavizado.html"><i class="fa fa-check"></i><b>5</b> Métodos de Suavizado</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="métodos-de-suavizado.html"><a href="métodos-de-suavizado.html#método-de-suavización-exponencial-simple"><i class="fa fa-check"></i><b>5.1</b> Método de Suavización Exponencial Simple</a></li>
+<li class="chapter" data-level="5.2" data-path="métodos-de-suavizado.html"><a href="métodos-de-suavizado.html#metodo-de-holt-winters"><i class="fa fa-check"></i><b>5.2</b> Método de Holt-Winters</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html"><i class="fa fa-check"></i><b>6</b> Metodología Box-jenkins</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html#identificacion-del-modelo"><i class="fa fa-check"></i><b>6.1</b> Identificacion del modelo</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>7</b> Referencias</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Pronóstico De Índices Financieros</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="metodología-box-jenkins" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Metodología Box-jenkins<a href="metodología-box-jenkins.html#metodología-box-jenkins" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>La metodología Box-Jenkins es una metodología ampliamente usada en series de tiempo y se refiere a un conjunto de procedimientos para identificar, ajustar y verificar los modelos ARIMA con los datos en la serie de tiempo.</p>
+<p>Esta metodología se divide en:</p>
+<ol style="list-style-type: decimal">
+<li><p>Identificación del modelo: Es aqui donde se busca identificar la estructura natural de la serie de tiempo. Se deben identificar comportamientos de estacionaridad, en caso de ausencia de la misma, evaluar tecnicas como la diferenciación, identificar el orden de los componentes autoregresivos (AR) y de media móvil (MA), del modelo ARMA o ARIMA de ser necesario.</p></li>
+<li><p>Estimación del modelo: Es en este punto en el cual una vez se ha identificado el modelo ideal, se estiman los parametros del modelo y a su vez se revisa el comportamiento de los residuos, con el fin de identificar si existe o no patrones significativos.</p></li>
+<li><p>Diagnostico y Pronostico: Es en este punto donde se evalua la validez del modelo construido y se utiliza para realizar pronosticos.</p></li>
+</ol>
+<p>Para llevar a cabo esta metodología consideramos relevante hacer ciertas definiciones:</p>
+<p><strong>Modelo Autoregresivos (AR):</strong></p>
+<p>Un modelo autoregresivo de orden <em>p</em> toma la siguiente forma:</p>
+<p><span class="math display">\[\begin{align*}
+{Y}_{t} = \phi_{0}+\phi_{1}{Y}_{t-1}+\phi_{2}{Y}_{t-2}+...+ \phi_{p}{Y}_{t-p} + \epsilon_{t}
+\end{align*}\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><p><span class="math inline">\({Y}_{t}\)</span>= Variable de respuesta (dependiente) en el tiempo t.</p></li>
+<li><p><span class="math inline">\({Y}_{t-1},{Y}_{t-2},...,{Y}_{t-p}\)</span>= Variable de respuesta en los retrasos t-1, t-2, t-p que desempeñan la funcion de variables independientes.</p></li>
+<li><p><span class="math inline">\(\phi_{0}, \phi_{1}, \phi_{2},\phi_{p}\)</span>= Coeficientes que seran estimados.</p></li>
+<li><p><span class="math inline">\(\epsilon_{t}\)</span>= Término de error en el tiempo t (Representa los efectos de las variables que no explica el modelo)</p></li>
+</ul>
+<p><strong>Modelo de Promedio Móvil (MA):</strong></p>
+<p>Un modelo de promedio móvil de orden <em>q</em> toma la siguiente forma:</p>
+<p><span class="math display">\[\begin{align*}
+{Y}_{t} = \mu - \omega_{1}\epsilon_{t-1}-\omega_{2}\epsilon_{t-2} - \omega_{q}\epsilon_{t-q} + \epsilon_{t}
+\end{align*}\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><p><span class="math inline">\({Y}_{t}\)</span>= Variable de respuesta (dependiente) en el tiempo t.</p></li>
+<li><p><span class="math inline">\(\mu\)</span>= media constante en el proceso</p></li>
+<li><p><span class="math inline">\(\omega_{0}, \omega_{1}, \omega_{2},\phi_{p}\)</span>= Coeficientes que seran estimados.</p></li>
+<li><p><span class="math inline">\(\epsilon_{t}\)</span>= Término de error en el tiempo t</p></li>
+<li><p><span class="math inline">\(\epsilon_{t-1}, \epsilon_{t-2}, \epsilon_{t-q}\)</span>= Errores en periodos anteriores al tiempo t incorporados en la respuesta <span class="math inline">\(Y_t\)</span>.</p></li>
+</ul>
+<p>Los modelos de promedio móvil MA(q) proporcionan pronósticos de Y con base en una combinación lineal de un número finito de errores pasados, mientras que los modelos autorregresivos (p) pronóstican a Y como una función lineal de un número finito de valores anteriores de Y.</p>
+<p><strong>Modelo de PromedioS Móviles Autoregresivos (ARMA) :</strong></p>
+<p>Un modelo ARMA (p,q) tiene la siguiente forma:</p>
+<p><span class="math display">\[\begin{align*}
+{Y}_{t} = \phi_{0}+\phi_{1}{Y}_{t-1}+\phi_{2}{Y}_{t-2}+...+ \phi_{p}{Y}_{t-p} + \epsilon_{t} - \omega_{1}\epsilon_{t-1}-\omega_{2}\epsilon_{t-2} - \omega_{q}\epsilon_{t-q}
+\end{align*}\]</span></p>
+<p>Los modelos ARMA(p,q) describen el comportamiento de series de tiempo estacionarias. Cuando q=0 el modelo se convierte en un modelo autorregresivo de orden p y cuando p=0 el modelo es de promedios moviles de orden q.</p>
+<p><strong>Modelo Autoregresivo Integrado de Promedio Móvil (ARIMA) :</strong></p>
+<p>Imaginemos la situación en la cual no se cumple el supuesto de estacionariedad. Nace entonces la opcion de utilizar un modelo ARMA pero sobre una serie diferenciada, en la cual se busca que la serie varie al rededor de un nivel fijo y las autocorrelaciones desaparezcan con rapidez.</p>
+<p>La notacion de un modelo ARIMA(p,d,q) se utiliza para indicar los modelos para series de tiempo estacionarias (d=0), como para las no estacionarias (d&gt;0).</p>
+<p>Se debe tener en cuenta que a la hora de seleccionar un modelo es importante cumplir con el <strong>Principio de Parsimonia</strong> que se traduce en escoger el modelo menos complejo.</p>
+<p>Una vez se han hecho los anteriores definiciones podemos comenzar a aplicar la metodología en los precios de cierre del top 10 de las acciones que cotizan en el indice S&amp;P 500.</p>
+<div id="identificacion-del-modelo" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Identificacion del modelo<a href="metodología-box-jenkins.html#identificacion-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Como lo vimos en las ultimas unidades de este bookdown, se hicieron la respectiva prueba adf (Test Dicky Fuller Aumentada), con el fin de identificar las series que eran estacionarias o no. Este nos dio como resultado que 9 de las 10 series evaluadas no eran estacionarias por lo cual se requirió hacer una diferenciacion en una unidad para las 9 series no estacionarias.</p>
+<p>Se continuo evaluando de nuevo el test adf, en el cual ya nos sugirio que contabamos con series estacionarias.</p>
+<p>En este punto retomamos el desarrollo del ejercicio, en donde identificaremos el orden autorregresivo y de media móvil a partir del uso de las gráficas de funciones de autocorrelación (FAC) y la función de autocorrelación parcial(PACF).</p>
+<p>Se acompañó con el uso de la función <strong>auto.arima()</strong> en R, que selecciona automáticamente el modelo ARIMA óptimo. En el explora diferentes combinaciones de parámetros y selecciona el modelo que minimiza un criterio de información como el AIC y el BIC.</p>
+<p><strong>Funciones de autocorrelación en las series diferenciadas</strong></p>
+<p><img src="stocks-predictions_files/figure-html/06-3-1.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-2.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-3.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-4.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-5.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-6.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-7.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-8.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-9.png" width="672" />
+## Estimación del modelo</p>
+<p><strong>Busqueda de paramétros AR y MA automáticamente</strong></p>
+<pre><code>## Acción:  AAPL 
+## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-1.png" width="672" /></p>
+<pre><code>## Acción:  MSFT 
+## Modelo Sugerido:  ARIMA(2,0,0) with zero mean</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-2.png" width="672" /></p>
+<pre><code>## Acción:  AMZN 
+## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-3.png" width="672" /></p>
+<pre><code>## Acción:  NVDA 
+## Modelo Sugerido:  ARIMA(0,1,1)</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-4.png" width="672" /></p>
+<pre><code>## Acción:  GOOGL 
+## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-5.png" width="672" /></p>
+<pre><code>## Acción:  BRK-B 
+## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-6.png" width="672" /></p>
+<pre><code>## Acción:  GOOG 
+## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-7.png" width="672" /></p>
+<pre><code>## Acción:  META 
+## Modelo Sugerido:  ARIMA(3,1,1)</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-8.png" width="672" /></p>
+<pre><code>## Acción:  UNH 
+## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-4-9.png" width="672" /></p>
+<p><strong>Pruebas de diagnóstico en los residuos del modelo</strong></p>
+<pre><code>## Acción:  AAPL</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-1.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,0) with zero mean
+## Q* = 6.6899, df = 10, p-value = 0.7544
+## 
+## Model df: 0.   Total lags used: 10
+## 
+## Acción:  MSFT</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-2.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(2,0,0) with zero mean
+## Q* = 10.413, df = 8, p-value = 0.2373
+## 
+## Model df: 2.   Total lags used: 10
+## 
+## Acción:  AMZN</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-3.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,0) with zero mean
+## Q* = 4.492, df = 10, p-value = 0.9224
+## 
+## Model df: 0.   Total lags used: 10
+## 
+## Acción:  NVDA</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-4.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,1,1)
+## Q* = 11.67, df = 9, p-value = 0.2326
+## 
+## Model df: 1.   Total lags used: 10
+## 
+## Acción:  GOOGL</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-5.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,0) with zero mean
+## Q* = 6.1087, df = 10, p-value = 0.806
+## 
+## Model df: 0.   Total lags used: 10
+## 
+## Acción:  BRK-B</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-6.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,0) with zero mean
+## Q* = 2.3277, df = 10, p-value = 0.9932
+## 
+## Model df: 0.   Total lags used: 10
+## 
+## Acción:  GOOG</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-7.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,0) with zero mean
+## Q* = 6.3045, df = 10, p-value = 0.7891
+## 
+## Model df: 0.   Total lags used: 10
+## 
+## Acción:  META</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-8.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(3,1,1)
+## Q* = 6.446, df = 6, p-value = 0.3751
+## 
+## Model df: 4.   Total lags used: 10
+## 
+## Acción:  UNH</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-5-9.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,0,0) with zero mean
+## Q* = 8.7559, df = 10, p-value = 0.5554
+## 
+## Model df: 0.   Total lags used: 10</code></pre>
+<p><strong>Identificacion de cambios en media para cada serie</strong></p>
+<pre><code>## Acción:  AAPL 
+## Cambio en media:  253</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-1.png" width="672" /></p>
+<pre><code>## Acción:  MSFT 
+## Cambio en media:  328</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-2.png" width="672" /></p>
+<pre><code>## Acción:  AMZN 
+## Cambio en media:  16</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-3.png" width="672" /></p>
+<pre><code>## Acción:  NVDA 
+## Cambio en media:  15</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-4.png" width="672" /></p>
+<pre><code>## Acción:  GOOGL 
+## Cambio en media:  2</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-5.png" width="672" /></p>
+<pre><code>## Acción:  BRK-B 
+## Cambio en media:  4</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-6.png" width="672" /></p>
+<pre><code>## Acción:  GOOG 
+## Cambio en media:  2</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-7.png" width="672" /></p>
+<pre><code>## Acción:  META 
+## Cambio en media:  35</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-8.png" width="672" /></p>
+<pre><code>## Acción:  UNH 
+## Cambio en media:  4</code></pre>
+<p><img src="stocks-predictions_files/figure-html/06-6-9.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="métodos-de-suavizado.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/ingadrianr/stocks_predictions/edit/main/06-BoxJenkins.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["stocks-predictions.pdf", "stocks-predictions.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

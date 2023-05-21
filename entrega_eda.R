@@ -546,3 +546,6 @@ ggplot(data = data.frame(tiempo = time(ts_data), Valor = ts_data)) +
 
 #fechas_futuras <- seq(max(precios$date) + 1, length = 7, by = 1)
 #pronostico <- predict(lm_model, newdata = data.frame(date = fechas_futuras))
+
+stock_data_omit_na <- na.omit(stock_data$diferenciado1)
+
