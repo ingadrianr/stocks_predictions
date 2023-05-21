@@ -103,6 +103,7 @@
 <li class="chapter" data-level="6" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html"><i class="fa fa-check"></i><b>6</b> Metodología Box-jenkins</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html#identificacion-del-modelo"><i class="fa fa-check"></i><b>6.1</b> Identificacion del modelo</a></li>
+<li class="chapter" data-level="6.2" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html#estimacion-del-modelo"><i class="fa fa-check"></i><b>6.2</b> Estimacion del modelo</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>7</b> Referencias</a></li>
 </ul>
@@ -176,8 +177,10 @@
 <p>En este punto retomamos el desarrollo del ejercicio, en donde identificaremos el orden autorregresivo y de media móvil a partir del uso de las gráficas de funciones de autocorrelación (FAC) y la función de autocorrelación parcial(PACF).</p>
 <p>Se acompañó con el uso de la función <strong>auto.arima()</strong> en R, que selecciona automáticamente el modelo ARIMA óptimo. En el explora diferentes combinaciones de parámetros y selecciona el modelo que minimiza un criterio de información como el AIC y el BIC.</p>
 <p><strong>Funciones de autocorrelación en las series diferenciadas</strong></p>
-<p><img src="stocks-predictions_files/figure-html/06-3-1.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-2.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-3.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-4.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-5.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-6.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-7.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-8.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-9.png" width="672" />
-## Estimación del modelo</p>
+<p><img src="stocks-predictions_files/figure-html/06-3-1.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-2.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-3.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-4.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-5.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-6.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-7.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-8.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-9.png" width="672" /></p>
+</div>
+<div id="estimacion-del-modelo" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Estimacion del modelo<a href="metodología-box-jenkins.html#estimacion-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>Busqueda de paramétros AR y MA automáticamente</strong></p>
 <pre><code>## Acción:  AAPL 
 ## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
@@ -298,31 +301,31 @@
 ## Model df: 0.   Total lags used: 10</code></pre>
 <p><strong>Identificacion de cambios en media para cada serie</strong></p>
 <pre><code>## Acción:  AAPL 
-## Cambio en media:  253</code></pre>
+## Cambio en media en el día:  253</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-1.png" width="672" /></p>
 <pre><code>## Acción:  MSFT 
-## Cambio en media:  328</code></pre>
+## Cambio en media en el día:  328</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-2.png" width="672" /></p>
 <pre><code>## Acción:  AMZN 
-## Cambio en media:  16</code></pre>
+## Cambio en media en el día:  16</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-3.png" width="672" /></p>
 <pre><code>## Acción:  NVDA 
-## Cambio en media:  15</code></pre>
+## Cambio en media en el día:  15</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-4.png" width="672" /></p>
 <pre><code>## Acción:  GOOGL 
-## Cambio en media:  2</code></pre>
+## Cambio en media en el día:  2</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-5.png" width="672" /></p>
 <pre><code>## Acción:  BRK-B 
-## Cambio en media:  4</code></pre>
+## Cambio en media en el día:  4</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-6.png" width="672" /></p>
 <pre><code>## Acción:  GOOG 
-## Cambio en media:  2</code></pre>
+## Cambio en media en el día:  2</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-7.png" width="672" /></p>
 <pre><code>## Acción:  META 
-## Cambio en media:  35</code></pre>
+## Cambio en media en el día:  35</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-8.png" width="672" /></p>
 <pre><code>## Acción:  UNH 
-## Cambio en media:  4</code></pre>
+## Cambio en media en el día:  4</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-9.png" width="672" /></p>
 
 </div>

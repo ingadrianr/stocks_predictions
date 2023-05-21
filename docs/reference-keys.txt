@@ -18,3 +18,4 @@ método-de-suavización-exponencial-simple
 metodo-de-holt-winters
 metodología-box-jenkins
 identificacion-del-modelo
+estimacion-del-modelo

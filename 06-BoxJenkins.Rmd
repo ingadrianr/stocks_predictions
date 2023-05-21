@@ -144,7 +144,10 @@ for (i in unique(symbols_no_estacionarios)) {
 }
 
 ```
-## Estimación del modelo
+
+
+
+## Estimacion del modelo
 
 **Busqueda de paramétros AR y MA automáticamente**
 
