@@ -19,3 +19,6 @@ metodo-de-holt-winters
 metodología-box-jenkins
 identificacion-del-modelo
 estimacion-del-modelo
+modelo-autoregresivos-ar
+modelo-de-promedio-móvil-ma
+level3title

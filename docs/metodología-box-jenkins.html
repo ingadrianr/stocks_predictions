@@ -23,7 +23,7 @@
 <meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
 
 
-<meta name="date" content="2023-05-21" />
+<meta name="date" content="2023-05-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,70 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -133,7 +197,9 @@
 <li><p>Diagnostico y Pronostico: Es en este punto donde se evalua la validez del modelo construido y se utiliza para realizar pronosticos.</p></li>
 </ol>
 <p>Para llevar a cabo esta metodología consideramos relevante hacer ciertas definiciones:</p>
-<p><strong>Modelo Autoregresivos (AR):</strong></p>
+<h3>
+Modelo Autoregresivos (AR)
+</h3>
 <p>Un modelo autoregresivo de orden <em>p</em> toma la siguiente forma:</p>
 <p><span class="math display">\[\begin{align*}
 {Y}_{t} = \phi_{0}+\phi_{1}{Y}_{t-1}+\phi_{2}{Y}_{t-2}+...+ \phi_{p}{Y}_{t-p} + \epsilon_{t}
@@ -145,7 +211,9 @@
 <li><p><span class="math inline">\(\phi_{0}, \phi_{1}, \phi_{2},\phi_{p}\)</span>= Coeficientes que seran estimados.</p></li>
 <li><p><span class="math inline">\(\epsilon_{t}\)</span>= Término de error en el tiempo t (Representa los efectos de las variables que no explica el modelo)</p></li>
 </ul>
-<p><strong>Modelo de Promedio Móvil (MA):</strong></p>
+<h3>
+Modelo de Promedio Móvil (MA)
+</h3>
 <p>Un modelo de promedio móvil de orden <em>q</em> toma la siguiente forma:</p>
 <p><span class="math display">\[\begin{align*}
 {Y}_{t} = \mu - \omega_{1}\epsilon_{t-1}-\omega_{2}\epsilon_{t-2} - \omega_{q}\epsilon_{t-q} + \epsilon_{t}
@@ -159,13 +227,17 @@
 <li><p><span class="math inline">\(\epsilon_{t-1}, \epsilon_{t-2}, \epsilon_{t-q}\)</span>= Errores en periodos anteriores al tiempo t incorporados en la respuesta <span class="math inline">\(Y_t\)</span>.</p></li>
 </ul>
 <p>Los modelos de promedio móvil MA(q) proporcionan pronósticos de Y con base en una combinación lineal de un número finito de errores pasados, mientras que los modelos autorregresivos (p) pronóstican a Y como una función lineal de un número finito de valores anteriores de Y.</p>
-<p><strong>Modelo de PromedioS Móviles Autoregresivos (ARMA) :</strong></p>
+<h3>
+Modelo de Promedios Móviles Autoregresivos (ARMA)
+</h3>
 <p>Un modelo ARMA (p,q) tiene la siguiente forma:</p>
 <p><span class="math display">\[\begin{align*}
 {Y}_{t} = \phi_{0}+\phi_{1}{Y}_{t-1}+\phi_{2}{Y}_{t-2}+...+ \phi_{p}{Y}_{t-p} + \epsilon_{t} - \omega_{1}\epsilon_{t-1}-\omega_{2}\epsilon_{t-2} - \omega_{q}\epsilon_{t-q}
 \end{align*}\]</span></p>
 <p>Los modelos ARMA(p,q) describen el comportamiento de series de tiempo estacionarias. Cuando q=0 el modelo se convierte en un modelo autorregresivo de orden p y cuando p=0 el modelo es de promedios moviles de orden q.</p>
-<p><strong>Modelo Autoregresivo Integrado de Promedio Móvil (ARIMA) :</strong></p>
+<h3>
+Modelo Autoregresivo Integrado de Promedio Móvil (ARIMA)
+</h3>
 <p>Imaginemos la situación en la cual no se cumple el supuesto de estacionariedad. Nace entonces la opcion de utilizar un modelo ARMA pero sobre una serie diferenciada, en la cual se busca que la serie varie al rededor de un nivel fijo y las autocorrelaciones desaparezcan con rapidez.</p>
 <p>La notacion de un modelo ARIMA(p,d,q) se utiliza para indicar los modelos para series de tiempo estacionarias (d=0), como para las no estacionarias (d&gt;0).</p>
 <p>Se debe tener en cuenta que a la hora de seleccionar un modelo es importante cumplir con el <strong>Principio de Parsimonia</strong> que se traduce en escoger el modelo menos complejo.</p>
@@ -176,12 +248,49 @@
 <p>Se continuo evaluando de nuevo el test adf, en el cual ya nos sugirio que contabamos con series estacionarias.</p>
 <p>En este punto retomamos el desarrollo del ejercicio, en donde identificaremos el orden autorregresivo y de media móvil a partir del uso de las gráficas de funciones de autocorrelación (FAC) y la función de autocorrelación parcial(PACF).</p>
 <p>Se acompañó con el uso de la función <strong>auto.arima()</strong> en R, que selecciona automáticamente el modelo ARIMA óptimo. En el explora diferentes combinaciones de parámetros y selecciona el modelo que minimiza un criterio de información como el AIC y el BIC.</p>
-<p><strong>Funciones de autocorrelación en las series diferenciadas</strong></p>
+<h3>
+<center>
+Funciones de autocorrelación en las series diferenciadas
+</center>
+</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="metodología-box-jenkins.html#cb1-1" aria-hidden="true" tabindex="-1"></a>symbols_no_estacionarios <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(precios<span class="sc">$</span>symbol), <span class="st">&quot;XOM&quot;</span>)</span>
+<span id="cb1-2"><a href="metodología-box-jenkins.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.1</span>)</span>
+<span id="cb1-3"><a href="metodología-box-jenkins.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="metodología-box-jenkins.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(symbols_no_estacionarios)) {</span>
+<span id="cb1-5"><a href="metodología-box-jenkins.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> i, ]</span>
+<span id="cb1-6"><a href="metodología-box-jenkins.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
+<span id="cb1-7"><a href="metodología-box-jenkins.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_data_omit_na)</span>
+<span id="cb1-8"><a href="metodología-box-jenkins.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-9"><a href="metodología-box-jenkins.html#cb1-9" aria-hidden="true" tabindex="-1"></a>  stock_acf <span class="ot">&lt;-</span> <span class="fu">acf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-10"><a href="metodología-box-jenkins.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  stock_pacf <span class="ot">&lt;-</span> <span class="fu">pacf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-11"><a href="metodología-box-jenkins.html#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-12"><a href="metodología-box-jenkins.html#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1-13"><a href="metodología-box-jenkins.html#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_acf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;ACF &quot;</span>, i,<span class="st">&quot; con ndif=1&quot;</span>),<span class="at">cex.main =</span> <span class="fl">0.5</span>)</span>
+<span id="cb1-14"><a href="metodología-box-jenkins.html#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_pacf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;PACF &quot;</span>, i,<span class="st">&quot; con ndif=1&quot;</span>), <span class="at">cex.main =</span> <span class="fl">0.5</span>)</span>
+<span id="cb1-15"><a href="metodología-box-jenkins.html#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/06-3-1.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-2.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-3.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-4.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-5.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-6.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-7.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-8.png" width="672" /><img src="stocks-predictions_files/figure-html/06-3-9.png" width="672" /></p>
 </div>
 <div id="estimacion-del-modelo" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Estimacion del modelo<a href="metodología-box-jenkins.html#estimacion-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><strong>Busqueda de paramétros AR y MA automáticamente</strong></p>
+<h3>
+<center>
+Busqueda de paramétros AR y MA automáticamente
+</center>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="metodología-box-jenkins.html#cb2-1" aria-hidden="true" tabindex="-1"></a>symbols_no_estacionarios <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(precios<span class="sc">$</span>symbol), <span class="st">&quot;XOM&quot;</span>)</span>
+<span id="cb2-2"><a href="metodología-box-jenkins.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="metodología-box-jenkins.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(symbols_no_estacionarios)) {</span>
+<span id="cb2-4"><a href="metodología-box-jenkins.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> i, ]</span>
+<span id="cb2-5"><a href="metodología-box-jenkins.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
+<span id="cb2-6"><a href="metodología-box-jenkins.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_data_omit_na)</span>
+<span id="cb2-7"><a href="metodología-box-jenkins.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, i, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb2-8"><a href="metodología-box-jenkins.html#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="metodología-box-jenkins.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  modelo<span class="ot">&lt;-</span><span class="fu">auto.arima</span>(stock_ts)</span>
+<span id="cb2-10"><a href="metodología-box-jenkins.html#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Modelo Sugerido: &quot;</span>, modelo, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb2-11"><a href="metodología-box-jenkins.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-12"><a href="metodología-box-jenkins.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(modelo)</span>
+<span id="cb2-13"><a href="metodología-box-jenkins.html#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(stock_ts, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb2-14"><a href="metodología-box-jenkins.html#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
 ## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-1.png" width="672" /></p>
@@ -209,7 +318,21 @@
 <pre><code>## Acción:  UNH 
 ## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-9.png" width="672" /></p>
-<p><strong>Pruebas de diagnóstico en los residuos del modelo</strong></p>
+<h3>
+<center>
+Pruebas de diagnóstico en los residuos del modelo
+</center>
+</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="metodología-box-jenkins.html#cb12-1" aria-hidden="true" tabindex="-1"></a>symbols_no_estacionarios <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(precios<span class="sc">$</span>symbol), <span class="st">&quot;XOM&quot;</span>)</span>
+<span id="cb12-2"><a href="metodología-box-jenkins.html#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="metodología-box-jenkins.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(symbols_no_estacionarios)) {</span>
+<span id="cb12-4"><a href="metodología-box-jenkins.html#cb12-4" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> i, ]</span>
+<span id="cb12-5"><a href="metodología-box-jenkins.html#cb12-5" aria-hidden="true" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
+<span id="cb12-6"><a href="metodología-box-jenkins.html#cb12-6" aria-hidden="true" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_data_omit_na)</span>
+<span id="cb12-7"><a href="metodología-box-jenkins.html#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, i, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb12-8"><a href="metodología-box-jenkins.html#cb12-8" aria-hidden="true" tabindex="-1"></a>  modelo<span class="ot">&lt;-</span><span class="fu">auto.arima</span>(stock_ts)</span>
+<span id="cb12-9"><a href="metodología-box-jenkins.html#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">checkresiduals</span>(modelo)</span>
+<span id="cb12-10"><a href="metodología-box-jenkins.html#cb12-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-5-1.png" width="672" /></p>
 <pre><code>## 
@@ -299,7 +422,22 @@
 ## Q* = 8.7559, df = 10, p-value = 0.5554
 ## 
 ## Model df: 0.   Total lags used: 10</code></pre>
-<p><strong>Identificacion de cambios en media para cada serie</strong></p>
+<h3>
+<center>
+Identificacion de cambios en media para cada serie
+</center>
+</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="metodología-box-jenkins.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(symbols_no_estacionarios)) {</span>
+<span id="cb23-2"><a href="metodología-box-jenkins.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> i, ]</span>
+<span id="cb23-3"><a href="metodología-box-jenkins.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
+<span id="cb23-4"><a href="metodología-box-jenkins.html#cb23-4" aria-hidden="true" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_data_omit_na)</span>
+<span id="cb23-5"><a href="metodología-box-jenkins.html#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="metodología-box-jenkins.html#cb23-6" aria-hidden="true" tabindex="-1"></a>  mval<span class="ot">&lt;-</span><span class="fu">cpt.mean</span>(stock_ts,<span class="at">method =</span> <span class="st">&quot;AMOC&quot;</span>) </span>
+<span id="cb23-7"><a href="metodología-box-jenkins.html#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, i, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb23-8"><a href="metodología-box-jenkins.html#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Cambio en media en el día: &quot;</span>, <span class="fu">cpts</span>(mval), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb23-9"><a href="metodología-box-jenkins.html#cb23-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-10"><a href="metodología-box-jenkins.html#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mval, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">cpt.col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Valor&quot;</span>, <span class="at">cpt.width =</span> <span class="dv">4</span>, <span class="at">main =</span> <span class="st">&quot;default penalty&quot;</span>)</span>
+<span id="cb23-11"><a href="metodología-box-jenkins.html#cb23-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
 ## Cambio en media en el día:  253</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-6-1.png" width="672" /></p>

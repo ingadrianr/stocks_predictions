@@ -23,7 +23,7 @@
 <meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
 
 
-<meta name="date" content="2023-05-21" />
+<meta name="date" content="2023-05-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -167,6 +167,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html"><i class="fa fa-check"></i><b>6</b> Metodología Box-jenkins</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html#identificacion-del-modelo"><i class="fa fa-check"></i><b>6.1</b> Identificacion del modelo</a></li>
+<li class="chapter" data-level="6.2" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html#estimacion-del-modelo"><i class="fa fa-check"></i><b>6.2</b> Estimacion del modelo</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>7</b> Referencias</a></li>
 </ul>
@@ -300,44 +301,44 @@ Y_t = S_t + T_t + R_t
 <span id="cb16-10"><a href="análisis-exploratorio-de-datos.html#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb16-11"><a href="análisis-exploratorio-de-datos.html#cb16-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
-## ADF Estadística:  -2.05566854881785 
-## Valor p:  0.553122778288091 
+## ADF Estadística:  -2.05566855942946 
+## Valor p:  0.553122773812414 
 ## -----------------------
 ## Acción:  MSFT 
-## ADF Estadística:  -1.26008325178021 
-## Valor p:  0.888678271671602 
+## ADF Estadística:  -1.26008325939587 
+## Valor p:  0.888678268459535 
 ## -----------------------
 ## Acción:  AMZN 
-## ADF Estadística:  -2.57789631611209 
-## Valor p:  0.332861799653268 
+## ADF Estadística:  -2.57789633782838 
+## Valor p:  0.332861790493946 
 ## -----------------------
 ## Acción:  NVDA 
-## ADF Estadística:  -1.16775576501797 
-## Valor p:  0.910561973384199 
+## ADF Estadística:  -1.16775576880205 
+## Valor p:  0.910561972773864 
 ## -----------------------
 ## Acción:  GOOGL 
-## ADF Estadística:  -1.85896174733311 
-## Valor p:  0.636088172532902 
+## ADF Estadística:  -1.85896180838685 
+## Valor p:  0.636088146782154 
 ## -----------------------
 ## Acción:  BRK-B 
-## ADF Estadística:  -1.63954392454958 
-## Valor p:  0.728632436555145 
+## ADF Estadística:  -1.63954392397899 
+## Valor p:  0.728632436795802 
 ## -----------------------
 ## Acción:  GOOG 
-## ADF Estadística:  -1.88587340131609 
-## Valor p:  0.62473759407997 
+## ADF Estadística:  -1.88587338232485 
+## Valor p:  0.624737602089945 
 ## -----------------------
 ## Acción:  META 
-## ADF Estadística:  -1.69491663799333 
-## Valor p:  0.705277784013442 
+## ADF Estadística:  -1.69491663189236 
+## Valor p:  0.70527778658666 
 ## -----------------------
 ## Acción:  UNH 
-## ADF Estadística:  -2.58340138363729 
-## Valor p:  0.330539917063923 
+## ADF Estadística:  -2.58340139336718 
+## Valor p:  0.330539912960132 
 ## -----------------------
 ## Acción:  XOM 
-## ADF Estadística:  -3.45252088823684 
-## Valor p:  0.0475229915156887 
+## ADF Estadística:  -3.45252087706893 
+## Valor p:  0.0475229925895258 
 ## -----------------------</code></pre>
 <p>Si establecemos como valor p de referencia el 0.05, entonces nos sugiere que 9 de las 10 empresas (acciones) evaluadas son no estacionarias, ya que su respecto valor p, supera a 0.05. La única empresa en la cual se encuentra evidencia estadística para decir que es estacionaria es <b>XOM</b>.</p>
 <p>Como la conclusión de la prueba nos permite admitir un proceso de diferenciación, podemos pensar si los gráficos de series iniciales sugerían una tendencia así sea leve por ejemplo que hizo que no se consideraran como series estacionarias. Otra forma de evaluar estos comportamientos, es a partir de herramientas grafica como la función de autocorrelación (FAC) y la función de autocorrelación parcial (PFAC) se comportan, se evaluarán a continuación.</p>
@@ -400,39 +401,39 @@ Y_t = S_t + T_t + R_t
 <span id="cb21-13"><a href="análisis-exploratorio-de-datos.html#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb21-14"><a href="análisis-exploratorio-de-datos.html#cb21-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
-## ADF Estadística:  -6.66340145927991 
+## ADF Estadística:  -6.66340152569488 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  MSFT 
-## ADF Estadística:  -7.21412735449904 
+## ADF Estadística:  -7.21412737488395 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  AMZN 
-## ADF Estadística:  -6.74472720274422 
+## ADF Estadística:  -6.74472722586052 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  NVDA 
-## ADF Estadística:  -6.01198490395914 
+## ADF Estadística:  -6.01198490555232 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  GOOGL 
-## ADF Estadística:  -8.12030932167298 
+## ADF Estadística:  -8.12030937935677 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  BRK-B 
-## ADF Estadística:  -6.44380476381158 
+## ADF Estadística:  -6.44380475724663 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  GOOG 
-## ADF Estadística:  -8.095317497104 
+## ADF Estadística:  -8.09531746383223 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  META 
-## ADF Estadística:  -7.55972583872282 
+## ADF Estadística:  -7.55972580487128 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  UNH 
-## ADF Estadística:  -7.36858131320366 
+## ADF Estadística:  -7.368581336344 
 ## Valor p:  0.01 
 ## -----------------------</code></pre>
 <p>Una vez se lleva a cabo la diferenciación de primer orden sobre las 9 empresas (restantes) y se realiza la prueba dickey-fuller, encontramos que el valor p en todos los caso es menor a 0.05, lo que permite rechazar H0 y considerar que existe evidencia estadística para pensar que las series son estacionarias.</p>
