@@ -549,3 +549,71 @@ ggplot(data = data.frame(tiempo = time(ts_data), Valor = ts_data)) +
 
 stock_data_omit_na <- na.omit(stock_data$diferenciado1)
 
+######################################################################
+################################# Modelo Prophet #####################
+######################################################################
+'''
+Prophet es un procedimiento para pronosticar datos de series temporales
+basado en un modelo aditivo en el que las tendencias no lineales 
+se ajustan a la estacionalidad anual, semanal y diaria, además 
+de los efectos de las vacaciones. Funciona mejor con series 
+temporales que tienen fuertes efectos estacionales y varias 
+temporadas de datos históricos. Prophet es resistente a los datos faltantes y los cambios en la tendencia, y por lo general maneja bien los valores atípicos.
+
+Este modelo puede ser usado tanto para series univariadas o multivariadas.
+Con los modelos de series temporales univariadas, la idea es hacer predicciones
+de valores futuros basadas únicamente en las tendencias y la estacionalidad de los 
+datos pasados de la variable objetivo (la que tratamos de pronosticar) y nada más.
+Los modelos multivariantes son una extensión de eso, donde la entrada puede ser múltiples series de tiempo.
+
+La cuestión es que, con bastante frecuencia, para responder preguntas comerciales, no busca el mejor modelo con una precisión que le permitiría ganar los desafíos del aprendizaje automático, sino solo una estimación lo suficientemente buena que permita una decisión basada en datos.
+
+Aquí es donde entra en juego el Profeta de Facebook. Es un algoritmo listo para usar, fácil de configurar y que brinda resultados decentes con muy poco esfuerzo.
+'''
+
+#install.packages("prophet")
+library(prophet)
+
+
+#Detección automática de puntos de cambio en Prophet
+
+
+# Prophet detecta los puntos de cambio especificando primero 
+# una gran cantidad de puntos de cambio potenciales en los que 
+# se permite cambiar la velocidad. Luego, pone un escaso 
+# adelanto en las magnitudes de los cambios de tasa 
+# (equivalente a la regularización L1); 
+# esto significa esencialmente que Prophet tiene una gran cantidad 
+# de lugares posibles donde la tasa puede cambiar, pero usará 
+# la menor cantidad posible.
+
+
+data <- data.frame(date = stock_apple$date, close = stock_apple$close)
+
+# Renombrar las columnas a "ds" y "y" (requerido por prophet)
+colnames(data) <- c("ds", "y")
+
+# Crear un objeto modelo de prophet
+model <- prophet(data,  daily.seasonality = TRUE)
+
+# Realizar pronósticos con prophet
+future <- make_future_dataframe(model, periods = 10)  # 10 periodos de pronóstico
+forecast <- predict(model, future)
+
+library(ggplot2)
+
+plot(model, forecast) +
+  labs(title = "Serie APPL mediante PROPHET",
+       x = "Fecha",
+       y = "Precio Cierre")
+# xlab("Fecha")
+# ylab("Precio Cierre")
+
+
+### Grafico de descomposicion
+
+prophet_plot_components(model, forecast)
+
+
+prophet:::plot_yearly(model)
+
