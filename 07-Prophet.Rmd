@@ -1,0 +1,67 @@
+```{r 07-00, include=FALSE}
+library(tidyquant)
+library(TTR)
+library(ggplot2)
+library(tidyquant)
+library(tidyverse)
+library(ggplot2)
+library(scales)
+library(tseries)
+library(stats)
+library(dplyr)
+library(ggpubr)
+library(forecast)
+library(changepoint)
+library(prophet)
+```
+
+# Modelo Prophet
+
+
+Prophet es un procedimiento para pronosticar datos de series temporales basado en un modelo aditivo en el que las tendencias no lineales  se ajustan a la estacionalidad anual, semanal y diaria, además  de los efectos de las vacaciones. Funciona mejor con series  temporales que tienen fuertes efectos estacionales y varias  temporadas de datos históricos. Prophet es resistente a los datos faltantes y los cambios en la tendencia, y por lo general maneja bien los valores atípicos.
+
+Este modelo puede ser usado tanto para series univariadas o multivariadas.
+Con los modelos de series temporales univariadas, la idea es hacer predicciones de valores futuros basadas únicamente en las tendencias y la estacionalidad de los  datos pasados de la variable objetivo (la que tratamos de pronosticar) y nada más.
+
+Los modelos multivariantes son una extensión de eso, donde la entrada puede ser múltiples series de tiempo.
+
+La cuestión es que, con bastante frecuencia, para responder preguntas comerciales, no busca el mejor modelo con una precisión que le permitiría ganar los desafíos del aprendizaje automático, sino solo una estimación lo suficientemente buena que permita una decisión basada en datos.
+
+Aquí es donde entra en juego el modelo prophet de Facebook. Es un algoritmo listo para usar, fácil de configurar y que brinda resultados decentes con muy poco esfuerzo.
+
+```{r 07-1, warning=FALSE, message=FALSE, echo=FALSE}
+empresas = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+precios <- tidyquant::tq_get(empresas, from = "2022-01-01", to = "2023-04-30", get = "stock.prices")
+```
+
+```{r 07-2, warning=FALSE, message=FALSE,echo=FALSE}
+
+precios <- precios %>% 
+  group_by(symbol) %>% 
+  mutate(diferenciado1 = c(NA, diff(close, differences = 1)[-length(close)]))
+```
+
+```{r 07-3, warning=FALSE, message=FALSE}
+data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
+
+
+for (i in unique(precios$symbol)) {
+  stock_i <- subset(data, symbol == i)
+  stock_i <- subset(stock_i, select = -symbol)
+  colnames(stock_i) <- c("ds", "y")
+  
+  model <- prophet(stock_i,  daily.seasonality = TRUE)
+  
+  # Realizar pronósticos con prophet
+  future <- make_future_dataframe(model, periods = 10) 
+  forecast <- predict(model, future)
+
+  plot(model, forecast) 
+  # +
+  # labs(title = paste("Modelo Prophet para",i),
+  #      x = "Fecha",
+  #      y = "Precio Cierre")
+  
+}
+
+```

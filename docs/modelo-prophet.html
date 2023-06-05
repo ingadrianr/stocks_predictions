@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Pronóstico De Índices Financieros</title>
-  <meta name="description" content="Page not found | Pronóstico De Índices Financieros" />
+  <title>7 Modelo Prophet | Pronóstico De Índices Financieros</title>
+  <meta name="description" content="7 Modelo Prophet | Pronóstico De Índices Financieros" />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Pronóstico De Índices Financieros" />
+  <meta property="og:title" content="7 Modelo Prophet | Pronóstico De Índices Financieros" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Pronóstico De Índices Financieros" />
+  <meta name="twitter:title" content="7 Modelo Prophet | Pronóstico De Índices Financieros" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="metodología-box-jenkins.html"/>
+<link rel="next" href="referencias.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -188,19 +188,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="modelo-prophet" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Modelo Prophet<a href="modelo-prophet.html#modelo-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Prophet es un procedimiento para pronosticar datos de series temporales basado en un modelo aditivo en el que las tendencias no lineales se ajustan a la estacionalidad anual, semanal y diaria, además de los efectos de las vacaciones. Funciona mejor con series temporales que tienen fuertes efectos estacionales y varias temporadas de datos históricos. Prophet es resistente a los datos faltantes y los cambios en la tendencia, y por lo general maneja bien los valores atípicos.</p>
+<p>Este modelo puede ser usado tanto para series univariadas o multivariadas.
+Con los modelos de series temporales univariadas, la idea es hacer predicciones de valores futuros basadas únicamente en las tendencias y la estacionalidad de los datos pasados de la variable objetivo (la que tratamos de pronosticar) y nada más.</p>
+<p>Los modelos multivariantes son una extensión de eso, donde la entrada puede ser múltiples series de tiempo.</p>
+<p>La cuestión es que, con bastante frecuencia, para responder preguntas comerciales, no busca el mejor modelo con una precisión que le permitiría ganar los desafíos del aprendizaje automático, sino solo una estimación lo suficientemente buena que permita una decisión basada en datos.</p>
+<p>Aquí es donde entra en juego el modelo prophet de Facebook. Es un algoritmo listo para usar, fácil de configurar y que brinda resultados decentes con muy poco esfuerzo.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="modelo-prophet.html#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> precios<span class="sc">$</span>date, <span class="at">close =</span> precios<span class="sc">$</span>close, <span class="at">symbol=</span>precios<span class="sc">$</span>symbol)</span>
+<span id="cb1-2"><a href="modelo-prophet.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="modelo-prophet.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="modelo-prophet.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
+<span id="cb1-5"><a href="modelo-prophet.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  stock_i <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, symbol <span class="sc">==</span> i)</span>
+<span id="cb1-6"><a href="modelo-prophet.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  stock_i <span class="ot">&lt;-</span> <span class="fu">subset</span>(stock_i, <span class="at">select =</span> <span class="sc">-</span>symbol)</span>
+<span id="cb1-7"><a href="modelo-prophet.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(stock_i) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ds&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb1-8"><a href="modelo-prophet.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-9"><a href="modelo-prophet.html#cb1-9" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">prophet</span>(stock_i,  <span class="at">daily.seasonality =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-10"><a href="modelo-prophet.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-11"><a href="modelo-prophet.html#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Realizar pronósticos con prophet</span></span>
+<span id="cb1-12"><a href="modelo-prophet.html#cb1-12" aria-hidden="true" tabindex="-1"></a>  future <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(model, <span class="at">periods =</span> <span class="dv">10</span>) </span>
+<span id="cb1-13"><a href="modelo-prophet.html#cb1-13" aria-hidden="true" tabindex="-1"></a>  forecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, future)</span>
+<span id="cb1-14"><a href="modelo-prophet.html#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="modelo-prophet.html#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(model, forecast) </span>
+<span id="cb1-16"><a href="modelo-prophet.html#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># +</span></span>
+<span id="cb1-17"><a href="modelo-prophet.html#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs(title = paste(&quot;Modelo Prophet para&quot;,i),</span></span>
+<span id="cb1-18"><a href="modelo-prophet.html#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#      x = &quot;Fecha&quot;,</span></span>
+<span id="cb1-19"><a href="modelo-prophet.html#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#      y = &quot;Precio Cierre&quot;)</span></span>
+<span id="cb1-20"><a href="modelo-prophet.html#cb1-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-21"><a href="modelo-prophet.html#cb1-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="metodología-box-jenkins.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -231,7 +256,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/ingadrianr/stocks_predictions/edit/main/%s",
+"link": "https://github.com/ingadrianr/stocks_predictions/edit/main/07-Prophet.Rmd",
 "text": "Edit"
 },
 "history": {

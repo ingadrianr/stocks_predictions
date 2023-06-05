@@ -22,3 +22,4 @@ estimacion-del-modelo
 modelo-autoregresivos-ar
 modelo-de-promedio-móvil-ma
 level3title
+modelo-prophet
