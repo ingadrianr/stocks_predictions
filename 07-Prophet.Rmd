@@ -13,6 +13,14 @@ library(ggpubr)
 library(forecast)
 library(changepoint)
 library(prophet)
+library(tidyverse)
+library(lubridate)
+library(tsibble)
+library(feasts)
+library(fable)
+library(fable.prophet)
+library(plotly)
+
 ```
 
 # Modelo Prophet
@@ -65,3 +73,5 @@ for (i in unique(precios$symbol)) {
 }
 
 ```
+
+

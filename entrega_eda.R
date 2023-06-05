@@ -37,7 +37,8 @@ library(ggplot2)
 library(scales)
 library(tseries)
 
-companias = c("AAPL", "MSFT", "AMZN", "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+companias = c("AAPL", "MSFT", "AMZN")
+              #"NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
 
 precios <- tq_get(companias,
                  from = "2022-01-01",
@@ -614,6 +615,71 @@ plot(model, forecast) +
 
 prophet_plot_components(model, forecast)
 
+data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
 
-prophet:::plot_yearly(model)
 
+windows()
+par(mfrow=c(4,3))
+
+
+for (i in unique(precios$symbol)) {
+  stock_i <- subset(data, symbol == i)
+  stock_i <- subset(stock_i, select = -symbol)
+  colnames(stock_i) <- c("ds", "y")
+  
+  model <- prophet(stock_i,  daily.seasonality = TRUE)
+  
+  # Realizar pronósticos con prophet
+  future <- make_future_dataframe(model, periods = 10) 
+  forecast <- predict(model, future)
+  
+  plot(model, forecast) +
+    labs(title = paste("Modelo Prophet para",i),
+         x = "Fecha",
+         y = "Precio Cierre")
+  
+}
+
+
+### Otra forma de hacerlo
+
+library(tidyverse)
+library(lubridate)
+library(tsibble)
+library(feasts)
+library(fable)
+library(fable.prophet)
+library(plotly)
+
+
+#stock_apple <- precios[precios$symbol == "AAPL", ]
+stock_apple=subset(precios, select = c("close", "date",'symbol'))
+
+stock_apple <- stock_apple %>% 
+  as_tsibble(index = date,key = symbol)
+
+stock_apple %>% 
+  autoplot(close)
+
+
+prophet(stock_apple)
+
+fit <- stock_apple %>% 
+  model(
+    Prophet        = prophet(close ~ growth("linear") + season("week", type = "additive")),
+    Prophet_auto = prophet(close),
+    ARIMA          = ARIMA(close),
+    ETS            = ETS(close)
+  )
+fit
+
+fit %>% 
+  select(Prophet, Prophet_auto) %>%
+  components() %>% 
+  autoplot()
+
+fc <- fit %>% 
+  forecast(h = 7)
+
+fc %>% 
+  autoplot(stock_apple)
