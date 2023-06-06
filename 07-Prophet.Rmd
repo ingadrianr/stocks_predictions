@@ -52,73 +52,72 @@ precios <- precios %>%
 ```
 
 ```{r 07-3, warning=FALSE, message=FALSE}
-'''
+# 
+# data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
+# 
+# stock_i <- subset(data, symbol == 'AAPL')
+# stock_i <- subset(stock_i, select = -symbol)
+# colnames(stock_i) <- c("ds", "y")
+# 
+# model <- prophet(stock_i,  daily.seasonality = TRUE)
+# 
+# 
+# # Realizar pronósticos con prophet
+# future <- make_future_dataframe(model, periods = 10) 
+# forecast <- predict(model, future)
+# 
+# plot(model, forecast) +
+#    labs(title = paste("Modelo Prophet para",'AAPL'),
+#   x = "Fecha",
+#   y = "Precio Cierre")
 
-data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
 
-stock_i <- subset(data, symbol == 'AAPL')
-stock_i <- subset(stock_i, select = -symbol)
-colnames(stock_i) <- c("ds", "y")
-
-model <- prophet(stock_i,  daily.seasonality = TRUE)
-
-
-# Realizar pronósticos con prophet
-future <- make_future_dataframe(model, periods = 10) 
-forecast <- predict(model, future)
-
-plot(model, forecast) +
-   labs(title = paste("Modelo Prophet para",'AAPL'),
-  x = "Fecha",
-  y = "Precio Cierre")
-
-'''
 ```
 
 
 ```{r 07-4, warning=FALSE, message=FALSE,echo=FALSE}
-'''
 
-data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
 
-stock_i <- subset(data, symbol == 'MSFT')
-stock_i <- subset(stock_i, select = -symbol)
-colnames(stock_i) <- c("ds", "y")
+# data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
+# 
+# stock_i <- subset(data, symbol == 'MSFT')
+# stock_i <- subset(stock_i, select = -symbol)
+# colnames(stock_i) <- c("ds", "y")
+# 
+# model <- prophet(stock_i,  daily.seasonality = TRUE)
+# 
+# # Realizar pronósticos con prophet
+# future <- make_future_dataframe(model, periods = 10) 
+# forecast <- predict(model, future)
+# 
+# plot(model, forecast) +
+#    labs(title = paste("Modelo Prophet para",'MSFT'),
+#   x = "Fecha",
+#   y = "Precio Cierre")
 
-model <- prophet(stock_i,  daily.seasonality = TRUE)
 
-# Realizar pronósticos con prophet
-future <- make_future_dataframe(model, periods = 10) 
-forecast <- predict(model, future)
-
-plot(model, forecast) +
-   labs(title = paste("Modelo Prophet para",'MSFT'),
-  x = "Fecha",
-  y = "Precio Cierre")
-
-'''
 ```
 
 ```{r 07-5, warning=FALSE, message=FALSE,echo=FALSE}
-'''
 
-data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
 
-stock_i <- subset(data, symbol == 'GOOGL')
-stock_i <- subset(stock_i, select = -symbol)
-colnames(stock_i) <- c("ds", "y")
-
-model <- prophet(stock_i,  daily.seasonality = TRUE)
-
-# Realizar pronósticos con prophet
-future <- make_future_dataframe(model, periods = 10) 
-forecast <- predict(model, future)
-
-plot(model, forecast) +
-   labs(title = paste("Modelo Prophet para",'GOOGL'),
-  x = "Fecha",
-  y = "Precio Cierre")
-'''
+# data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
+# 
+# stock_i <- subset(data, symbol == 'GOOGL')
+# stock_i <- subset(stock_i, select = -symbol)
+# colnames(stock_i) <- c("ds", "y")
+# 
+# model <- prophet(stock_i,  daily.seasonality = TRUE)
+# 
+# # Realizar pronósticos con prophet
+# future <- make_future_dataframe(model, periods = 10) 
+# forecast <- predict(model, future)
+# 
+# plot(model, forecast) +
+#    labs(title = paste("Modelo Prophet para",'GOOGL'),
+#   x = "Fecha",
+#   y = "Precio Cierre")
+# 
 
 ```
 
