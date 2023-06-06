@@ -652,24 +652,36 @@ library(fable.prophet)
 library(plotly)
 
 
-#stock_apple <- precios[precios$symbol == "AAPL", ]
-stock_apple=subset(precios, select = c("close", "date",'symbol'))
+stock_data <- ts(precios[precios$symbol == 'AAPL', "close"], frequency=5)
+stock_tsibble <- as_tsibble(stock_data)
+model <- stock_tsibble %>%
+  model(prophet = Prophet(close))
 
-stock_apple <- stock_apple %>% 
-  as_tsibble(index = date,key = symbol)
+forecast <- forecast(model, h = 10)
+autoplot(forecast)
+
+
+
+
+
+stock_apple=subset(precios, select = c("date","close" ,'symbol'))
+
+
+stock_apple <- as_tsibble(stock_apple,index = date,key = symbol)
 
 stock_apple %>% 
-  autoplot(close)
+  autoplot(diferenciado1)
+
+stock_apple <- fill_gaps(stock_apple)
 
 
 prophet(stock_apple)
 
 fit <- stock_apple %>% 
   model(
-    Prophet        = prophet(close ~ growth("linear") + season("week", type = "additive")),
-    Prophet_auto = prophet(close),
-    ARIMA          = ARIMA(close),
-    ETS            = ETS(close)
+    Prophet        = prophet(diferenciado1 ~ growth("linear") + season("week", type = "additive")),
+    Prophet_auto = prophet(diferenciado1),
+    ARIMA          = ARIMA(diferenciado1)
   )
 fit
 
@@ -683,3 +695,42 @@ fc <- fit %>%
 
 fc %>% 
   autoplot(stock_apple)
+
+
+fc %>% 
+  autoplot(stock_apple %>% filter_index("2023-03-01" ~ .), level = NULL)
+
+
+
+########################3333
+
+lax_passengers <- read.csv("https://raw.githubusercontent.com/mitchelloharawild/fable.prophet/master/data-raw/lax_passengers.csv")
+
+# Tidy and summarise the data for comparison of international and domestic passenger counts
+lax_passengers <- lax_passengers %>%
+  mutate(datetime = mdy_hms(ReportPeriod)) %>%
+  group_by(month = yearmonth(datetime), type = Domestic_International) %>%
+  summarise(passengers = sum(Passenger_Count)) %>%
+  ungroup()
+
+
+lax_passengers <- lax_passengers %>% 
+  as_tsibble(index = month, key = type)
+
+lax_passengers %>% 
+  autoplot(passengers)
+
+
+prophet(passengers ~ growth("linear") + season("year", type = "multiplicative"))
+
+
+fit <- lax_passengers %>% 
+  model(
+    Prophet        = prophet(passengers ~ growth("linear") + season("year", type = "multiplicative")),
+    `Prophet auto` = prophet(passengers),
+    ARIMA          = ARIMA(passengers),
+    ETS            = ETS(passengers),
+    Harmonic       = ARIMA(passengers ~ fourier(K = 3) + PDQ(0,0,0)),
+    SNAIVE         = SNAIVE(passengers)
+  )
+fit
