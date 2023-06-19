@@ -142,6 +142,8 @@ for (i in unique(symbols_no_estacionarios)) {
 
 ## Estimacion del modelo
 
+
+
 <h3><center> Busqueda de paramétros AR y MA automáticamente </center></h3>
 
 ```{r 06-4, warning=FALSE, message=FALSE}
@@ -149,7 +151,8 @@ symbols_no_estacionarios <- setdiff(unique(precios$symbol), "XOM")
 
 for (i in unique(symbols_no_estacionarios)) {
   stock_data <- precios[precios$symbol == i, ]
-  stock_data_omit_na <- na.omit(stock_data$diferenciado1)
+  #stock_data_omit_na <- na.omit(stock_data$diferenciado1)
+  stock_data_omit_na <- na.omit(stock_data$close)
   stock_ts <- ts(stock_data_omit_na)
   cat(paste("Acción: ", i, "\n"))
 
@@ -160,6 +163,8 @@ for (i in unique(symbols_no_estacionarios)) {
   lines(stock_ts, col = "blue")
 }
 ```
+
+
 
 <h3><center> Pruebas de diagnóstico en los residuos del modelo </center></h3>
 

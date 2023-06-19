@@ -379,3 +379,6 @@ for (i in unique(precios$symbol)){
 }
 
 ```
+
+
+

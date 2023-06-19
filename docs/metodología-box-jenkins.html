@@ -287,42 +287,43 @@ Busqueda de paramétros AR y MA automáticamente
 <span id="cb2-2"><a href="metodología-box-jenkins.html#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="metodología-box-jenkins.html#cb2-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(symbols_no_estacionarios)) {</span>
 <span id="cb2-4"><a href="metodología-box-jenkins.html#cb2-4" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> i, ]</span>
-<span id="cb2-5"><a href="metodología-box-jenkins.html#cb2-5" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
-<span id="cb2-6"><a href="metodología-box-jenkins.html#cb2-6" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_data_omit_na)</span>
-<span id="cb2-7"><a href="metodología-box-jenkins.html#cb2-7" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, i, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb2-8"><a href="metodología-box-jenkins.html#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="metodología-box-jenkins.html#cb2-9" tabindex="-1"></a>  modelo<span class="ot">&lt;-</span><span class="fu">auto.arima</span>(stock_ts)</span>
-<span id="cb2-10"><a href="metodología-box-jenkins.html#cb2-10" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Modelo Sugerido: &quot;</span>, modelo, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb2-11"><a href="metodología-box-jenkins.html#cb2-11" tabindex="-1"></a>  </span>
-<span id="cb2-12"><a href="metodología-box-jenkins.html#cb2-12" tabindex="-1"></a>  <span class="fu">plot</span>(modelo)</span>
-<span id="cb2-13"><a href="metodología-box-jenkins.html#cb2-13" tabindex="-1"></a>  <span class="fu">lines</span>(stock_ts, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb2-14"><a href="metodología-box-jenkins.html#cb2-14" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb2-5"><a href="metodología-box-jenkins.html#cb2-5" tabindex="-1"></a>  <span class="co">#stock_data_omit_na &lt;- na.omit(stock_data$diferenciado1)</span></span>
+<span id="cb2-6"><a href="metodología-box-jenkins.html#cb2-6" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>close)</span>
+<span id="cb2-7"><a href="metodología-box-jenkins.html#cb2-7" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_data_omit_na)</span>
+<span id="cb2-8"><a href="metodología-box-jenkins.html#cb2-8" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, i, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb2-9"><a href="metodología-box-jenkins.html#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="metodología-box-jenkins.html#cb2-10" tabindex="-1"></a>  modelo<span class="ot">&lt;-</span><span class="fu">auto.arima</span>(stock_ts)</span>
+<span id="cb2-11"><a href="metodología-box-jenkins.html#cb2-11" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Modelo Sugerido: &quot;</span>, modelo, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb2-12"><a href="metodología-box-jenkins.html#cb2-12" tabindex="-1"></a>  </span>
+<span id="cb2-13"><a href="metodología-box-jenkins.html#cb2-13" tabindex="-1"></a>  <span class="fu">plot</span>(modelo)</span>
+<span id="cb2-14"><a href="metodología-box-jenkins.html#cb2-14" tabindex="-1"></a>  <span class="fu">lines</span>(stock_ts, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb2-15"><a href="metodología-box-jenkins.html#cb2-15" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
-## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+## Modelo Sugerido:  ARIMA(0,1,0)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-1.png" width="672" /></p>
 <pre><code>## Acción:  MSFT 
-## Modelo Sugerido:  ARIMA(2,0,0) with zero mean</code></pre>
+## Modelo Sugerido:  ARIMA(2,1,0)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-2.png" width="672" /></p>
 <pre><code>## Acción:  AMZN 
-## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+## Modelo Sugerido:  ARIMA(0,1,0)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-3.png" width="672" /></p>
 <pre><code>## Acción:  NVDA 
-## Modelo Sugerido:  ARIMA(0,1,1)</code></pre>
+## Modelo Sugerido:  ARIMA(0,2,1)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-4.png" width="672" /></p>
 <pre><code>## Acción:  GOOGL 
-## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+## Modelo Sugerido:  ARIMA(0,1,0)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-5.png" width="672" /></p>
 <pre><code>## Acción:  BRK-B 
-## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+## Modelo Sugerido:  ARIMA(0,1,0)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-6.png" width="672" /></p>
 <pre><code>## Acción:  GOOG 
-## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+## Modelo Sugerido:  ARIMA(0,1,0)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-7.png" width="672" /></p>
 <pre><code>## Acción:  META 
-## Modelo Sugerido:  ARIMA(3,1,1)</code></pre>
+## Modelo Sugerido:  ARIMA(0,2,1)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-8.png" width="672" /></p>
 <pre><code>## Acción:  UNH 
-## Modelo Sugerido:  ARIMA(0,0,0) with zero mean</code></pre>
+## Modelo Sugerido:  ARIMA(0,1,0)</code></pre>
 <p><img src="stocks-predictions_files/figure-html/06-4-9.png" width="672" /></p>
 <h3>
 <center>
