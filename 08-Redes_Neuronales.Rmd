@@ -22,6 +22,19 @@ library(quantmod)
 
 Las redes de Elman son el modelo más simple de Red Neuronal Recurrente (en adelante, RNN).Tienen la misma estructura que las redes neuronales alimentadas hacia adelante, salvo por una única circunstancia: se permite que cada neurona se retroalimente a sí misma.
 
+
+En este modelo, cada neurona de capa oculta tiene como función de activación la tangente hiperbólica ($tank$).El valor de esta última es el estado de la neurona. Cada célula recibe como entrada su propio valor de salida en el instante inmediatamente anterior ($t-1$), siguiendo las salidas de las neuronas de la capa anterior y se representa:
+
+
+$x=w_i d_i +b+Uh_{t-1}$
+
+
+$h_t=tanh(w_i d_i +b+Uh_{t-1})$
+
+
+
+Donde $h_t$ es el estado de la neurona en el momento $t$
+
 ```{r 08-1, warning=FALSE, message=FALSE,echo=FALSE}
 
 companias = c("AAPL", "MSFT", "AMZN","NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
@@ -120,6 +133,75 @@ legend("bottomleft", legend = c("Datos reales", "Pronostico"), col = c("blue", "
 
 ```
 
+
+
+<h3> Para las demás acciones trabajadas </h3>
+
+
+```{r 08-5, warning=FALSE, message=FALSE,echo=FALSE}
+
+for (i in unique(precios$symbol)){
+  stock <- precios[precios$symbol == i,'close']
+  stock_rnn<-as.ts(stock,F)
+  
+  ### Se normaliza la serie con valores entre 0 y 1
+  stock_rnn_norm<- (stock_rnn-min(stock_rnn))/(max(stock_rnn)-min(stock_rnn))
+  
+  set.seed(1) 
+  tamano_total <- length(stock_rnn_norm) 
+  tamano_train <- round(tamano_total*9/12, digits = 0) 
+  train <- 0:(tamano_train-1) 
+  test<-(tamano_train):tamano_total
+  
+  y<-as.zoo(stock_rnn_norm)
+  
+  x1<-Lag(y,k=1)
+  x2<-Lag(y,k=2)
+  x3<-Lag(y,k=3)
+  x4<-Lag(y,k=4)
+  x5<-Lag(y,k=5)
+  x6<-Lag(y,k=6)
+  x7<-Lag(y,k=7)
+  x8<-Lag(y,k=8)
+  x9<-Lag(y,k=9)
+  x10<-Lag(y,k=10)
+  slogN<-cbind(y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10)
+  
+  slogN<-slogN[-(1:10),]
+  
+  
+  inputs<-slogN[,2:11]
+  outputs<-slogN[,1]
+  
+  
+  fit<-elman(inputs[train],
+             outputs[train],
+             size=c(9,2),
+             learnFuncParams=c(0.1),
+             maxit=10000)
+  
+  
+  ### Se desnormalizan los datos
+  predictions<-predict(fit,inputs[-train])
+  valuesPred <- predictions*(max(stock_rnn)-min(stock_rnn)) + min(stock_rnn) 
+  
+  ### Grafico train-test
+  y <- as.vector(outputs[-test])
+  pred <- predict(fit, inputs[-test])
+  plot(y, type = "l", main = paste("Prediccion RNN Elman para ",i), xlab = "Dia", ylab = "Precio cierre", col = "black")
+  lines(pred, col = "red")
+  legend("bottomleft", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+  
+  ### Grafico Pronostico
+  x <- 1:(tamano_total + length(valuesPred))
+  y <- c(stock$close, valuesPred) 
+  plot(x, y, main=paste("Pronostico RNN Elman an para ",i), xlab = "Dia", ylab = "Precio cierre", col = "blue", type = "l")
+  lines(x[1:tamano_total], y[1:tamano_total], col = "blue")
+  lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)], col = "red")
+  legend("bottomleft", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+
+}
+```
 
 
 ## Modelo de Jordan

@@ -23,7 +23,7 @@
 <meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
 
 
-<meta name="date" content="2023-06-18" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -198,6 +198,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="modelo-de-elman" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Modelo de Elman<a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#modelo-de-elman" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Las redes de Elman son el modelo más simple de Red Neuronal Recurrente (en adelante, RNN).Tienen la misma estructura que las redes neuronales alimentadas hacia adelante, salvo por una única circunstancia: se permite que cada neurona se retroalimente a sí misma.</p>
+<p>En este modelo, cada neurona de capa oculta tiene como función de activación la tangente hiperbólica (<span class="math inline">\(tank\)</span>).El valor de esta última es el estado de la neurona. Cada célula recibe como entrada su propio valor de salida en el instante inmediatamente anterior (<span class="math inline">\(t-1\)</span>), siguiendo las salidas de las neuronas de la capa anterior y se representa:</p>
+<p><span class="math inline">\(x=w_i d_i +b+Uh_{t-1}\)</span></p>
+<p><span class="math inline">\(h_t=tanh(w_i d_i +b+Uh_{t-1})\)</span></p>
+<p>Donde <span class="math inline">\(h_t\)</span> es el estado de la neurona en el momento <span class="math inline">\(t\)</span></p>
 <p>A continuacion se realiza solo para APPLE:</p>
 <p><img src="stocks-predictions_files/figure-html/08-2-1.png" width="672" /></p>
 <p>Continuamos con la construccion de base de entrenamiento y base de test</p>
@@ -261,6 +265,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-15"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#cb4-15" tabindex="-1"></a><span class="fu">lines</span>(x[(tamano_total)<span class="sc">:</span><span class="fu">length</span>(x)], y[(tamano_total)<span class="sc">:</span><span class="fu">length</span>(x)], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
 <span id="cb4-16"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#cb4-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Datos reales&quot;</span>, <span class="st">&quot;Pronostico&quot;</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">box.lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/08-4-1.png" width="672" /></p>
+<h3>
+Para las demás acciones trabajadas
+</h3>
+<p><img src="stocks-predictions_files/figure-html/08-5-1.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-2.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-3.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-4.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-5.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-6.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-7.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-8.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-9.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-10.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-11.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-12.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-13.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-14.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-15.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-16.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-17.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-18.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-19.png" width="672" /><img src="stocks-predictions_files/figure-html/08-5-20.png" width="672" /></p>
 </div>
 <div id="modelo-de-jordan" class="section level2 hasAnchor" number="8.2">
 <h2><span class="header-section-number">8.2</span> Modelo de Jordan<a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#modelo-de-jordan" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -327,6 +335,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
