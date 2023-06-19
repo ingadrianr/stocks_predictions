@@ -23,7 +23,7 @@
 <meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
 
 
-<meta name="date" content="2023-06-05" />
+<meta name="date" content="2023-06-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -170,7 +170,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html#estimacion-del-modelo"><i class="fa fa-check"></i><b>6.2</b> Estimacion del modelo</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="modelo-prophet.html"><a href="modelo-prophet.html"><i class="fa fa-check"></i><b>7</b> Modelo Prophet</a></li>
-<li class="chapter" data-level="8" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>8</b> Referencias</a></li>
+<li class="chapter" data-level="8" data-path="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><i class="fa fa-check"></i><b>8</b> Modelos de Redes Neuronales Recurrentes en series de tiempo</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#modelo-de-elman"><i class="fa fa-check"></i><b>8.1</b> Modelo de Elman</a></li>
+<li class="chapter" data-level="8.2" data-path="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#modelo-de-jordan"><i class="fa fa-check"></i><b>8.2</b> Modelo de Jordan</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>9</b> Referencias</a></li>
 </ul>
 
       </nav>
@@ -191,8 +196,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="análisis-exploratorio-de-datos" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">4</span> Análisis Exploratorio de Datos<a href="análisis-exploratorio-de-datos.html#análisis-exploratorio-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Se inicia el análisis exploratorio de los datos recopilando la información de cada una de las empresas Top 10 del índice S&amp;P 500. Se define la variable <i>empresas</i> a la cuál se le asignan las empresas definidas en el numeral <b>2.1.</b>, como también como los rangos de las fechas donde se realizará la consulta de los datos:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="análisis-exploratorio-de-datos.html#cb1-1" aria-hidden="true" tabindex="-1"></a>empresas <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="st">&quot;MSFT&quot;</span>, <span class="st">&quot;AMZN&quot;</span>, <span class="st">&quot;NVDA&quot;</span>, <span class="st">&quot;GOOGL&quot;</span>,<span class="st">&quot;BRK-B&quot;</span>,<span class="st">&quot;GOOG&quot;</span>, <span class="st">&quot;META&quot;</span>,<span class="st">&quot;UNH&quot;</span>,<span class="st">&quot;XOM&quot;</span>)</span>
-<span id="cb1-2"><a href="análisis-exploratorio-de-datos.html#cb1-2" aria-hidden="true" tabindex="-1"></a>precios <span class="ot">&lt;-</span> tidyquant<span class="sc">::</span><span class="fu">tq_get</span>(empresas, <span class="at">from =</span> <span class="st">&quot;2022-01-01&quot;</span>, <span class="at">to =</span> <span class="st">&quot;2023-04-30&quot;</span>, <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="análisis-exploratorio-de-datos.html#cb1-1" tabindex="-1"></a>empresas <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="st">&quot;MSFT&quot;</span>, <span class="st">&quot;AMZN&quot;</span>, <span class="st">&quot;NVDA&quot;</span>, <span class="st">&quot;GOOGL&quot;</span>,<span class="st">&quot;BRK-B&quot;</span>,<span class="st">&quot;GOOG&quot;</span>, <span class="st">&quot;META&quot;</span>,<span class="st">&quot;UNH&quot;</span>,<span class="st">&quot;XOM&quot;</span>)</span>
+<span id="cb1-2"><a href="análisis-exploratorio-de-datos.html#cb1-2" tabindex="-1"></a>precios <span class="ot">&lt;-</span> tidyquant<span class="sc">::</span><span class="fu">tq_get</span>(empresas, <span class="at">from =</span> <span class="st">&quot;2022-01-01&quot;</span>, <span class="at">to =</span> <span class="st">&quot;2023-04-30&quot;</span>, <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>)</span></code></pre></div>
 <p>Como se puede observar en la siguiente tabla, para cada empresa se cuenta con los atributos de propios para cada acción, que indica su símbolo y atributos relacionados con los precios: <i>symbol</i>, <i>open</i>, <i>high</i>, <i>low</i>, <i>close</i>, <i>volume</i> y <i>adjusted</i>.</p>
 <pre><code>## # A tibble: 6 × 8
 ##   symbol date        open  high   low close    volume adjusted
@@ -204,11 +209,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 AAPL   2022-01-07  173.  174.  171.  172.  86709100     171.
 ## 6 AAPL   2022-01-10  169.  172.  168.  172. 106765600     171.</code></pre>
 <p>A partir de esta información se grafican los valores de cada una de las acciones con respecto al tiempo, obteniendo la siguiente figura:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="análisis-exploratorio-de-datos.html#cb3-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> precios) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="análisis-exploratorio-de-datos.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close, <span class="at">color =</span> symbol)) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="análisis-exploratorio-de-datos.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Precio cierre por accion desde 2022-01-01 a 2023-04-30&#39;</span>, </span>
-<span id="cb3-4"><a href="análisis-exploratorio-de-datos.html#cb3-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="st">&#39;Close Price&#39;</span>,</span>
-<span id="cb3-5"><a href="análisis-exploratorio-de-datos.html#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">x =</span> <span class="st">&#39;Date&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="análisis-exploratorio-de-datos.html#cb3-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> precios) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="análisis-exploratorio-de-datos.html#cb3-2" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close, <span class="at">color =</span> symbol)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="análisis-exploratorio-de-datos.html#cb3-3" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;Precio cierre por accion desde 2022-01-01 a 2023-04-30&#39;</span>, </span>
+<span id="cb3-4"><a href="análisis-exploratorio-de-datos.html#cb3-4" tabindex="-1"></a>                <span class="at">y =</span> <span class="st">&#39;Close Price&#39;</span>,</span>
+<span id="cb3-5"><a href="análisis-exploratorio-de-datos.html#cb3-5" tabindex="-1"></a>                <span class="at">x =</span> <span class="st">&#39;Date&#39;</span>)</span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/04-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>De la figura anterior se pueden identificar preliminarmente algunas tendencias, como de que la acción de Unitedhealth Group Inc <b>UNH</b> mantiene un precio relativamente constante durante el transcurso del 2022.</p>
 <div id="comportamiento-inicial-series" class="section level2 hasAnchor" number="4.1">
@@ -221,22 +226,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 F_{t+1} = \frac{Y_t + Y_{t-1} + ... + Y_{t-k+1}}{k} \\
 \end{align*}\]</span></p>
 <p>Luego de esta definición, se procede a calcular para cada una de las series de tiempo de las empresas definidas el promedio móvil. Se define un valor de <i>k=5</i>, así:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="análisis-exploratorio-de-datos.html#cb4-1" aria-hidden="true" tabindex="-1"></a>stock_plots <span class="ot">=</span> <span class="fu">list</span>()</span>
-<span id="cb4-2"><a href="análisis-exploratorio-de-datos.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="análisis-exploratorio-de-datos.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (symbol <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
-<span id="cb4-4"><a href="análisis-exploratorio-de-datos.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">=</span> stats<span class="sc">::</span><span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> symbol, <span class="st">&#39;close&#39;</span>])</span>
-<span id="cb4-5"><a href="análisis-exploratorio-de-datos.html#cb4-5" aria-hidden="true" tabindex="-1"></a>  ma <span class="ot">=</span> zoo<span class="sc">::</span><span class="fu">rollmean</span>(stock_data, <span class="at">k =</span> <span class="dv">5</span>, <span class="at">align =</span> <span class="st">&quot;right&quot;</span>)</span>
-<span id="cb4-6"><a href="análisis-exploratorio-de-datos.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-7"><a href="análisis-exploratorio-de-datos.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">=</span> <span class="fu">data.frame</span>(stock_data)</span>
-<span id="cb4-8"><a href="análisis-exploratorio-de-datos.html#cb4-8" aria-hidden="true" tabindex="-1"></a>  ma <span class="ot">=</span> <span class="fu">data.frame</span>(ma)</span>
-<span id="cb4-9"><a href="análisis-exploratorio-de-datos.html#cb4-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-10"><a href="análisis-exploratorio-de-datos.html#cb4-10" aria-hidden="true" tabindex="-1"></a>  stock_plots[[symbol]] <span class="ot">=</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb4-11"><a href="análisis-exploratorio-de-datos.html#cb4-11" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> stock_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">index</span>(stock_data), <span class="at">y =</span> close), <span class="at">color =</span> <span class="st">&#39;gray&#39;</span>) <span class="sc">+</span></span>
-<span id="cb4-12"><a href="análisis-exploratorio-de-datos.html#cb4-12" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> ma, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">index</span>(ma), <span class="at">y =</span> close), <span class="at">color =</span> <span class="st">&#39;salmon&#39;</span>) <span class="sc">+</span></span>
-<span id="cb4-13"><a href="análisis-exploratorio-de-datos.html#cb4-13" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">title =</span> symbol, <span class="at">x =</span> <span class="st">&#39;days&#39;</span>)</span>
-<span id="cb4-14"><a href="análisis-exploratorio-de-datos.html#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-15"><a href="análisis-exploratorio-de-datos.html#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="análisis-exploratorio-de-datos.html#cb4-16" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(<span class="at">plotlist =</span> stock_plots, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">5</span>)  </span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="análisis-exploratorio-de-datos.html#cb4-1" tabindex="-1"></a>stock_plots <span class="ot">=</span> <span class="fu">list</span>()</span>
+<span id="cb4-2"><a href="análisis-exploratorio-de-datos.html#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="análisis-exploratorio-de-datos.html#cb4-3" tabindex="-1"></a><span class="cf">for</span> (symbol <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
+<span id="cb4-4"><a href="análisis-exploratorio-de-datos.html#cb4-4" tabindex="-1"></a>  stock_data <span class="ot">=</span> stats<span class="sc">::</span><span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> symbol, <span class="st">&#39;close&#39;</span>])</span>
+<span id="cb4-5"><a href="análisis-exploratorio-de-datos.html#cb4-5" tabindex="-1"></a>  ma <span class="ot">=</span> zoo<span class="sc">::</span><span class="fu">rollmean</span>(stock_data, <span class="at">k =</span> <span class="dv">5</span>, <span class="at">align =</span> <span class="st">&quot;right&quot;</span>)</span>
+<span id="cb4-6"><a href="análisis-exploratorio-de-datos.html#cb4-6" tabindex="-1"></a>  </span>
+<span id="cb4-7"><a href="análisis-exploratorio-de-datos.html#cb4-7" tabindex="-1"></a>  stock_data <span class="ot">=</span> <span class="fu">data.frame</span>(stock_data)</span>
+<span id="cb4-8"><a href="análisis-exploratorio-de-datos.html#cb4-8" tabindex="-1"></a>  ma <span class="ot">=</span> <span class="fu">data.frame</span>(ma)</span>
+<span id="cb4-9"><a href="análisis-exploratorio-de-datos.html#cb4-9" tabindex="-1"></a>  </span>
+<span id="cb4-10"><a href="análisis-exploratorio-de-datos.html#cb4-10" tabindex="-1"></a>  stock_plots[[symbol]] <span class="ot">=</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb4-11"><a href="análisis-exploratorio-de-datos.html#cb4-11" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> stock_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">index</span>(stock_data), <span class="at">y =</span> close), <span class="at">color =</span> <span class="st">&#39;gray&#39;</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="análisis-exploratorio-de-datos.html#cb4-12" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> ma, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">index</span>(ma), <span class="at">y =</span> close), <span class="at">color =</span> <span class="st">&#39;salmon&#39;</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="análisis-exploratorio-de-datos.html#cb4-13" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">title =</span> symbol, <span class="at">x =</span> <span class="st">&#39;days&#39;</span>)</span>
+<span id="cb4-14"><a href="análisis-exploratorio-de-datos.html#cb4-14" tabindex="-1"></a>}</span>
+<span id="cb4-15"><a href="análisis-exploratorio-de-datos.html#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="análisis-exploratorio-de-datos.html#cb4-16" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(<span class="at">plotlist =</span> stock_plots, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">5</span>)  </span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/04-4-1.png" width="1440" /></p>
 <p>Conforme al gráfico anterior podemos identificar que la gráfica del promedio móvil se ajusta en gran proporción a la serie de tiempo; en casos como para la acción <i>GOOGL</i> se podría de cierta forma establecer una tendencia a la baja. En este punto, puede surgir la pregunta sobre si los datos traen embebidos información adicional, ¿hay datos estacionales?, ¿cómo se comporta el error?… esto se puede evaluar a través de la evaluación de la estacionalidad o descomposición de la serie de tiempo.</p>
 </div>
@@ -253,11 +258,11 @@ Y_t = S_t + T_t + R_t
 <span class="math inline">\(R_t =\)</span> Error en un periodo de t<br />
 </p>
 <p>Se realiza la descomposición de cada una de las series de tiempo definidas anteriormente:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (symbol <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
-<span id="cb5-2"><a href="análisis-exploratorio-de-datos.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, symbol, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb5-3"><a href="análisis-exploratorio-de-datos.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">=</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> symbol, <span class="st">&quot;close&quot;</span>], <span class="at">frequency=</span><span class="dv">5</span>)</span>
-<span id="cb5-4"><a href="análisis-exploratorio-de-datos.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">decompose</span>(stock_data, <span class="at">type =</span> <span class="st">&quot;additive&quot;</span>))</span>
-<span id="cb5-5"><a href="análisis-exploratorio-de-datos.html#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" tabindex="-1"></a><span class="cf">for</span> (symbol <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)){</span>
+<span id="cb5-2"><a href="análisis-exploratorio-de-datos.html#cb5-2" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, symbol, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb5-3"><a href="análisis-exploratorio-de-datos.html#cb5-3" tabindex="-1"></a>  stock_data <span class="ot">=</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> symbol, <span class="st">&quot;close&quot;</span>], <span class="at">frequency=</span><span class="dv">5</span>)</span>
+<span id="cb5-4"><a href="análisis-exploratorio-de-datos.html#cb5-4" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">decompose</span>(stock_data, <span class="at">type =</span> <span class="st">&quot;additive&quot;</span>))</span>
+<span id="cb5-5"><a href="análisis-exploratorio-de-datos.html#cb5-5" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL</code></pre>
 <p><img src="stocks-predictions_files/figure-html/04-5-1.png" width="672" /></p>
 <pre><code>## Acción:  MSFT</code></pre>
@@ -290,56 +295,56 @@ Y_t = S_t + T_t + R_t
 <span class="math inline">\(Ha:\)</span> La serie de tiempo no tiene raíces unitarias. La serie de tiempo es estacionaria<br />
 </p>
 <p>La prueba nos indica que si contamos con valor p menor a un nivel de significancia especifico (por ejemplo 0.05), entonces existe evidencia estadística para rechazar la hipótesis nula y suponer que la serie es estacionaria. En el caso en que esto no suceda, es decir que no se rechaza <i>H0</i>, entonces será el indicio de que no contamos con una serie que posea media y varianza constante en el tiempo, lo que nos sugerirá evaluar un posible proceso de transformación y/o diferenciación a los datos temporales.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="análisis-exploratorio-de-datos.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
-<span id="cb16-2"><a href="análisis-exploratorio-de-datos.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> column, <span class="st">&quot;close&quot;</span>])</span>
-<span id="cb16-3"><a href="análisis-exploratorio-de-datos.html#cb16-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(stock_data)</span>
-<span id="cb16-4"><a href="análisis-exploratorio-de-datos.html#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, column, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb16-5"><a href="análisis-exploratorio-de-datos.html#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;ADF Estadística: &quot;</span>, result<span class="sc">$</span>statistic, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb16-6"><a href="análisis-exploratorio-de-datos.html#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Valor p: &quot;</span>, result<span class="sc">$</span>p.value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb16-7"><a href="análisis-exploratorio-de-datos.html#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (key <span class="cf">in</span> <span class="fu">names</span>(result<span class="sc">$</span>critical)) {</span>
-<span id="cb16-8"><a href="análisis-exploratorio-de-datos.html#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;   &quot;</span>, key, <span class="st">&quot;: &quot;</span>, result<span class="sc">$</span>critical[key], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb16-9"><a href="análisis-exploratorio-de-datos.html#cb16-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb16-10"><a href="análisis-exploratorio-de-datos.html#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb16-11"><a href="análisis-exploratorio-de-datos.html#cb16-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="análisis-exploratorio-de-datos.html#cb16-1" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
+<span id="cb16-2"><a href="análisis-exploratorio-de-datos.html#cb16-2" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> <span class="fu">ts</span>(precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> column, <span class="st">&quot;close&quot;</span>])</span>
+<span id="cb16-3"><a href="análisis-exploratorio-de-datos.html#cb16-3" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(stock_data)</span>
+<span id="cb16-4"><a href="análisis-exploratorio-de-datos.html#cb16-4" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, column, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb16-5"><a href="análisis-exploratorio-de-datos.html#cb16-5" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;ADF Estadística: &quot;</span>, result<span class="sc">$</span>statistic, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb16-6"><a href="análisis-exploratorio-de-datos.html#cb16-6" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Valor p: &quot;</span>, result<span class="sc">$</span>p.value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb16-7"><a href="análisis-exploratorio-de-datos.html#cb16-7" tabindex="-1"></a>  <span class="cf">for</span> (key <span class="cf">in</span> <span class="fu">names</span>(result<span class="sc">$</span>critical)) {</span>
+<span id="cb16-8"><a href="análisis-exploratorio-de-datos.html#cb16-8" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;   &quot;</span>, key, <span class="st">&quot;: &quot;</span>, result<span class="sc">$</span>critical[key], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb16-9"><a href="análisis-exploratorio-de-datos.html#cb16-9" tabindex="-1"></a>  }</span>
+<span id="cb16-10"><a href="análisis-exploratorio-de-datos.html#cb16-10" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb16-11"><a href="análisis-exploratorio-de-datos.html#cb16-11" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
-## ADF Estadística:  -2.05566854881785 
-## Valor p:  0.553122778288091 
+## ADF Estadística:  -2.05566855942946 
+## Valor p:  0.553122773812414 
 ## -----------------------
 ## Acción:  MSFT 
-## ADF Estadística:  -1.26008325178021 
-## Valor p:  0.888678271671602 
+## ADF Estadística:  -1.26008325939587 
+## Valor p:  0.888678268459535 
 ## -----------------------
 ## Acción:  AMZN 
-## ADF Estadística:  -2.57789631611209 
-## Valor p:  0.332861799653268 
+## ADF Estadística:  -2.57789633782838 
+## Valor p:  0.332861790493946 
 ## -----------------------
 ## Acción:  NVDA 
-## ADF Estadística:  -1.16775576501797 
-## Valor p:  0.910561973384199 
+## ADF Estadística:  -1.16775576880205 
+## Valor p:  0.910561972773864 
 ## -----------------------
 ## Acción:  GOOGL 
-## ADF Estadística:  -1.85896174733311 
-## Valor p:  0.636088172532902 
+## ADF Estadística:  -1.85896180838685 
+## Valor p:  0.636088146782154 
 ## -----------------------
 ## Acción:  BRK-B 
-## ADF Estadística:  -1.63954392454958 
-## Valor p:  0.728632436555145 
+## ADF Estadística:  -1.63954392397899 
+## Valor p:  0.728632436795802 
 ## -----------------------
 ## Acción:  GOOG 
-## ADF Estadística:  -1.88587340131609 
-## Valor p:  0.62473759407997 
+## ADF Estadística:  -1.88587338232485 
+## Valor p:  0.624737602089945 
 ## -----------------------
 ## Acción:  META 
-## ADF Estadística:  -1.69491663799333 
-## Valor p:  0.705277784013442 
+## ADF Estadística:  -1.69491663189236 
+## Valor p:  0.70527778658666 
 ## -----------------------
 ## Acción:  UNH 
-## ADF Estadística:  -2.58340138363729 
-## Valor p:  0.330539917063923 
+## ADF Estadística:  -2.58340139336718 
+## Valor p:  0.330539912960132 
 ## -----------------------
 ## Acción:  XOM 
-## ADF Estadística:  -3.45252088823684 
-## Valor p:  0.0475229915156887 
+## ADF Estadística:  -3.45252087706893 
+## Valor p:  0.0475229925895258 
 ## -----------------------</code></pre>
 <p>Si establecemos como valor p de referencia el 0.05, entonces nos sugiere que 9 de las 10 empresas (acciones) evaluadas son no estacionarias, ya que su respecto valor p, supera a 0.05. La única empresa en la cual se encuentra evidencia estadística para decir que es estacionaria es <b>XOM</b>.</p>
 <p>Como la conclusión de la prueba nos permite admitir un proceso de diferenciación, podemos pensar si los gráficos de series iniciales sugerían una tendencia así sea leve por ejemplo que hizo que no se consideraran como series estacionarias. Otra forma de evaluar estos comportamientos, es a partir de herramientas grafica como la función de autocorrelación (FAC) y la función de autocorrelación parcial (PFAC) se comportan, se evaluarán a continuación.</p>
@@ -347,32 +352,32 @@ Y_t = S_t + T_t + R_t
 <div id="acf-y-pacf" class="section level3 hasAnchor" number="4.2.2">
 <h3><span class="header-section-number">4.2.2</span> ACF y PACF<a href="análisis-exploratorio-de-datos.html#acf-y-pacf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La función de autocorrelación <i>ACF</i> y la función de autocorrelación parcial <i>PACF</i> son herramientas gráficas de series de tiempo que permiten conocer el comportamiento de una observación versus las anteriores. La ACF, muestra como una observación se comporto versus las observaciones pasadas. En cambio la PACF, por su parte busca como un observación se relaciona a un momento anterior dado, es decir, después de que se elimina la correlación que es explicada por las diferencias intermedias. Normalmente nos da un indicio relacionado a la tendencia de los datos y la estacionalidad. Entendiendo que son varias series se buscara interpretar con la serie de Apple, para entender un poco más este concepto.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="análisis-exploratorio-de-datos.html#cb18-1" aria-hidden="true" tabindex="-1"></a>precios_df<span class="ot">=</span><span class="fu">as.data.frame</span>(precios)</span>
-<span id="cb18-2"><a href="análisis-exploratorio-de-datos.html#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="análisis-exploratorio-de-datos.html#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="análisis-exploratorio-de-datos.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
-<span id="cb18-5"><a href="análisis-exploratorio-de-datos.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  stock_i <span class="ot">&lt;-</span> <span class="fu">subset</span>(precios, symbol <span class="sc">==</span> i)</span>
-<span id="cb18-6"><a href="análisis-exploratorio-de-datos.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_i<span class="sc">$</span>close)</span>
-<span id="cb18-7"><a href="análisis-exploratorio-de-datos.html#cb18-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-8"><a href="análisis-exploratorio-de-datos.html#cb18-8" aria-hidden="true" tabindex="-1"></a>  stock_acf <span class="ot">&lt;-</span> <span class="fu">acf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb18-9"><a href="análisis-exploratorio-de-datos.html#cb18-9" aria-hidden="true" tabindex="-1"></a>  stock_pacf <span class="ot">&lt;-</span> <span class="fu">pacf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb18-10"><a href="análisis-exploratorio-de-datos.html#cb18-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-11"><a href="análisis-exploratorio-de-datos.html#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb18-12"><a href="análisis-exploratorio-de-datos.html#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_acf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;ACF para la acción&quot;</span>, i))</span>
-<span id="cb18-13"><a href="análisis-exploratorio-de-datos.html#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(stock_pacf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;PACF para la acción&quot;</span>, i))</span>
-<span id="cb18-14"><a href="análisis-exploratorio-de-datos.html#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-15"><a href="análisis-exploratorio-de-datos.html#cb18-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="análisis-exploratorio-de-datos.html#cb18-1" tabindex="-1"></a>precios_df<span class="ot">=</span><span class="fu">as.data.frame</span>(precios)</span>
+<span id="cb18-2"><a href="análisis-exploratorio-de-datos.html#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="análisis-exploratorio-de-datos.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="análisis-exploratorio-de-datos.html#cb18-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
+<span id="cb18-5"><a href="análisis-exploratorio-de-datos.html#cb18-5" tabindex="-1"></a>  stock_i <span class="ot">&lt;-</span> <span class="fu">subset</span>(precios, symbol <span class="sc">==</span> i)</span>
+<span id="cb18-6"><a href="análisis-exploratorio-de-datos.html#cb18-6" tabindex="-1"></a>  stock_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(stock_i<span class="sc">$</span>close)</span>
+<span id="cb18-7"><a href="análisis-exploratorio-de-datos.html#cb18-7" tabindex="-1"></a>  </span>
+<span id="cb18-8"><a href="análisis-exploratorio-de-datos.html#cb18-8" tabindex="-1"></a>  stock_acf <span class="ot">&lt;-</span> <span class="fu">acf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-9"><a href="análisis-exploratorio-de-datos.html#cb18-9" tabindex="-1"></a>  stock_pacf <span class="ot">&lt;-</span> <span class="fu">pacf</span>(stock_ts,<span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-10"><a href="análisis-exploratorio-de-datos.html#cb18-10" tabindex="-1"></a>  </span>
+<span id="cb18-11"><a href="análisis-exploratorio-de-datos.html#cb18-11" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb18-12"><a href="análisis-exploratorio-de-datos.html#cb18-12" tabindex="-1"></a>  <span class="fu">plot</span>(stock_acf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;ACF para la acción&quot;</span>, i))</span>
+<span id="cb18-13"><a href="análisis-exploratorio-de-datos.html#cb18-13" tabindex="-1"></a>  <span class="fu">plot</span>(stock_pacf, <span class="at">main=</span><span class="fu">paste</span>(<span class="st">&quot;PACF para la acción&quot;</span>, i))</span>
+<span id="cb18-14"><a href="análisis-exploratorio-de-datos.html#cb18-14" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="análisis-exploratorio-de-datos.html#cb18-15" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="stocks-predictions_files/figure-html/04-7-1.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-2.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-3.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-4.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-5.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-6.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-7.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-8.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-9.png" width="672" /><img src="stocks-predictions_files/figure-html/04-7-10.png" width="672" /></p>
 <p>Por ejemplo se puede observar, que prácticamente todos los rezagos son significativos pues superan las bandas de confianza. La FAC muestra valores significativos en varios desfaces, esto indica que la serie de tiempo es dependiente en el tiempo. Si observamos la PACF en la empresa <b>APPL</b>, el primer rezago es significativo, esto indica una correlación directa entre la observación actual y la inmediatamente anterior. Esto también nos sugiere el termino autoregresivo en caso de evaluarse ajustar un modelo ARMA.</p>
 </div>
 <div id="diferenciación" class="section level3 hasAnchor" number="4.2.3">
 <h3><span class="header-section-number">4.2.3</span> Diferenciación<a href="análisis-exploratorio-de-datos.html#diferenciación" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La estacionariedad en una serie de tiempo se refiere a la propiedad de que la media como la varianza de la misma se mantiene constante a lo largo del tiempo. Esto busca reflejar que el comportamiento que se observa a lo largo del tiempo no muestra una tendencia en especifico o un patrón puntual en la media y la varianza de la serie. Además de que la covarianza entre dos observaciones depende realmente de la distancia temporal (para este ejercicio aplicado, frecuencia diaria) y no depende de la ubicación puntual en el tiempo.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="análisis-exploratorio-de-datos.html#cb19-1" aria-hidden="true" tabindex="-1"></a>precios <span class="ot">&lt;-</span> precios <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a href="análisis-exploratorio-de-datos.html#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-3"><a href="análisis-exploratorio-de-datos.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferenciado1 =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(close, <span class="at">differences =</span> <span class="dv">1</span>)[<span class="sc">-</span><span class="fu">length</span>(close)]))</span>
-<span id="cb19-4"><a href="análisis-exploratorio-de-datos.html#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="análisis-exploratorio-de-datos.html#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(precios)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="análisis-exploratorio-de-datos.html#cb19-1" tabindex="-1"></a>precios <span class="ot">&lt;-</span> precios <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="análisis-exploratorio-de-datos.html#cb19-2" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="análisis-exploratorio-de-datos.html#cb19-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferenciado1 =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(close, <span class="at">differences =</span> <span class="dv">1</span>)[<span class="sc">-</span><span class="fu">length</span>(close)]))</span>
+<span id="cb19-4"><a href="análisis-exploratorio-de-datos.html#cb19-4" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="análisis-exploratorio-de-datos.html#cb19-5" tabindex="-1"></a><span class="fu">head</span>(precios)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 9
 ## # Groups:   symbol [1]
 ##   symbol date        open  high   low close    volume adjusted diferenciado1
@@ -387,54 +392,54 @@ Y_t = S_t + T_t + R_t
 <div id="prueba-dickey--fuller-adf-series-diferenciadas" class="section level3 hasAnchor" number="4.2.4">
 <h3><span class="header-section-number">4.2.4</span> Prueba Dickey- Fuller (ADF) Series diferenciadas<a href="análisis-exploratorio-de-datos.html#prueba-dickey--fuller-adf-series-diferenciadas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Excluimos del vector de empresas(acciones) a XOM, ya que fue la única que logramos observar que es estacionaria sin necesidad de realizar el proceso de diferenciación.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="análisis-exploratorio-de-datos.html#cb21-1" aria-hidden="true" tabindex="-1"></a>symbols_no_estacionarios <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(precios<span class="sc">$</span>symbol), <span class="st">&quot;XOM&quot;</span>)</span>
-<span id="cb21-2"><a href="análisis-exploratorio-de-datos.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="análisis-exploratorio-de-datos.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> symbols_no_estacionarios) {</span>
-<span id="cb21-4"><a href="análisis-exploratorio-de-datos.html#cb21-4" aria-hidden="true" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> column, ]</span>
-<span id="cb21-5"><a href="análisis-exploratorio-de-datos.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
-<span id="cb21-6"><a href="análisis-exploratorio-de-datos.html#cb21-6" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(stock_data_omit_na)</span>
-<span id="cb21-7"><a href="análisis-exploratorio-de-datos.html#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, column, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb21-8"><a href="análisis-exploratorio-de-datos.html#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;ADF Estadística: &quot;</span>, result<span class="sc">$</span>statistic, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb21-9"><a href="análisis-exploratorio-de-datos.html#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Valor p: &quot;</span>, result<span class="sc">$</span>p.value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb21-10"><a href="análisis-exploratorio-de-datos.html#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (key <span class="cf">in</span> <span class="fu">names</span>(result<span class="sc">$</span>critical)) {</span>
-<span id="cb21-11"><a href="análisis-exploratorio-de-datos.html#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;   &quot;</span>, key, <span class="st">&quot;: &quot;</span>, result<span class="sc">$</span>critical[key], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb21-12"><a href="análisis-exploratorio-de-datos.html#cb21-12" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb21-13"><a href="análisis-exploratorio-de-datos.html#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb21-14"><a href="análisis-exploratorio-de-datos.html#cb21-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="análisis-exploratorio-de-datos.html#cb21-1" tabindex="-1"></a>symbols_no_estacionarios <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(precios<span class="sc">$</span>symbol), <span class="st">&quot;XOM&quot;</span>)</span>
+<span id="cb21-2"><a href="análisis-exploratorio-de-datos.html#cb21-2" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="análisis-exploratorio-de-datos.html#cb21-3" tabindex="-1"></a><span class="cf">for</span> (column <span class="cf">in</span> symbols_no_estacionarios) {</span>
+<span id="cb21-4"><a href="análisis-exploratorio-de-datos.html#cb21-4" tabindex="-1"></a>  stock_data <span class="ot">&lt;-</span> precios[precios<span class="sc">$</span>symbol <span class="sc">==</span> column, ]</span>
+<span id="cb21-5"><a href="análisis-exploratorio-de-datos.html#cb21-5" tabindex="-1"></a>  stock_data_omit_na <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stock_data<span class="sc">$</span>diferenciado1)</span>
+<span id="cb21-6"><a href="análisis-exploratorio-de-datos.html#cb21-6" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(stock_data_omit_na)</span>
+<span id="cb21-7"><a href="análisis-exploratorio-de-datos.html#cb21-7" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Acción: &quot;</span>, column, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb21-8"><a href="análisis-exploratorio-de-datos.html#cb21-8" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;ADF Estadística: &quot;</span>, result<span class="sc">$</span>statistic, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb21-9"><a href="análisis-exploratorio-de-datos.html#cb21-9" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;Valor p: &quot;</span>, result<span class="sc">$</span>p.value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb21-10"><a href="análisis-exploratorio-de-datos.html#cb21-10" tabindex="-1"></a>  <span class="cf">for</span> (key <span class="cf">in</span> <span class="fu">names</span>(result<span class="sc">$</span>critical)) {</span>
+<span id="cb21-11"><a href="análisis-exploratorio-de-datos.html#cb21-11" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;   &quot;</span>, key, <span class="st">&quot;: &quot;</span>, result<span class="sc">$</span>critical[key], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb21-12"><a href="análisis-exploratorio-de-datos.html#cb21-12" tabindex="-1"></a>  }</span>
+<span id="cb21-13"><a href="análisis-exploratorio-de-datos.html#cb21-13" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;-----------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb21-14"><a href="análisis-exploratorio-de-datos.html#cb21-14" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Acción:  AAPL 
-## ADF Estadística:  -6.66340145927991 
+## ADF Estadística:  -6.66340152569488 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  MSFT 
-## ADF Estadística:  -7.21412735449904 
+## ADF Estadística:  -7.21412737488395 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  AMZN 
-## ADF Estadística:  -6.74472720274422 
+## ADF Estadística:  -6.74472722586052 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  NVDA 
-## ADF Estadística:  -6.01198490395914 
+## ADF Estadística:  -6.01198490555232 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  GOOGL 
-## ADF Estadística:  -8.12030932167298 
+## ADF Estadística:  -8.12030937935677 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  BRK-B 
-## ADF Estadística:  -6.44380476381158 
+## ADF Estadística:  -6.44380475724663 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  GOOG 
-## ADF Estadística:  -8.095317497104 
+## ADF Estadística:  -8.09531746383223 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  META 
-## ADF Estadística:  -7.55972583872282 
+## ADF Estadística:  -7.55972580487128 
 ## Valor p:  0.01 
 ## -----------------------
 ## Acción:  UNH 
-## ADF Estadística:  -7.36858131320366 
+## ADF Estadística:  -7.368581336344 
 ## Valor p:  0.01 
 ## -----------------------</code></pre>
 <p>Una vez se lleva a cabo la diferenciación de primer orden sobre las 9 empresas (restantes) y se realiza la prueba dickey-fuller, encontramos que el valor p en todos los caso es menor a 0.05, lo que permite rechazar H0 y considerar que existe evidencia estadística para pensar que las series son estacionarias.</p>

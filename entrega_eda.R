@@ -734,3 +734,315 @@ fit <- lax_passengers %>%
     SNAIVE         = SNAIVE(passengers)
   )
 fit
+
+
+
+#### Importando Indice Forex
+
+
+# Installing the packages
+install.packages("httr")
+install.packages("jsonlite")
+
+
+library (httr)
+library (jsonlite)
+
+tick_req <- "https://marketdata.tradermade.com/api/v1/tick_historical_sample/GBPUSD/2022-01-08%2008:30/2023-04-30%2009:00?api_key=api_key&format=json"
+
+data_tick_raw <- GET(url = tick_req)
+
+data_tick_text <- content(data_tick_raw, "text", encoding = "UTF-8")
+
+data_tick_json <- fromJSON(data_tick_text, flatten=TRUE)
+
+dataframe_tick <- as.data.frame(data_tick_json)
+
+head(dataframe_tick)
+
+
+hour_req <- "https://marketdata.tradermade.com/api/v1/timeseries?currency=EURUSD&api_key=api_key&start_date=2022-02-08-00:00&end_date=2022-02-09-12:11&format=records&interval=hourly"
+
+data_hour_raw <- GET(url = hour_req)
+
+data_hour_text <- content(data_hour_raw, "text", encoding = "UTF-8")
+
+data_hour_json <- fromJSON(data_hour_text, flatten=TRUE)
+
+dataframe_hour <- as.data.frame(data_hour_json["quotes"])
+
+head(dataframe_hour)
+
+
+library(quantmod)
+
+currency_pair <- "EURUSD=X"  
+start_date <- "2022-01-01"
+end_date <- "2023-04-30"
+
+
+getSymbols(currency_pair, src = "yahoo", from = start_date, to = end_date)
+forex_data <- EURUSD.X 
+
+
+
+install.packages("BatchGetSymbols")
+library(BatchGetSymbols)
+
+currency_pair <- "EUR/USD"  # Example: EUR/USD exchange rate
+start_date <- "2022-01-01"
+end_date <- "2023-04-30"
+
+forex_data <- BatchGetSymbols(tickers = currency_pair, first.date = start_date, last.date = end_date)
+forex_data <- forex_data$df.tickers[[1]]
+
+
+install.packages("yfR")
+library(yfR)
+
+currency_pair <- "EURUSD=X"  # Example: EUR/USD exchange rate
+start_date <- "2022-01-01"
+end_date <- "2023-04-30"
+
+forex_data <- yf_get(currency_pair, start_date = start_date, end_date = end_date)
+
+
+
+##########################################################################################################
+###############################Prueba Modelos neuronales###############################################
+##########################################################################################################
+#https://lamaquinaoraculo.com/computacion/redes-neuronales-recurrentes/#:~:text=Las%20redes%20de%20Elman%20son,se%20retroalimente%20a%20s%C3%AD%20misma.
+
+#Las redes de Elman son el modelo más simple de Red Neuronal Recurrente (en adelante, RNN).
+#Tienen la misma estructura que las redes neuronales alimentadas hacia adelante, salvo por 
+#una única circunstancia: se permite que cada neurona se retroalimente a sí misma.
+
+# Cierra la ventana gráfica
+dev.off()
+
+library(RSNNS)
+library(quantmod)
+
+
+stock <- precios[precios$symbol == "AAPL",'close']
+stock_rnn<-as.ts(stock,F)
+
+stock_rnn_norm<- (stock_rnn-min(stock_rnn))/(max(stock_rnn)-min(stock_rnn))
+plot(stock_rnn_norm)
+
+#n <- 332
+#train_percent <- 0.8  
+#train_length <- round(n * train_percent)
+#train_data <- stock_rnn[1:train_length]
+#train_data
+
+
+set.seed(1) 
+tamano_total <- length(stock_rnn_norm) 
+tamano_train <- round(tamano_total*9/12, digits = 0) 
+train <- 0:(tamano_train-1) 
+test<-(tamano_train):tamano_total
+
+y<-as.zoo(stock_rnn_norm)
+
+x1<-Lag(y,k=1)
+x2<-Lag(y,k=2)
+x3<-Lag(y,k=3)
+x4<-Lag(y,k=4)
+x5<-Lag(y,k=5)
+x6<-Lag(y,k=6)
+x7<-Lag(y,k=7)
+x8<-Lag(y,k=8)
+x9<-Lag(y,k=9)
+x10<-Lag(y,k=10)
+slogN<-cbind(y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10)
+
+slogN<-slogN[-(1:10),]
+
+
+inputs<-slogN[,2:11]
+outputs<-slogN[,1]
+
+
+fit<-elman(inputs[train],
+           outputs[train],
+           size=c(9,2),
+           learnFuncParams=c(0.1),
+           maxit=10000)
+
+
+fit_jordan<-jordan(inputs[train],
+                   outputs[train],
+                   size=4,
+                   learnFuncParams=c(0.01),
+                   maxit=10000)
+
+plotIterativeError(fit,main = "Iterative Error for 9,2 Neuron elman Model")
+plotIterativeError(fit_jordan,main = "Iterative Error for 4 Jordan elman Model")
+
+
+### Se desnormalizan los datos
+predictions<-predict(fit,inputs[-train])
+valuesPred <- predictions*(max(stock_rnn)-min(stock_rnn)) + min(stock_rnn) 
+valuesPred
+
+predictions_jordan<-predict(fit_jordan,inputs[-train])
+valuesPred_jordan <- predictions_jordan*(max(stock_rnn)-min(stock_rnn)) + min(stock_rnn) 
+valuesPred_jordan
+
+### Grafico train-test elman
+y<-as.vector(outputs[-test])
+plot(y,type="l",main = "Prediccion Elman Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre")
+pred<-predict(fit,inputs[-test])
+lines(pred,col="red")
+legend("topright", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1))
+
+
+### Grafico train-test jordan
+y<-as.vector(outputs[-test])
+plot(y,type="l",main = "Prediccion Jordan Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre")
+pred<-predict(fit_jordan,inputs[-test])
+lines(pred,col="red")
+legend("topright", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1))
+
+
+### Valores Predichos Elman
+
+x <- 1:(tamano_total+length(valuesPred))
+y <- c(stock$close,valuesPred) 
+plot(x, y) 
+plot(x[1:tamano_total], y[1:tamano_total],col = "blue", type="l",main = "Pronostico Elman Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre") 
+lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)],col="red")
+legend("topright", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1))
+
+
+### Valores Predichos Jordan
+
+x <- 1:(tamano_total+length(valuesPred_jordan))
+y <- c(stock$close,valuesPred_jordan) 
+plot(x, y) 
+plot(x[1:tamano_total], y[1:tamano_total],col = "blue", type="l",main = "Pronostico Jordan Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre") 
+lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)],col="red")
+legend("topright", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1))
+
+
+windows()
+# Configurar el diseño de múltiples gráficos
+par(mfcol = c(1, 2))
+
+### Grafico train-test
+y <- as.vector(outputs[-test])
+pred <- predict(fit, inputs[-test])
+plot(y, type = "l", main = "Prediccion Elman Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre", col = "black")
+lines(pred, col = "red")
+legend("bottomleft", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+
+### Grafico Pronostico
+x <- 1:(tamano_total + length(valuesPred))
+y <- c(stock$close, valuesPred) 
+plot(x, y, main = "Pronostico Elman Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre", col = "blue", type = "l")
+lines(x[1:tamano_total], y[1:tamano_total], col = "blue")
+lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)], col = "red")
+legend("bottomleft", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+
+##### Union graficas Jordan
+
+windows()
+# Configurar el diseño de múltiples gráficos
+par(mfcol = c(1, 2))
+
+### Grafico train-test
+y <- as.vector(outputs[-test])
+pred_jordan <- predict(fit_jordan, inputs[-test])
+plot(y, type = "l", main = "Prediccion RNN Jordan Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre", col = "black")
+lines(pred_jordan, col = "red")
+legend("bottomleft", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+
+### Grafico Pronostico
+x <- 1:(tamano_total + length(valuesPred_jordan))
+y <- c(stock$close, valuesPred_jordan) 
+plot(x, y, main = "Pronostico RNN Jordan Precio Cierre AAPL", xlab = "Dia", ylab = "Precio cierre", col = "blue", type = "l")
+lines(x[1:tamano_total], y[1:tamano_total], col = "blue")
+lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)], col = "red")
+legend("bottomleft", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+
+dev.off()
+
+
+
+
+
+
+
+
+
+
+######################################################hasta aqui funciono toca generalizar para el libro###############
+#### Haciendolo de forma general!!!
+
+windows()
+par(mfcol = c(1, 2))
+legend_labels <- NULL
+for (i in unique(precios$symbol)){
+  stock <- precios[precios$symbol == i,'close']
+  stock_rnn<-as.ts(stock,F)
+  stock_rnn_norm<- (stock_rnn-min(stock_rnn))/(max(stock_rnn)-min(stock_rnn))
+  
+  set.seed(1) 
+  tamano_total <- length(stock_rnn_norm) 
+  tamano_train <- round(tamano_total*9/12, digits = 0) 
+  train <- 0:(tamano_train-1) 
+  test<-(tamano_train):tamano_total
+  
+  y<-as.zoo(stock_rnn_norm)
+  
+  x1<-Lag(y,k=1)
+  x2<-Lag(y,k=2)
+  x3<-Lag(y,k=3)
+  x4<-Lag(y,k=4)
+  x5<-Lag(y,k=5)
+  x6<-Lag(y,k=6)
+  x7<-Lag(y,k=7)
+  x8<-Lag(y,k=8)
+  x9<-Lag(y,k=9)
+  x10<-Lag(y,k=10)
+  slogN<-cbind(y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10)
+  
+  slogN<-slogN[-(1:10),]
+  
+  
+  inputs<-slogN[,2:11]
+  outputs<-slogN[,1]
+  
+  fit<-elman(inputs[train_data],
+             outputs[train_data],
+             size=c(9,2),
+             learnFuncParams=c(0.1),
+             maxit=10000)
+  
+  
+  #plotIterativeError(fit,main = "Error Iterativo para  9,2 Modelo Neuronal Elman")
+  
+  
+  ### Se desnormalizan los datos
+  predictions<-predict(fit,inputs[-train])
+  valuesPred <- predictions*(max(stock_rnn)-min(stock_rnn)) + min(stock_rnn) 
+  
+  
+  ### Grafico train-test
+  y <- as.vector(outputs[-test])
+  pred <- predict(fit, inputs[-test])
+  plot(y, type = "l", main =paste("Prediccion Elman Precio Cierre para ",i), xlab = "Dia", ylab = "Precio cierre", col = "black")
+  lines(pred, col = "red")
+  legend("bottomleft", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+  
+  ### Grafico Pronostico
+  x <- 1:(tamano_total + length(valuesPred))
+  y <- c(stock$close, valuesPred) 
+  plot(x, y, main = paste("Pronostico Elman Precio Cierre para ",i), xlab = "Dia", ylab = "Precio cierre", col = "blue", type = "l")
+  lines(x[1:tamano_total], y[1:tamano_total], col = "blue")
+  lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)], col = "red")
+  legend("bottomleft", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+}
+
+

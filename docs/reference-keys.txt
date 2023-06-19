@@ -23,3 +23,6 @@ modelo-autoregresivos-ar
 modelo-de-promedio-móvil-ma
 level3title
 modelo-prophet
+modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo
+modelo-de-elman
+modelo-de-jordan
