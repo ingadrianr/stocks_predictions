@@ -14,6 +14,8 @@ library(forecast)
 library(changepoint)
 library(RSNNS)
 library(quantmod)
+library(dplyr)
+
 ```
 
 # Modelos de Redes Neuronales Recurrentes en series de tiempo
@@ -23,7 +25,7 @@ library(quantmod)
 Las redes de Elman son el modelo más simple de Red Neuronal Recurrente (en adelante, RNN).Tienen la misma estructura que las redes neuronales alimentadas hacia adelante, salvo por una única circunstancia: se permite que cada neurona se retroalimente a sí misma.
 
 
-En este modelo, cada neurona de capa oculta tiene como función de activación la tangente hiperbólica ($tank$).El valor de esta última es el estado de la neurona. Cada célula recibe como entrada su propio valor de salida en el instante inmediatamente anterior ($t-1$), siguiendo las salidas de las neuronas de la capa anterior y se representa:
+En este modelo, cada neurona de capa oculta tiene como función de activación la tangente hiperbólica ($tanh$).El valor de esta última es el estado de la neurona. Cada célula recibe como entrada su propio valor de salida en el instante inmediatamente anterior ($t-1$), siguiendo las salidas de las neuronas de la capa anterior y se representa:
 
 
 $x=w_i d_i +b+Uh_{t-1}$
@@ -33,7 +35,17 @@ $h_t=tanh(w_i d_i +b+Uh_{t-1})$
 
 
 
-Donde $h_t$ es el estado de la neurona en el momento $t$
+Donde 
+
+* $h_t$ es el estado de la neurona en el momento $t$
+* $h_{t-1}$ es el estado en el momento inmediatamente anterior
+* $w_i$ pesos sinapticos
+* $d_i$ valores de activación de las neuronas de la capa anterior
+* $b$ sesgo
+
+
+Como se puede observar existe un termino extra $Uh_{t-1})$ que no existe en el caso de las redes no recurrentes, y que permite para este caso que cada neurona aprenda de si misma. Este coeficiente $U$ funcionara casi como un peso. 
+
 
 ```{r 08-1, warning=FALSE, message=FALSE,echo=FALSE}
 
@@ -110,6 +122,7 @@ valuesPred <- predictions*(max(stock_rnn)-min(stock_rnn)) + min(stock_rnn)
 valuesPred[0:10]
 
 ```
+
 Graficamos el comportamiento de los datos reales vs su prediccion y el pronostico
 
 ```{r 08-4, warning=FALSE, message=FALSE}
@@ -204,4 +217,165 @@ for (i in unique(precios$symbol)){
 ```
 
 
+```{r 08-5-1, warning=FALSE, message=FALSE, echo=FALSE}
+
+y <- as.vector(outputs[-test])
+
+accuracy_result_elman <- accuracy(as.vector(pred), y)
+
+tabla_elman <- data.frame(Accion='AAPL',
+                    Modelo='Elman RNN',
+                    ME = accuracy_result_elman[1],
+                    RMSE = accuracy_result_elman[2],
+                    MAE = accuracy_result_elman[3],
+                    MPE = accuracy_result_elman[4],
+                    MAPE = accuracy_result_elman[5])
+
+```
+
 ## Modelo de Jordan
+
+En las redes de Jordan, la diferencia está en que la entrada de las neuronas de la capa de contexto se toma desde la salida de la red. LLevaremos a cabo el mismo ejercicio realizado para apple modelado por jordan, y como anexo se adjuntara el comportamiento para el resto de las acciones.
+
+```{r 08-6, warning=FALSE, message=FALSE}
+
+fit_jordan<-jordan(inputs[train],
+                   outputs[train],
+                   size=4,
+                   learnFuncParams=c(0.01),
+                   maxit=10000)
+
+
+plotIterativeError(fit_jordan,main = "Iterative Error for 4 Jordan  Model in APPL")
+
+```
+```{r 08-7, warning=FALSE, message=FALSE,echo=FALSE}
+
+### Se desnormalizan los datos
+predictions_jordan<-predict(fit_jordan,inputs[-train])
+valuesPred_jordan <- predictions_jordan*(max(stock_rnn)-min(stock_rnn)) + min(stock_rnn) 
+
+```
+
+
+
+Graficamos el comportamiento de los datos reales vs su prediccion y el pronostico
+
+
+```{r 08-8, warning=FALSE, message=FALSE}
+
+par(mfcol = c(1, 2))
+
+### Grafico train-test
+y <- as.vector(outputs[-test])
+pred_jordan <- predict(fit_jordan, inputs[-test])
+plot(y, type = "l", main = "Prediccion RNN Jordan AAPL", xlab = "Dia", ylab = "Precio cierre", col = "black")
+lines(pred_jordan, col = "red")
+legend("bottomleft", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+
+### Grafico Pronostico
+x <- 1:(tamano_total + length(valuesPred_jordan))
+y <- c(stock$close, valuesPred_jordan) 
+plot(x, y, main = "Pronostico RNN Jordan AAPL", xlab = "Dia", ylab = "Precio cierre", col = "blue", type = "l")
+lines(x[1:tamano_total], y[1:tamano_total], col = "blue")
+lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)], col = "red")
+legend("bottomleft", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+
+```
+
+
+Si queremos evaluar las metricas bajo estos dos enfoques para APPLE encontramos:
+
+
+```{r 08-9, warning=FALSE, message=FALSE}
+
+y <- as.vector(outputs[-test])
+
+accuracy_result <- accuracy(as.vector(pred_jordan), y)
+
+tabla_jordan <- data.frame(Accion='AAPL',
+                    Modelo='Jordan RNN',
+                    ME = accuracy_result[1],
+                    RMSE = accuracy_result[2],
+                    MAE = accuracy_result[3],
+                    MPE = accuracy_result[4],
+                    MAPE = accuracy_result[5])
+
+tabla_final <- rbind(tabla_elman, tabla_jordan)
+
+tabla_final_redondeada <- tabla_final
+tabla_final_redondeada[, c("ME", "RMSE", "MAE", "MPE", "MAPE")] <- lapply(tabla_final[, c("ME", "RMSE", "MAE", "MPE", "MAPE")], function(x) format(round(x, digits = 3), nsmall = 3))
+
+tabla_final_redondeada
+
+```
+
+
+
+<h3> Para las demás acciones trabajadas </h3>
+
+
+```{r 08-10, warning=FALSE, message=FALSE,echo=FALSE}
+
+for (i in unique(precios$symbol)){
+  stock <- precios[precios$symbol == i,'close']
+  stock_rnn<-as.ts(stock,F)
+  
+  ### Se normaliza la serie con valores entre 0 y 1
+  stock_rnn_norm<- (stock_rnn-min(stock_rnn))/(max(stock_rnn)-min(stock_rnn))
+  
+  set.seed(1) 
+  tamano_total <- length(stock_rnn_norm) 
+  tamano_train <- round(tamano_total*9/12, digits = 0) 
+  train <- 0:(tamano_train-1) 
+  test<-(tamano_train):tamano_total
+  
+  y<-as.zoo(stock_rnn_norm)
+  
+  x1<-Lag(y,k=1)
+  x2<-Lag(y,k=2)
+  x3<-Lag(y,k=3)
+  x4<-Lag(y,k=4)
+  x5<-Lag(y,k=5)
+  x6<-Lag(y,k=6)
+  x7<-Lag(y,k=7)
+  x8<-Lag(y,k=8)
+  x9<-Lag(y,k=9)
+  x10<-Lag(y,k=10)
+  slogN<-cbind(y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10)
+  
+  slogN<-slogN[-(1:10),]
+  
+  
+  inputs<-slogN[,2:11]
+  outputs<-slogN[,1]
+  
+  
+
+  fit_jordan<-jordan(inputs[train],
+                     outputs[train],
+                     size=4,
+                     learnFuncParams=c(0.01),
+                     maxit=10000)
+  
+  ### Se desnormalizan los datos
+  predictions_jordan<-predict(fit_jordan,inputs[-train])
+  valuesPred_jordan <- predictions_jordan*(max(stock_rnn)-min(stock_rnn)) + min(stock_rnn)  
+  
+  ### Grafico train-test
+  y <- as.vector(outputs[-test])
+  pred_jordan <- predict(fit_jordan, inputs[-test])
+  plot(y, type = "l", main = paste("Prediccion RNN Jordan para ",i), xlab = "Dia", ylab = "Precio cierre", col = "black")
+  lines(pred_jordan, col = "red")
+  legend("bottomleft", legend = c("Datos reales", "Predicciones"), col = c("black", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+  
+  ### Grafico Pronostico
+  x <- 1:(tamano_total + length(valuesPred_jordan))
+  y <- c(stock$close, valuesPred_jordan) 
+  plot(x, y, main = paste("Pronostico RNN Jordan para ",i), xlab = "Dia", ylab = "Precio cierre", col = "blue", type = "l")
+  lines(x[1:tamano_total], y[1:tamano_total], col = "blue")
+  lines(x[(tamano_total):length(x)], y[(tamano_total):length(x)], col = "red")
+  legend("bottomleft", legend = c("Datos reales", "Pronostico"), col = c("blue", "red"), lty = c(1, 1), lwd = 2, cex = 0.8, box.lwd = 2)
+}
+
+```
