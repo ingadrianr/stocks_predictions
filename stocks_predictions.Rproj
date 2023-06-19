@@ -1,8 +1,8 @@
 Version: 1.0
 
-RestoreWorkspace: No
-SaveWorkspace: Ask
-AlwaysSaveHistory: Default
+RestoreWorkspace: Yes
+SaveWorkspace: Yes
+AlwaysSaveHistory: No
 
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
@@ -13,3 +13,6 @@ RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
 BuildType: Website
+
+QuitChildProcessesOnExit: Yes
+DisableExecuteRprofile: Yes
