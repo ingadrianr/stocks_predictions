@@ -1,26 +1,5 @@
 ```{r 07-00, include=FALSE}
-library(tidyquant)
-library(TTR)
-library(ggplot2)
-library(tidyquant)
-library(tidyverse)
-library(ggplot2)
-library(scales)
-library(tseries)
-library(stats)
-library(dplyr)
-library(ggpubr)
-library(forecast)
-library(changepoint)
-library(prophet)
-library(tidyverse)
-library(lubridate)
-library(tsibble)
-library(feasts)
-library(fable)
-library(fable.prophet)
-library(plotly)
-
+library(magrittr)
 ```
 
 # Modelo Prophet
@@ -36,141 +15,96 @@ Los modelos multivariantes son una extensión de eso, donde la entrada puede ser
 Acontinuación observaremos como es el comportamiento de 3 acciones puntuales, **"AAPL", "MSFT", "AMZN"** con el fin de poder tener una mejor visualización. En este caso la idea es probar ajustar un modelo prophet ajustado de forma manual, como por ejemplo escogiendo la tendencia, la temporalidad de la estacionalidad y si es aditiva o multiplicativa. Se comparara con un modelo prophet automatico, es decir ajustado por si mismo. En este momento el ejercicio esta ajustado de forma univariada.
 
 
-
-
 ```{r 07-1, warning=FALSE, message=FALSE, echo=FALSE}
-empresas = c("AAPL", "MSFT",'GOOGL')
-             #, "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
+empresas = c("AAPL", "MSFT", 'AMZN')#, "NVDA", "GOOGL","BRK-B","GOOG", "META","UNH","XOM")
 precios <- tidyquant::tq_get(empresas, from = "2022-01-01", to = "2023-04-30", get = "stock.prices")
 ```
 
 ```{r 07-2, warning=FALSE, message=FALSE,echo=FALSE}
-
 precios <- precios %>% 
-  group_by(symbol) %>% 
-  mutate(diferenciado1 = c(NA, diff(close, differences = 1)[-length(close)]))
+  dplyr::group_by(symbol) %>% 
+  dplyr::mutate(diferenciado1 = c(NA, diff(close, differences = 1)[-length(close)]))
+
+data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
 ```
 
-```{r 07-3, warning=FALSE, message=FALSE}
-# 
-# data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
-# 
-# stock_i <- subset(data, symbol == 'AAPL')
-# stock_i <- subset(stock_i, select = -symbol)
-# colnames(stock_i) <- c("ds", "y")
-# 
-# model <- prophet(stock_i,  daily.seasonality = TRUE)
-# 
-# 
-# # Realizar pronósticos con prophet
-# future <- make_future_dataframe(model, periods = 10) 
-# forecast <- predict(model, future)
-# 
-# plot(model, forecast) +
-#    labs(title = paste("Modelo Prophet para",'AAPL'),
-#   x = "Fecha",
-#   y = "Precio Cierre")
-
-
+<h1><center>PROPHET AAPL</center></h1>
+```{r 07-3, warning=FALSE, message=FALSE, echo=FALSE}
+stock <- subset(data, symbol == 'AAPL')
+stock_i <- subset(stock, select = -symbol)
+colnames(stock_i) <- c("ds", "y")
+  
+model <- prophet::prophet(stock_i,  daily.seasonality = TRUE)
+future <- prophet::make_future_dataframe(model, periods = 10) 
+forecast <- predict(model, future)
+  
+plot(model, forecast, xlabel = 'Fecha', ylabel = 'Precio de Cierre', main = paste('Modelo Prophet para', unique(stock$symbol))) 
 ```
 
-
+<h1><center>PROPHET MSFT</center></h1>
 ```{r 07-4, warning=FALSE, message=FALSE,echo=FALSE}
-
-
-# data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
-# 
-# stock_i <- subset(data, symbol == 'MSFT')
-# stock_i <- subset(stock_i, select = -symbol)
-# colnames(stock_i) <- c("ds", "y")
-# 
-# model <- prophet(stock_i,  daily.seasonality = TRUE)
-# 
-# # Realizar pronósticos con prophet
-# future <- make_future_dataframe(model, periods = 10) 
-# forecast <- predict(model, future)
-# 
-# plot(model, forecast) +
-#    labs(title = paste("Modelo Prophet para",'MSFT'),
-#   x = "Fecha",
-#   y = "Precio Cierre")
-
-
+stock <- subset(data, symbol == 'MSFT')
+stock_i <- subset(stock, select = -symbol)
+colnames(stock_i) <- c("ds", "y")
+  
+model <- prophet::prophet(stock_i,  daily.seasonality = TRUE)
+future <- prophet::make_future_dataframe(model, periods = 10) 
+forecast <- predict(model, future)
+  
+plot(model, forecast, xlabel = 'Fecha', ylabel = 'Precio de Cierre', main = paste('Modelo Prophet para', unique(stock$symbol))) 
 ```
 
+<h1><center>PROPHET AMZN</center></h1>
 ```{r 07-5, warning=FALSE, message=FALSE,echo=FALSE}
-
-
-# data <- data.frame(date = precios$date, close = precios$close, symbol=precios$symbol)
-# 
-# stock_i <- subset(data, symbol == 'GOOGL')
-# stock_i <- subset(stock_i, select = -symbol)
-# colnames(stock_i) <- c("ds", "y")
-# 
-# model <- prophet(stock_i,  daily.seasonality = TRUE)
-# 
-# # Realizar pronósticos con prophet
-# future <- make_future_dataframe(model, periods = 10) 
-# forecast <- predict(model, future)
-# 
-# plot(model, forecast) +
-#    labs(title = paste("Modelo Prophet para",'GOOGL'),
-#   x = "Fecha",
-#   y = "Precio Cierre")
-# 
-
+stock <- subset(data, symbol == 'AMZN')
+stock_i <- subset(stock, select = -symbol)
+colnames(stock_i) <- c("ds", "y")
+#stock_i <- stock_i[!is.na(stock_i)]
+  
+model <- prophet::prophet(stock_i,  daily.seasonality = TRUE)
+future <- prophet::make_future_dataframe(model, periods = 10) 
+forecast <- predict(model, future)
+  
+plot(model, forecast, xlabel = 'Fecha', ylabel = 'Precio de Cierre', main = paste('Modelo Prophet para', unique(stock$symbol))) 
 ```
-
 
 <h3> Exploración Inicial </h3>
 
 En este caso convertimos el dataframe inicial es un tipo tsibble, con el fin de no utilizar un for para el desarrollo del modelo prophet si no asumir como un key la variable symbol, que nos sugiere la acción para la cual se esta realizando el ejercicio.
 
-```{r 07-4, warning=FALSE, message=FALSE}
-
-stock=subset(precios, select = c("close", "date",'symbol'))
-
+```{r 07-6, warning=FALSE, message=FALSE}
+stock = subset(precios, select = c("close", "date",'symbol'))
 stock <- stock %>% 
-  as_tsibble(index = date,key = symbol)
-
+  feasts::as_tsibble(index = date,key = symbol)
+ 
 stock %>% 
-  autoplot(close)  +
-  labs(title = "Exploracion Inicial del Precio Cierre",
-       x = "Fecha",y = "Precio Cierre")
+  ggplot2::autoplot(close, facets = symbols)  +
+  ggplot2::labs(title = "Exploracion Inicial del Precio Cierre", x = "Fecha", y = "Precio Cierre")
 ```
 
 
 A continuación procederemos a construir los ajustes de los modelos propuestos inicialmente. Recordar las bondades que tiene el modelo prophet que entre ellas se encuentran el poder ajustar de forma sencilla los parametros asociados a tendencia, estacionalidad, vacaciones, entre otros.
 
-```{r 07-5, warning=FALSE, message=FALSE}
+```{r 07-7, warning=FALSE, message=FALSE}
+stocks_various = subset(precios, select = c("date","close" ,'symbol'))
+stocks_various = feasts::as_tsibble(stocks_various, index = date, key = symbol)
+#stocks_various = subset(stocks_various, symbol == 'AAPL')
 
-library(tidyverse)
-library(lubridate)
-library(tsibble)
-library(feasts)
-library(fable)
-library(fable.prophet)
-library(plotly)
+fit <- stocks_various %>%
+  fabletools::model(
+    Prophet = fable.prophet::prophet(close ~ growth("linear") + season("week", type = "additive")),
+    Prophet_auto = fable.prophet::prophet(close)) 
 
-stock_apple=subset(precios, select = c("date","close" ,'symbol'))
-stock_apple <- as_tsibble(stock_apple,index = date,key = symbol)
-
-fit <- stock_apple %>% 
-  model(
-    Prophet        = prophet(close ~ growth("linear") + season("week", type = "additive")),
-    Prophet_auto = prophet(close)
-  )
 fit
 ```
 <h3> Prediccion </h3>
 
 Acontinuación se relaciona el pronostico de los siguientes 7 dias.
 
-```{r 07-6, warning=FALSE, message=FALSE}
+```{r 07-8, fig.align = 'center', fig.height=20, fig.width=15, warning=FALSE, message=FALSE}
+models_forecasting <- fit %>%
+  fabletools::forecast(h = '7 days')
 
-fc <- fit %>% 
-  forecast(h = 7)
-
-fc %>% 
-  autoplot(stock_apple)
+models_forecasting %>%
+  feasts::autoplot(stocks_various, level = NULL)
 ```

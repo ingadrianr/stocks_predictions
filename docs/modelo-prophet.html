@@ -23,7 +23,7 @@
 <meta name="author" content="Adrián Rodríguez Amaya &amp; Katherin Juliana Quiñones Losada" />
 
 
-<meta name="date" content="2023-06-05" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="metodología-box-jenkins.html"/>
-<link rel="next" href="referencias.html"/>
+<link rel="next" href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -170,7 +170,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="metodología-box-jenkins.html"><a href="metodología-box-jenkins.html#estimacion-del-modelo"><i class="fa fa-check"></i><b>6.2</b> Estimacion del modelo</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="modelo-prophet.html"><a href="modelo-prophet.html"><i class="fa fa-check"></i><b>7</b> Modelo Prophet</a></li>
-<li class="chapter" data-level="8" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>8</b> Referencias</a></li>
+<li class="chapter" data-level="8" data-path="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><i class="fa fa-check"></i><b>8</b> Modelos de Redes Neuronales Recurrentes en series de tiempo</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#modelo-de-elman"><i class="fa fa-check"></i><b>8.1</b> Modelo de Elman</a></li>
+<li class="chapter" data-level="8.2" data-path="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html"><a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html#modelo-de-jordan"><i class="fa fa-check"></i><b>8.2</b> Modelo de Jordan</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>9</b> Referencias</a></li>
 </ul>
 
       </nav>
@@ -194,29 +199,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Este modelo puede ser usado tanto para series univariadas o multivariadas.
 Con los modelos de series temporales univariadas, la idea es hacer predicciones de valores futuros basadas únicamente en las tendencias y la estacionalidad de los datos pasados de la variable objetivo (la que tratamos de pronosticar) y nada más.</p>
 <p>Los modelos multivariantes son una extensión de eso, donde la entrada puede ser múltiples series de tiempo.</p>
-<p>La cuestión es que, con bastante frecuencia, para responder preguntas comerciales, no busca el mejor modelo con una precisión que le permitiría ganar los desafíos del aprendizaje automático, sino solo una estimación lo suficientemente buena que permita una decisión basada en datos.</p>
-<p>Aquí es donde entra en juego el modelo prophet de Facebook. Es un algoritmo listo para usar, fácil de configurar y que brinda resultados decentes con muy poco esfuerzo.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="modelo-prophet.html#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> precios<span class="sc">$</span>date, <span class="at">close =</span> precios<span class="sc">$</span>close, <span class="at">symbol=</span>precios<span class="sc">$</span>symbol)</span>
-<span id="cb1-2"><a href="modelo-prophet.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="modelo-prophet.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="modelo-prophet.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(precios<span class="sc">$</span>symbol)) {</span>
-<span id="cb1-5"><a href="modelo-prophet.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  stock_i <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, symbol <span class="sc">==</span> i)</span>
-<span id="cb1-6"><a href="modelo-prophet.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  stock_i <span class="ot">&lt;-</span> <span class="fu">subset</span>(stock_i, <span class="at">select =</span> <span class="sc">-</span>symbol)</span>
-<span id="cb1-7"><a href="modelo-prophet.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(stock_i) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ds&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
-<span id="cb1-8"><a href="modelo-prophet.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-9"><a href="modelo-prophet.html#cb1-9" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">prophet</span>(stock_i,  <span class="at">daily.seasonality =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-10"><a href="modelo-prophet.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-11"><a href="modelo-prophet.html#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Realizar pronósticos con prophet</span></span>
-<span id="cb1-12"><a href="modelo-prophet.html#cb1-12" aria-hidden="true" tabindex="-1"></a>  future <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(model, <span class="at">periods =</span> <span class="dv">10</span>) </span>
-<span id="cb1-13"><a href="modelo-prophet.html#cb1-13" aria-hidden="true" tabindex="-1"></a>  forecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, future)</span>
-<span id="cb1-14"><a href="modelo-prophet.html#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="modelo-prophet.html#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(model, forecast) </span>
-<span id="cb1-16"><a href="modelo-prophet.html#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># +</span></span>
-<span id="cb1-17"><a href="modelo-prophet.html#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs(title = paste(&quot;Modelo Prophet para&quot;,i),</span></span>
-<span id="cb1-18"><a href="modelo-prophet.html#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#      x = &quot;Fecha&quot;,</span></span>
-<span id="cb1-19"><a href="modelo-prophet.html#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#      y = &quot;Precio Cierre&quot;)</span></span>
-<span id="cb1-20"><a href="modelo-prophet.html#cb1-20" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-21"><a href="modelo-prophet.html#cb1-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Acontinuación observaremos como es el comportamiento de 3 acciones puntuales, <strong>“AAPL”, “MSFT”, “AMZN”</strong> con el fin de poder tener una mejor visualización. En este caso la idea es probar ajustar un modelo prophet ajustado de forma manual, como por ejemplo escogiendo la tendencia, la temporalidad de la estacionalidad y si es aditiva o multiplicativa. Se comparara con un modelo prophet automatico, es decir ajustado por si mismo. En este momento el ejercicio esta ajustado de forma univariada.</p>
+<h1>
+<center>
+PROPHET AAPL
+</center>
+</h1>
+<p><img src="stocks-predictions_files/figure-html/07-3-1.png" width="672" /></p>
+<h1>
+<center>
+PROPHET MSFT
+</center>
+</h1>
+<p><img src="stocks-predictions_files/figure-html/07-4-1.png" width="672" /></p>
+<h1>
+<center>
+PROPHET AMZN
+</center>
+</h1>
+<p><img src="stocks-predictions_files/figure-html/07-5-1.png" width="672" /></p>
+<h3>
+Exploración Inicial
+</h3>
+<p>En este caso convertimos el dataframe inicial es un tipo tsibble, con el fin de no utilizar un for para el desarrollo del modelo prophet si no asumir como un key la variable symbol, que nos sugiere la acción para la cual se esta realizando el ejercicio.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="modelo-prophet.html#cb1-1" tabindex="-1"></a>stock <span class="ot">=</span> <span class="fu">subset</span>(precios, <span class="at">select =</span> <span class="fu">c</span>(<span class="st">&quot;close&quot;</span>, <span class="st">&quot;date&quot;</span>,<span class="st">&#39;symbol&#39;</span>))</span>
+<span id="cb1-2"><a href="modelo-prophet.html#cb1-2" tabindex="-1"></a>stock <span class="ot">&lt;-</span> stock <span class="sc">%&gt;%</span> </span>
+<span id="cb1-3"><a href="modelo-prophet.html#cb1-3" tabindex="-1"></a>  feasts<span class="sc">::</span><span class="fu">as_tsibble</span>(<span class="at">index =</span> date,<span class="at">key =</span> symbol)</span>
+<span id="cb1-4"><a href="modelo-prophet.html#cb1-4" tabindex="-1"></a> </span>
+<span id="cb1-5"><a href="modelo-prophet.html#cb1-5" tabindex="-1"></a>stock <span class="sc">%&gt;%</span> </span>
+<span id="cb1-6"><a href="modelo-prophet.html#cb1-6" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(close, <span class="at">facets =</span> symbols)  <span class="sc">+</span></span>
+<span id="cb1-7"><a href="modelo-prophet.html#cb1-7" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Exploracion Inicial del Precio Cierre&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Fecha&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Precio Cierre&quot;</span>)</span></code></pre></div>
+<p><img src="stocks-predictions_files/figure-html/07-6-1.png" width="672" /></p>
+<p>A continuación procederemos a construir los ajustes de los modelos propuestos inicialmente. Recordar las bondades que tiene el modelo prophet que entre ellas se encuentran el poder ajustar de forma sencilla los parametros asociados a tendencia, estacionalidad, vacaciones, entre otros.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="modelo-prophet.html#cb2-1" tabindex="-1"></a>stocks_various <span class="ot">=</span> <span class="fu">subset</span>(precios, <span class="at">select =</span> <span class="fu">c</span>(<span class="st">&quot;date&quot;</span>,<span class="st">&quot;close&quot;</span> ,<span class="st">&#39;symbol&#39;</span>))</span>
+<span id="cb2-2"><a href="modelo-prophet.html#cb2-2" tabindex="-1"></a>stocks_various <span class="ot">=</span> feasts<span class="sc">::</span><span class="fu">as_tsibble</span>(stocks_various, <span class="at">index =</span> date, <span class="at">key =</span> symbol)</span>
+<span id="cb2-3"><a href="modelo-prophet.html#cb2-3" tabindex="-1"></a><span class="co">#stocks_various = subset(stocks_various, symbol == &#39;AAPL&#39;)</span></span>
+<span id="cb2-4"><a href="modelo-prophet.html#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="modelo-prophet.html#cb2-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> stocks_various <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="modelo-prophet.html#cb2-6" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">model</span>(</span>
+<span id="cb2-7"><a href="modelo-prophet.html#cb2-7" tabindex="-1"></a>    <span class="at">Prophet =</span> fable.prophet<span class="sc">::</span><span class="fu">prophet</span>(close <span class="sc">~</span> <span class="fu">growth</span>(<span class="st">&quot;linear&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;week&quot;</span>, <span class="at">type =</span> <span class="st">&quot;additive&quot;</span>)),</span>
+<span id="cb2-8"><a href="modelo-prophet.html#cb2-8" tabindex="-1"></a>    <span class="at">Prophet_auto =</span> fable.prophet<span class="sc">::</span><span class="fu">prophet</span>(close)) </span>
+<span id="cb2-9"><a href="modelo-prophet.html#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="modelo-prophet.html#cb2-10" tabindex="-1"></a>fit</span></code></pre></div>
+<pre><code>## # A mable: 3 x 3
+## # Key:     symbol [3]
+##   symbol   Prophet Prophet_auto
+##   &lt;chr&gt;    &lt;model&gt;      &lt;model&gt;
+## 1 AAPL   &lt;prophet&gt;    &lt;prophet&gt;
+## 2 AMZN   &lt;prophet&gt;    &lt;prophet&gt;
+## 3 MSFT   &lt;prophet&gt;    &lt;prophet&gt;</code></pre>
+<h3>
+Prediccion
+</h3>
+<p>Acontinuación se relaciona el pronostico de los siguientes 7 dias.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="modelo-prophet.html#cb4-1" tabindex="-1"></a>models_forecasting <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="modelo-prophet.html#cb4-2" tabindex="-1"></a>  fabletools<span class="sc">::</span><span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&#39;7 days&#39;</span>)</span>
+<span id="cb4-3"><a href="modelo-prophet.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="modelo-prophet.html#cb4-4" tabindex="-1"></a>models_forecasting <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="modelo-prophet.html#cb4-5" tabindex="-1"></a>  feasts<span class="sc">::</span><span class="fu">autoplot</span>(stocks_various, <span class="at">level =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<p><img src="stocks-predictions_files/figure-html/07-8-1.png" width="1440" style="display: block; margin: auto;" /></p>
 
 </div>
             </section>
@@ -225,7 +266,7 @@ Con los modelos de series temporales univariadas, la idea es hacer predicciones 
         </div>
       </div>
 <a href="metodología-box-jenkins.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelos-de-redes-neuronales-recurrentes-en-series-de-tiempo.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
